@@ -1,0 +1,380 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
+ */
+package MainForm;
+import Login.Login;
+import ManajemenProduk.ProdukForm;
+import util.koneksi;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.text.NumberFormat;
+import java.util.Locale;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+/**
+ *
+ * @author Lenovo
+ */
+public class MainMenu extends javax.swing.JFrame {
+
+    private String namaLengkap;
+    private String peran;
+    private DefaultTableModel modelTabelProduk;
+
+    /**
+     * Creates new form MainMenu
+     */
+    public MainMenu(String namaLengkap, String peran) {
+        initComponents();
+
+        this.namaLengkap = namaLengkap;
+        this.peran = peran;
+        
+        // Setup awal
+        this.setLocationRelativeTo(null); // Form di tengah
+        
+        // Atur tombol berdasarkan peran pengguna
+        aturTombolBerdasarkanPeran();
+        
+        // Setup model untuk tabel dashboard
+        modelTabelProduk = new DefaultTableModel();
+        tblPenjualanProduk.setModel(modelTabelProduk);
+        modelTabelProduk.addColumn("Nama Barang");
+        modelTabelProduk.addColumn("Jumlah Terjual");
+        modelTabelProduk.addColumn("Total Pemasukan");
+        
+        // Muat semua data untuk dashboard
+        loadDashboardData();
+    }
+    
+    private void aturTombolBerdasarkanPeran() {
+        if (this.peran.equals("Kasir")) {
+            btnManajemenProduk.setEnabled(false);
+            btnManajemenPengguna.setEnabled(false);
+            btnPelaporan.setEnabled(false);
+        } else if (this.peran.equals("Staff Gudang")) {
+            btnPOS.setEnabled(false);
+            btnManajemenPengguna.setEnabled(false);
+            btnPelaporan.setEnabled(false);
+        }
+        // Administrator dan Manager bisa mengakses semua
+    }
+    
+    private void loadDashboardData() {
+        // Menggunakan Locale Indonesia untuk format mata uang Rupiah (Rp)
+        Locale localeID = new Locale("in", "ID");
+        NumberFormat formatRupiah = NumberFormat.getCurrencyInstance(localeID);
+
+        try {
+            Connection conn = koneksi.getKoneksi();
+            Statement stmt = conn.createStatement();
+            
+            // 1. Ambil Total Penjualan (Bulan Ini)
+            String sqlPenjualan = "SELECT SUM(harga_akhir) AS total FROM TRANSAKSI WHERE MONTH(tanggal_transaksi) = MONTH(CURRENT_DATE()) AND YEAR(tanggal_transaksi) = YEAR(CURRENT_DATE())";
+            ResultSet rsPenjualan = stmt.executeQuery(sqlPenjualan);
+            if (rsPenjualan.next()) {
+                double total = rsPenjualan.getDouble("total");
+                lblTotalPenjualan.setText(formatRupiah.format(total));
+            }
+
+            // 2. Ambil Total Transaksi (Bulan Ini)
+            String sqlTransaksi = "SELECT COUNT(id_transaksi) AS jumlah FROM TRANSAKSI WHERE MONTH(tanggal_transaksi) = MONTH(CURRENT_DATE()) AND YEAR(tanggal_transaksi) = YEAR(CURRENT_DATE())";
+            ResultSet rsTransaksi = stmt.executeQuery(sqlTransaksi);
+            if (rsTransaksi.next()) {
+                lblTotalTransaksi.setText(rsTransaksi.getString("jumlah") + " Transaksi");
+            }
+
+            // 3. Ambil Jumlah Produk dengan Stok Menipis
+            String sqlStok = "SELECT COUNT(id_produk) AS jumlah FROM PRODUK WHERE jumlah_stok < stok_minimum";
+            ResultSet rsStok = stmt.executeQuery(sqlStok);
+            if (rsStok.next()) {
+                lblStokMenipis.setText(rsStok.getString("jumlah") + " Produk");
+            }
+            
+            // 4. Ambil 10 Produk Terlaris untuk Tabel
+            modelTabelProduk.setRowCount(0); // Kosongkan tabel
+            String sqlProdukTerlaris = "SELECT p.nama_produk, SUM(dt.jumlah) AS jumlah_terjual, SUM(dt.subtotal) AS total_pemasukan " +
+                                       "FROM DETAIL_TRANSAKSI dt JOIN PRODUK p ON dt.id_produk = p.id_produk " +
+                                       "GROUP BY p.nama_produk ORDER BY jumlah_terjual DESC LIMIT 10";
+            ResultSet rsProduk = stmt.executeQuery(sqlProdukTerlaris);
+            while(rsProduk.next()) {
+                modelTabelProduk.addRow(new Object[]{
+                    rsProduk.getString("nama_produk"),
+                    rsProduk.getInt("jumlah_terjual"),
+                    formatRupiah.format(rsProduk.getDouble("total_pemasukan"))
+                });
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Gagal memuat data dashboard: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        jPanel1 = new javax.swing.JPanel();
+        btnDashboard = new javax.swing.JButton();
+        btnPOS = new javax.swing.JButton();
+        btnManajemenProduk = new javax.swing.JButton();
+        btnManajemenPengguna = new javax.swing.JButton();
+        btnPelaporan = new javax.swing.JButton();
+        btnLogout = new javax.swing.JButton();
+        jPanel2 = new javax.swing.JPanel();
+        jPanel3 = new javax.swing.JPanel();
+        lblTotalPenjualan = new javax.swing.JLabel();
+        jPanel4 = new javax.swing.JPanel();
+        lblTotalTransaksi = new javax.swing.JLabel();
+        jPanel5 = new javax.swing.JPanel();
+        lblTotalProfit = new javax.swing.JLabel();
+        jPanel6 = new javax.swing.JPanel();
+        lblStokMenipis = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tblPenjualanProduk = new javax.swing.JTable();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jPanel1.setLayout(new java.awt.GridLayout(6, 1, 0, 5));
+
+        btnDashboard.setText("Dashboard");
+        jPanel1.add(btnDashboard);
+
+        btnPOS.setText("POS");
+        jPanel1.add(btnPOS);
+
+        btnManajemenProduk.setText("Manajemen Produk");
+        btnManajemenProduk.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnManajemenProdukActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnManajemenProduk);
+
+        btnManajemenPengguna.setText("Manajemen Pengguna");
+        jPanel1.add(btnManajemenPengguna);
+
+        btnPelaporan.setText("Laporan");
+        btnPelaporan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPelaporanActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnPelaporan);
+
+        btnLogout.setText("Logout");
+        btnLogout.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLogoutActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnLogout);
+
+        getContentPane().add(jPanel1, java.awt.BorderLayout.LINE_START);
+
+        lblTotalPenjualan.setText("Total Penjualan");
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lblTotalPenjualan, javax.swing.GroupLayout.DEFAULT_SIZE, 108, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lblTotalPenjualan, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(45, Short.MAX_VALUE))
+        );
+
+        lblTotalTransaksi.setText("Total Transaksi");
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lblTotalTransaksi, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(52, Short.MAX_VALUE))
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lblTotalTransaksi)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        lblTotalProfit.setText("Keuntungan");
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lblTotalProfit)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lblTotalProfit)
+                .addContainerGap(102, Short.MAX_VALUE))
+        );
+
+        lblStokMenipis.setText("Stok");
+
+        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
+        jPanel6.setLayout(jPanel6Layout);
+        jPanel6Layout.setHorizontalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lblStokMenipis)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel6Layout.setVerticalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lblStokMenipis)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        tblPenjualanProduk.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(tblPenjualanProduk);
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(0, 59, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+
+        getContentPane().add(jPanel2, java.awt.BorderLayout.LINE_END);
+
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void btnPelaporanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPelaporanActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnPelaporanActionPerformed
+
+    private void btnLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogoutActionPerformed
+        // TODO add your handling code here:
+        int confirm = JOptionPane.showConfirmDialog(this, "Apakah Anda yakin ingin logout?", "Konfirmasi Logout", JOptionPane.YES_NO_OPTION);
+        if (confirm == JOptionPane.YES_OPTION) {
+            new Login().setVisible(true);
+            this.dispose();
+        }
+    }//GEN-LAST:event_btnLogoutActionPerformed
+
+    private void btnManajemenProdukActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnManajemenProdukActionPerformed
+        // TODO add your handling code here:
+        new ProdukForm().setVisible(true);
+    }//GEN-LAST:event_btnManajemenProdukActionPerformed
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(MainMenu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(MainMenu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(MainMenu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(MainMenu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+
+        /* Create and display the form */
+    }
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnDashboard;
+    private javax.swing.JButton btnLogout;
+    private javax.swing.JButton btnManajemenPengguna;
+    private javax.swing.JButton btnManajemenProduk;
+    private javax.swing.JButton btnPOS;
+    private javax.swing.JButton btnPelaporan;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblStokMenipis;
+    private javax.swing.JLabel lblTotalPenjualan;
+    private javax.swing.JLabel lblTotalProfit;
+    private javax.swing.JLabel lblTotalTransaksi;
+    private javax.swing.JTable tblPenjualanProduk;
+    // End of variables declaration//GEN-END:variables
+}
