@@ -17,22 +17,13 @@ import javax.swing.JOptionPane;
 public class koneksi {
     private static Connection koneksi;
 
-    public static Connection getKoneksi() {
-        if (koneksi == null) {
-            try {
-                String url = "jdbc:mysql://localhost:3306/supermart_db";
-                String user = "root";
-                String password = ""; 
+    public static Connection getKoneksi() throws SQLException {
+        String url = "jdbc:mysql://localhost:3306/supermart_db";
+        String user = "root";
+        String password = ""; // Sesuaikan
 
-               
-                DriverManager.registerDriver(new com.mysql.cj.jdbc.Driver());
-                koneksi = DriverManager.getConnection(url, user, password);
-            } catch (SQLException e) {
-                JOptionPane.showMessageDialog(null, "Error: Gagal terhubung ke database!");
-                System.exit(0); 
-            }
-        }
-        return koneksi;
+        // Mengembalikan koneksi baru setiap kali method ini dipanggil
+        return DriverManager.getConnection(url, user, password);
     }
         
 }
