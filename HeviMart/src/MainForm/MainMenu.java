@@ -160,6 +160,11 @@ public class MainMenu extends javax.swing.JFrame {
         jPanel1.add(btnPOS);
 
         btnManajemenProduk.setText("Manajemen Produk");
+        btnManajemenProduk.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnManajemenProdukMouseClicked(evt);
+            }
+        });
         btnManajemenProduk.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnManajemenProdukActionPerformed(evt);
@@ -339,6 +344,11 @@ public class MainMenu extends javax.swing.JFrame {
         // TODO add your handling code here:
         new POSForm(this.loggedInUserId).setVisible(true);
     }//GEN-LAST:event_btnPOSActionPerformed
+
+    private void btnManajemenProdukMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnManajemenProdukMouseClicked
+        // TODO add your handling code here:
+        new ProdukForm().setVisible(true);
+    }//GEN-LAST:event_btnManajemenProdukMouseClicked
 
     /**
      * @param args the command line arguments
