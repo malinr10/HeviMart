@@ -139,9 +139,10 @@ public class Login extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(this, "Login Berhasil!");
 
                     // Buka MainForm dan tutup form login
+                    int idPengguna = rs.getInt("id_pengguna");
                     String namaLengkap = rs.getString("nama_lengkap");
                     String peran = rs.getString("peran");
-                    new MainMenu(namaLengkap, peran).setVisible(true);
+                    new MainMenu(idPengguna, namaLengkap, peran).setVisible(true);
                     this.dispose();
                 } else {
                     JOptionPane.showMessageDialog(this, "Password salah!", "Error", JOptionPane.ERROR_MESSAGE);

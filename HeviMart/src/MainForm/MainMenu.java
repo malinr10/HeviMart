@@ -5,6 +5,7 @@
 package MainForm;
 import Login.Login;
 import ManajemenProduk.ProdukForm;
+import PosSistem.POSForm;
 import util.koneksi;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -22,13 +23,15 @@ public class MainMenu extends javax.swing.JFrame {
     private String namaLengkap;
     private String peran;
     private DefaultTableModel modelTabelProduk;
+    private int loggedInUserId;
 
     /**
      * Creates new form MainMenu
      */
-    public MainMenu(String namaLengkap, String peran) {
+    public MainMenu(int idPengguna, String namaLengkap, String peran) {
         initComponents();
-
+        
+        this.loggedInUserId = idPengguna;
         this.namaLengkap = namaLengkap;
         this.peran = peran;
         
@@ -149,6 +152,11 @@ public class MainMenu extends javax.swing.JFrame {
         jPanel1.add(btnDashboard);
 
         btnPOS.setText("POS");
+        btnPOS.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPOSActionPerformed(evt);
+            }
+        });
         jPanel1.add(btnPOS);
 
         btnManajemenProduk.setText("Manajemen Produk");
@@ -326,6 +334,11 @@ public class MainMenu extends javax.swing.JFrame {
         // TODO add your handling code here:
         new ProdukForm().setVisible(true);
     }//GEN-LAST:event_btnManajemenProdukActionPerformed
+
+    private void btnPOSActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPOSActionPerformed
+        // TODO add your handling code here:
+        new POSForm(this.loggedInUserId).setVisible(true);
+    }//GEN-LAST:event_btnPOSActionPerformed
 
     /**
      * @param args the command line arguments
