@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package ManajemenProduk;
+
 import util.koneksi;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -13,18 +14,22 @@ import javax.swing.JOptionPane;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Lenovo
  */
 public class ProdukForm extends javax.swing.JFrame {
-private DefaultTableModel modelTabel;
+
+    private DefaultTableModel modelTabel;
+
     /**
      * Creates new form ProdukForm
      */
     public ProdukForm() {
         initComponents();
-        
+        this.pack(); // Method ini akan menyesuaikan ukuran frame secara otomatis
+
         // Setup model untuk JTable
         modelTabel = new DefaultTableModel();
         tblProduk.setModel(modelTabel);
@@ -35,39 +40,47 @@ private DefaultTableModel modelTabel;
         modelTabel.addColumn("Kategori");
         modelTabel.addColumn("Stok");
         modelTabel.addColumn("Harga Jual");
-        
+
         // Panggil method untuk memuat data
         loadCategories();
         loadDataProduk();
-        
+
         // Tambahkan listener untuk live search
         txtSearch.getDocument().addDocumentListener(new DocumentListener() {
             @Override
-            public void insertUpdate(DocumentEvent e) { loadDataProduk(); }
+            public void insertUpdate(DocumentEvent e) {
+                loadDataProduk();
+            }
+
             @Override
-            public void removeUpdate(DocumentEvent e) { loadDataProduk(); }
+            public void removeUpdate(DocumentEvent e) {
+                loadDataProduk();
+            }
+
             @Override
-            public void changedUpdate(DocumentEvent e) { loadDataProduk(); }
+            public void changedUpdate(DocumentEvent e) {
+                loadDataProduk();
+            }
         });
     }
-    
+
     private void loadCategories() {
-        try {
-            Connection conn = koneksi.getKoneksi();
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT nama_kategori FROM KATEGORI ORDER BY nama_kategori ASC");
-            
-            DefaultComboBoxModel<String> modelCombo = new DefaultComboBoxModel<>();
-            modelCombo.addElement("Semua Kategori"); // Pilihan default
-            while(rs.next()) {
+        DefaultComboBoxModel<String> modelCombo = new DefaultComboBoxModel<>();
+        modelCombo.addElement("Semua Kategori"); // Pilihan default
+
+        try (Connection conn = koneksi.getKoneksi(); Statement stmt = conn.createStatement(); ResultSet rs = stmt.executeQuery("SELECT nama_kategori FROM KATEGORI ORDER BY nama_kategori ASC")) {
+
+            while (rs.next()) {
                 modelCombo.addElement(rs.getString("nama_kategori"));
             }
+            // Atur model yang sudah terisi ke JComboBox
             cmbCategory.setModel(modelCombo);
+
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Gagal memuat kategori: " + e.getMessage());
+            JOptionPane.showMessageDialog(this, "Gagal memuat kategori ke ComboBox: " + e.getMessage());
         }
     }
-    
+
     private void loadDataProduk() {
         modelTabel.setRowCount(0); // Kosongkan tabel
         String keyword = txtSearch.getText();
@@ -76,22 +89,23 @@ private DefaultTableModel modelTabel;
         try {
             Connection conn = koneksi.getKoneksi();
             // Query yang lebih kompleks dengan JOIN untuk mendapatkan nama kategori
-            String sql = "SELECT p.id_produk, p.nama_produk, p.kode_barcode, k.nama_kategori, p.jumlah_stok, p.harga_jual " +
-                         "FROM PRODUK p LEFT JOIN KATEGORI k ON p.id_kategori = k.id_kategori " +
-                         "WHERE p.nama_produk LIKE ? ";
-            
+            String sql = "SELECT p.id_produk, p.nama_produk, p.kode_barcode, k.nama_kategori, p.jumlah_stok, p.harga_jual "
+                    + "FROM PRODUK p LEFT JOIN KATEGORI k ON p.id_kategori = k.id_kategori "
+                    + "WHERE (p.nama_produk LIKE ? OR p.kode_barcode LIKE ?) ";
+
             if (!"Semua Kategori".equals(kategori)) {
                 sql += "AND k.nama_kategori = ? ";
             }
-            
+
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, "%" + keyword + "%");
-            if (!"Semua Kategori".equals(kategori)) {
-                pstmt.setString(2, kategori);
+            pstmt.setString(2, "%" + keyword + "%");
+            if (kategori != null && !"Semua Kategori".equals(kategori)) {
+                pstmt.setString(3, kategori);
             }
-            
+
             ResultSet rs = pstmt.executeQuery();
-            while(rs.next()){
+            while (rs.next()) {
                 modelTabel.addRow(new Object[]{
                     rs.getInt("id_produk"),
                     rs.getString("nama_produk"),
@@ -120,6 +134,7 @@ private DefaultTableModel modelTabel;
         txtSearch = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         cmbCategory = new javax.swing.JComboBox<>();
+        btnKelolaKategori = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         btnTambah = new javax.swing.JButton();
         btnEdit = new javax.swing.JButton();
@@ -129,12 +144,25 @@ private DefaultTableModel modelTabel;
         tblProduk = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         jLabel1.setText("Cari");
 
         jLabel2.setText("Kategori");
 
         cmbCategory.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cmbCategory.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbCategoryActionPerformed(evt);
+            }
+        });
+
+        btnKelolaKategori.setText("Kelola Kategori");
+        btnKelolaKategori.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnKelolaKategoriActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -149,7 +177,9 @@ private DefaultTableModel modelTabel;
                 .addComponent(jLabel2)
                 .addGap(18, 18, 18)
                 .addComponent(cmbCategory, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(btnKelolaKategori)
+                .addContainerGap(116, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -159,8 +189,9 @@ private DefaultTableModel modelTabel;
                     .addComponent(jLabel1)
                     .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2)
-                    .addComponent(cmbCategory, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(11, 11, 11))
+                    .addComponent(cmbCategory, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnKelolaKategori))
+                .addGap(10, 10, 10))
         );
 
         btnTambah.setText("Tambah");
@@ -185,6 +216,11 @@ private DefaultTableModel modelTabel;
         });
 
         btnRefresh.setText("Refresh");
+        btnRefresh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRefreshActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -197,9 +233,9 @@ private DefaultTableModel modelTabel;
                 .addComponent(btnEdit)
                 .addGap(18, 18, 18)
                 .addComponent(btnHapus)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 45, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addComponent(btnRefresh)
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -230,9 +266,12 @@ private DefaultTableModel modelTabel;
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 516, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -262,7 +301,7 @@ private DefaultTableModel modelTabel;
             return;
         }
         int productId = (int) tblProduk.getValueAt(selectedRow, 0);
-        
+
         // Buka dialog dalam mode "Edit" dengan mengirim productId
         ProdukFormDialog dialog = new ProdukFormDialog(this, true, productId);
         dialog.setVisible(true);
@@ -276,7 +315,7 @@ private DefaultTableModel modelTabel;
             JOptionPane.showMessageDialog(this, "Pilih produk yang akan dihapus!", "Peringatan", JOptionPane.WARNING_MESSAGE);
             return;
         }
-        
+
         int confirm = JOptionPane.showConfirmDialog(this, "Apakah Anda yakin ingin menghapus produk ini?", "Konfirmasi Hapus", JOptionPane.YES_NO_OPTION);
         if (confirm == JOptionPane.YES_OPTION) {
             int productId = (int) tblProduk.getValueAt(selectedRow, 0);
@@ -292,6 +331,29 @@ private DefaultTableModel modelTabel;
             }
         }
     }//GEN-LAST:event_btnHapusActionPerformed
+
+    private void btnKelolaKategoriActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKelolaKategoriActionPerformed
+        // TODO add your handling code here:
+        // Buka dialog manajemen kategori. Kode akan berhenti di sini sampai dialog ditutup.
+        new CategoryManagementDialog(this, true).setVisible(true);
+
+        // Setelah dialog ditutup, panggil kembali method untuk memuat ulang JComboBox
+        System.out.println("Memuat ulang daftar kategori...");
+        loadCategories();
+    }//GEN-LAST:event_btnKelolaKategoriActionPerformed
+
+    private void cmbCategoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbCategoryActionPerformed
+        // TODO add your handling code here:
+        loadDataProduk();
+    }//GEN-LAST:event_cmbCategoryActionPerformed
+
+    private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
+        // TODO add your handling code here:
+        txtSearch.setText("");
+        cmbCategory.setSelectedIndex(0);
+
+        loadDataProduk();
+    }//GEN-LAST:event_btnRefreshActionPerformed
 
     /**
      * @param args the command line arguments
@@ -331,6 +393,7 @@ private DefaultTableModel modelTabel;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnEdit;
     private javax.swing.JButton btnHapus;
+    private javax.swing.JButton btnKelolaKategori;
     private javax.swing.JButton btnRefresh;
     private javax.swing.JButton btnTambah;
     private javax.swing.JComboBox<String> cmbCategory;

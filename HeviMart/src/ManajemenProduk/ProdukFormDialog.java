@@ -29,6 +29,7 @@ public class ProdukFormDialog extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
 
+        this.pack();
         this.productId = productId;
         loadKategoriComboBox();
 
@@ -77,6 +78,21 @@ public class ProdukFormDialog extends javax.swing.JDialog {
                 txtHargaJual.setText(rs.getString("harga_jual"));
                 txtStok.setText(rs.getString("jumlah_stok"));
                 txtStokMinimum.setText(rs.getString("stok_minimum"));
+
+                int idKategoriProduk = rs.getInt("id_kategori");
+
+                // Dapatkan model dari JComboBox yang sudah terisi
+                DefaultComboBoxModel<KategoriItem> model = (DefaultComboBoxModel<KategoriItem>) cmbKategori.getModel();
+
+                // Loop melalui setiap item di ComboBox untuk menemukan yang cocok
+                for (int i = 0; i < model.getSize(); i++) {
+                    // Cek apakah ID KategoriItem di dalam ComboBox sama dengan ID kategori produk
+                    if (model.getElementAt(i).getId() == idKategoriProduk) {
+                        // Jika ID-nya cocok, pilih item tersebut
+                        cmbKategori.setSelectedIndex(i);
+                        break; // Hentikan loop karena item sudah ketemu
+                    }
+                }
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Gagal memuat data produk: " + e.getMessage());
@@ -111,41 +127,76 @@ public class ProdukFormDialog extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        jPanel1.setLayout(new java.awt.GridLayout(7, 2));
-
         jLabel1.setText("Nama Produk");
-        jPanel1.add(jLabel1);
-        jPanel1.add(txtNamaProduk);
 
         jLabel2.setText("Kode Barcode");
-        jPanel1.add(jLabel2);
-        jPanel1.add(txtBarcode);
 
         jLabel3.setText("Harga Beli");
-        jPanel1.add(jLabel3);
-        jPanel1.add(txtHargaBeli);
 
         jLabel7.setText("Kategori");
-        jPanel1.add(jLabel7);
-        jPanel1.add(cmbKategori);
 
         jLabel4.setText("Harga Jual");
-        jPanel1.add(jLabel4);
-        jPanel1.add(txtHargaJual);
 
         jLabel5.setText("Jumlah Stok");
-        jPanel1.add(jLabel5);
 
         txtStok.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtStokActionPerformed(evt);
             }
         });
-        jPanel1.add(txtStok);
 
         jLabel6.setText("Stok Minimum");
-        jPanel1.add(jLabel6);
-        jPanel1.add(txtStokMinimum);
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, 182, Short.MAX_VALUE)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(txtHargaJual)
+                    .addComponent(cmbKategori, 0, 265, Short.MAX_VALUE)
+                    .addComponent(txtHargaBeli)
+                    .addComponent(txtBarcode)
+                    .addComponent(txtNamaProduk)
+                    .addComponent(txtStok)
+                    .addComponent(txtStokMinimum))
+                .addGap(0, 3, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(1, 1, 1)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtNamaProduk, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtBarcode, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtHargaBeli, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cmbKategori, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtHargaJual, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtStok, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtStokMinimum, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)))
+        );
 
         getContentPane().add(jPanel1, java.awt.BorderLayout.CENTER);
 
@@ -173,8 +224,8 @@ public class ProdukFormDialog extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(this, "Nama produk tidak boleh kosong!", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        
-        int idKategori = selectedKategori.getId(); 
+
+        int idKategori = selectedKategori.getId();
 
         Connection conn = null;
         try {

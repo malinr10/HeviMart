@@ -6,10 +6,15 @@ package ManajemenInventori;
 
 import util.koneksi;
 import java.math.BigDecimal;
-import javax.swing.table.DefaultTableModel;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -22,6 +27,7 @@ public class ProductSearchDialog extends javax.swing.JDialog {
     public int selectedProductId = 0;
     public String selectedProductName = "";
     public BigDecimal selectedProductPrice = BigDecimal.ZERO;
+    public String selectedProductBarcode = null;
 
     /**
      * Creates new form ProductSearchDialog
@@ -29,35 +35,101 @@ public class ProductSearchDialog extends javax.swing.JDialog {
     public ProductSearchDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        
+
         this.setLocationRelativeTo(parent);
 
-        modelTabel = (DefaultTableModel) tblProduk.getModel();
-        modelTabel.setColumnIdentifiers(new Object[]{"ID", "Nama Produk", "Harga Beli", "Stok"});
-        loadProducts("");
+        this.setLocationRelativeTo(parent);
+        this.setTitle("Cari Produk");
+
+        // --- SETUP AWAL ---
+        // Setup Tabel
+        modelTabel = new DefaultTableModel();
+        tblProduk.setModel(modelTabel);
+        modelTabel.setColumnIdentifiers(new Object[]{"ID", "Nama Produk", "Kode Barcode", "Harga Beli", "Stok"});
+
+        // Memuat data awal dan listener
+        loadCategoriesComboBox();
+        loadProducts();
+
+        // Listener untuk pencarian real-time saat pengguna mengetik
+        txtSearch.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                loadProducts();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                loadProducts();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                loadProducts();
+            }
+        });
+
+        // Listener untuk filter real-time saat kategori diubah
+        cmbCategory.addActionListener(e -> loadProducts());
     }
-    
-     private void loadProducts(String keyword) {
+
+    private void loadCategoriesComboBox() {
+        DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>();
+        model.addElement("Semua Kategori");
+        try (Connection conn = koneksi.getKoneksi(); Statement stmt = conn.createStatement(); ResultSet rs = stmt.executeQuery("SELECT nama_kategori FROM KATEGORI ORDER BY nama_kategori")) {
+            while (rs.next()) {
+                model.addElement(rs.getString("nama_kategori"));
+            }
+            cmbCategory.setModel(model);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Gagal memuat kategori: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Method inti untuk memuat data produk dengan filter dinamis. Tidak lagi
+     * menerima parameter, karena semua nilai diambil dari komponen GUI.
+     */
+    private void loadProducts() {
         modelTabel.setRowCount(0);
-        String sql = "SELECT id_produk, nama_produk, harga_beli, jumlah_stok FROM PRODUK WHERE nama_produk LIKE ?";
-        try (Connection conn = koneksi.getKoneksi();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        String keyword = txtSearch.getText();
+        String kategori = (String) cmbCategory.getSelectedItem();
+
+        try {
+            Connection conn = koneksi.getKoneksi();
+            StringBuilder sql = new StringBuilder(
+                    "SELECT p.id_produk, p.nama_produk, p.kode_barcode, p.harga_beli, p.jumlah_stok "
+                    + "FROM PRODUK p LEFT JOIN KATEGORI k ON p.id_kategori = k.id_kategori "
+                    + "WHERE (p.nama_produk LIKE ? OR p.kode_barcode LIKE ?) "
+            );
+
+            if (kategori != null && !"Semua Kategori".equals(kategori)) {
+                sql.append("AND k.nama_kategori = ? ");
+            }
+
+            PreparedStatement pstmt = conn.prepareStatement(sql.toString());
             pstmt.setString(1, "%" + keyword + "%");
+            pstmt.setString(2, "%" + keyword + "%");
+            if (kategori != null && !"Semua Kategori".equals(kategori)) {
+                pstmt.setString(3, kategori);
+            }
+
             ResultSet rs = pstmt.executeQuery();
-            while(rs.next()) {
+            while (rs.next()) {
                 modelTabel.addRow(new Object[]{
                     rs.getInt("id_produk"),
                     rs.getString("nama_produk"),
+                    rs.getString("kode_barcode"),
                     rs.getBigDecimal("harga_beli"),
                     rs.getInt("jumlah_stok")
                 });
             }
         } catch (Exception e) {
-            // handle error
+            JOptionPane.showMessageDialog(this, "Gagal memuat produk: " + e.getMessage());
+            e.printStackTrace();
         }
     }
-     
-     
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -73,6 +145,8 @@ public class ProductSearchDialog extends javax.swing.JDialog {
         jLabel1 = new javax.swing.JLabel();
         txtSearch = new javax.swing.JTextField();
         btnPilih = new javax.swing.JButton();
+        cmbCategory = new javax.swing.JComboBox<>();
+        btnReset = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -104,19 +178,32 @@ public class ProductSearchDialog extends javax.swing.JDialog {
             }
         });
 
+        cmbCategory.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        btnReset.setText("Reset");
+        btnReset.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnResetActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(tblProduk2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+            .addComponent(tblProduk2, javax.swing.GroupLayout.DEFAULT_SIZE, 593, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btnPilih)
-                .addContainerGap(133, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(cmbCategory, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btnReset)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -125,7 +212,9 @@ public class ProductSearchDialog extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1)
-                    .addComponent(btnPilih))
+                    .addComponent(btnPilih)
+                    .addComponent(cmbCategory, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnReset))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
                 .addComponent(tblProduk2, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -136,18 +225,33 @@ public class ProductSearchDialog extends javax.swing.JDialog {
     private void btnPilihActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPilihActionPerformed
         // TODO add your handling code here:
         int selectedRow = tblProduk.getSelectedRow();
+
+        // 2. Pastikan ada baris yang dipilih (tidak -1)
         if (selectedRow != -1) {
+            // 3. Ambil semua data yang kita butuhkan dari baris tersebut
             this.selectedProductId = (int) tblProduk.getValueAt(selectedRow, 0);
             this.selectedProductName = (String) tblProduk.getValueAt(selectedRow, 1);
-            this.selectedProductPrice = (BigDecimal) tblProduk.getValueAt(selectedRow, 2);
+            this.selectedProductBarcode = (String) tblProduk.getValueAt(selectedRow, 2);
+            this.selectedProductPrice = (BigDecimal) tblProduk.getValueAt(selectedRow, 3);
+
+            // 4. Tutup dialog ini. Eksekusi akan kembali ke POSForm.
             this.dispose();
+        } else {
+            // Beri peringatan jika tidak ada baris yang dipilih
+            JOptionPane.showMessageDialog(this, "Pilih salah satu produk dari tabel terlebih dahulu.", "Belum Ada Pilihan", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_btnPilihActionPerformed
 
     private void txtSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyReleased
         // TODO add your handling code here:
-        loadProducts(txtSearch.getText());
     }//GEN-LAST:event_txtSearchKeyReleased
+
+    private void btnResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetActionPerformed
+        // TODO add your handling code here:
+        txtSearch.setText("");
+        cmbCategory.setSelectedIndex(0);
+        loadProducts();
+    }//GEN-LAST:event_btnResetActionPerformed
 
     /**
      * @param args the command line arguments
@@ -193,6 +297,8 @@ public class ProductSearchDialog extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnPilih;
+    private javax.swing.JButton btnReset;
+    private javax.swing.JComboBox<String> cmbCategory;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JTable tblProduk;
     private javax.swing.JScrollPane tblProduk2;

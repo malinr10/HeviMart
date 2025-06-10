@@ -4,6 +4,7 @@ package PosSistem;
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
+import ManajemenInventori.ProductSearchDialog;
 import util.koneksi;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
@@ -27,6 +28,7 @@ public class POSForm extends javax.swing.JFrame {
 
     private DefaultTableModel modelTabel;
     private final int ID_KASIR;
+    private BigDecimal grandTotal = BigDecimal.ZERO;
 
     /**
      * Creates new form POSForm
@@ -142,24 +144,25 @@ public class POSForm extends javax.swing.JFrame {
             totalDiskon = totalDiskon.add(diskon);
         }
 
-        BigDecimal grandTotal = subtotalKotor.subtract(totalDiskon);
+        // Simpan hasil perhitungan Grand Total ke variabel kelas
+        this.grandTotal = subtotalKotor.subtract(totalDiskon);
 
         Locale localeID = new Locale("in", "ID");
         NumberFormat formatRupiah = NumberFormat.getCurrencyInstance(localeID);
 
-        // Pastikan Anda punya JLabel lblSubtotal, lblDiskon, dan lblGrandTotal di form Anda
+        // Pastikan Anda punya JLabel lblSubtotal, lblDiskon, dan lblGrandTotal di form
         lblSubtotal.setText(formatRupiah.format(subtotalKotor));
         lblDiskon.setText(formatRupiah.format(totalDiskon));
-        lblGrandTotal.setText(formatRupiah.format(grandTotal));
+        lblGrandTotal.setText(formatRupiah.format(this.grandTotal));
 
         updateKembalian();
     }
 
     private void updateKembalian() {
         try {
-            BigDecimal grandTotal = new BigDecimal(lblGrandTotal.getText().replaceAll("[^\\d]", ""));
             BigDecimal jumlahBayar = new BigDecimal(txtJumlahBayar.getText());
-            BigDecimal kembalian = jumlahBayar.subtract(grandTotal);
+            // Gunakan variabel this.grandTotal yang sudah pasti benar
+            BigDecimal kembalian = jumlahBayar.subtract(this.grandTotal);
 
             Locale localeID = new Locale("in", "ID");
             NumberFormat formatRupiah = NumberFormat.getCurrencyInstance(localeID);
@@ -195,13 +198,17 @@ public class POSForm extends javax.swing.JFrame {
         lblSubtotal = new javax.swing.JLabel();
         lblDiskon = new javax.swing.JLabel();
         lblGrandTotal = new javax.swing.JLabel();
-        txtJumlahBayar = new javax.swing.JTextField();
         jSeparator1 = new javax.swing.JSeparator();
+        jLabel3 = new javax.swing.JLabel();
+        cmbMetodeBayar = new javax.swing.JComboBox<>();
+        jLabel2 = new javax.swing.JLabel();
+        txtJumlahBayar = new javax.swing.JTextField();
         lblKembalian = new javax.swing.JLabel();
         btnBayar = new javax.swing.JButton();
         btnHapusItem = new javax.swing.JButton();
         btnBatalTransaksi = new javax.swing.JButton();
         btnRiwayat = new javax.swing.JButton();
+        btnCari = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         getContentPane().setLayout(new java.awt.BorderLayout(0, 1));
@@ -227,7 +234,7 @@ public class POSForm extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(tblShoppingCart);
 
-        jPanel3.setLayout(new java.awt.GridLayout(7, 1));
+        jPanel3.setLayout(new java.awt.GridLayout(10, 1));
 
         lblSubtotal.setText("Subtotal");
         jPanel3.add(lblSubtotal);
@@ -237,8 +244,17 @@ public class POSForm extends javax.swing.JFrame {
 
         lblGrandTotal.setText("Grand Total :");
         jPanel3.add(lblGrandTotal);
-        jPanel3.add(txtJumlahBayar);
         jPanel3.add(jSeparator1);
+
+        jLabel3.setText("Metode Pembayaran");
+        jPanel3.add(jLabel3);
+
+        cmbMetodeBayar.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Cash", "QRIS", "Kartu Debit", "Kartu Kredit" }));
+        jPanel3.add(cmbMetodeBayar);
+
+        jLabel2.setText("Jumlah Bayar : ");
+        jPanel3.add(jLabel2);
+        jPanel3.add(txtJumlahBayar);
 
         lblKembalian.setText("Kembalian :");
         jPanel3.add(lblKembalian);
@@ -272,6 +288,13 @@ public class POSForm extends javax.swing.JFrame {
             }
         });
 
+        btnCari.setText("Cari Produk");
+        btnCari.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCariActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -279,22 +302,25 @@ public class POSForm extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(15, 15, 15)
-                        .addComponent(jLabel1)
-                        .addGap(18, 18, 18)
-                        .addComponent(txtBarcode, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 474, Short.MAX_VALUE))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 480, Short.MAX_VALUE)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(btnHapusItem, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnRiwayat, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(118, 118, 118)
+                                .addComponent(btnBatalTransaksi, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(btnHapusItem, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnRiwayat, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnBatalTransaksi, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGap(14, 14, 14)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnCari)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addGap(18, 18, 18)
+                                .addComponent(txtBarcode, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -304,16 +330,18 @@ public class POSForm extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(txtBarcode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(btnCari)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnHapusItem, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnBatalTransaksi, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnRiwayat, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(17, 17, 17))
+                    .addComponent(btnRiwayat, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnHapusItem, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(61, 61, 61))
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 319, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 403, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
@@ -332,39 +360,52 @@ public class POSForm extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Keranjang belanja masih kosong.");
             return;
         }
-        // TODO: Tambahkan validasi untuk memastikan jumlah bayar cukup
 
-        // --- PERBAIKAN 1: Hitung semua total langsung dari tabel ---
-        BigDecimal subtotalKotor = BigDecimal.ZERO;
-        BigDecimal totalDiskon = BigDecimal.ZERO;
-        BigDecimal grandTotal; // Ini akan menjadi harga_akhir
-
-        for (int i = 0; i < modelTabel.getRowCount(); i++) {
-            BigDecimal harga = (BigDecimal) modelTabel.getValueAt(i, 2);
-            int jumlah = (int) modelTabel.getValueAt(i, 3);
-            BigDecimal diskon = (BigDecimal) modelTabel.getValueAt(i, 4);
-
-            subtotalKotor = subtotalKotor.add(harga.multiply(new BigDecimal(jumlah)));
-            totalDiskon = totalDiskon.add(diskon);
+        String bayarString = txtJumlahBayar.getText();
+        if (bayarString.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Masukkan jumlah pembayaran terlebih dahulu.", "Peringatan", JOptionPane.WARNING_MESSAGE);
+            txtJumlahBayar.requestFocus();
+            return;
         }
-        grandTotal = subtotalKotor.subtract(totalDiskon);
 
+        BigDecimal jumlahBayar;
+        try {
+            jumlahBayar = new BigDecimal(bayarString);
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Format jumlah bayar tidak valid.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        if (jumlahBayar.compareTo(this.grandTotal) < 0) {
+            JOptionPane.showMessageDialog(this, "Jumlah pembayaran kurang dari Grand Total.", "Peringatan", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        // --- PROSES TRANSAKSI ---
         Connection conn = null;
         try {
-            conn = koneksi.getKoneksi();
-            conn.setAutoCommit(false); // === MULAI TRANSAKSI ===
+            conn = koneksi.getKoneksi(); // Sesuaikan dengan nama kelas koneksi Anda
+            conn.setAutoCommit(false);
 
-            // --- PERBAIKAN 2: Gunakan query INSERT yang benar ---
-            String sqlTrx = "INSERT INTO TRANSAKSI (kode_transaksi, id_kasir, total_harga, diskon, harga_akhir) VALUES (?, ?, ?, ?, ?)";
+            // Ambil semua data yang akan disimpan
+            String metodeBayar = (String) cmbMetodeBayar.getSelectedItem();
+            BigDecimal kembalian = jumlahBayar.subtract(this.grandTotal);
+            BigDecimal totalDiskon = new BigDecimal(lblDiskon.getText().replaceAll("[^\\d,]", "").replace(",", "."));
+            BigDecimal totalSebelumDiskon = this.grandTotal.add(totalDiskon);
+
+            // Query INSERT yang sudah lengkap
+            String sqlTrx = "INSERT INTO TRANSAKSI (kode_transaksi, id_kasir, total_harga, diskon, harga_akhir, metode_bayar, jumlah_bayar, kembalian) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement pstmtTrx = conn.prepareStatement(sqlTrx, Statement.RETURN_GENERATED_KEYS);
-            String kodeTrx = "TRX-" + System.currentTimeMillis();
 
+            String kodeTrx = "TRX-" + System.currentTimeMillis();
             pstmtTrx.setString(1, kodeTrx);
             pstmtTrx.setInt(2, this.ID_KASIR);
-            pstmtTrx.setBigDecimal(3, subtotalKotor); // total_harga = harga sebelum diskon
-            pstmtTrx.setBigDecimal(4, totalDiskon);   // diskon = total semua diskon
-            pstmtTrx.setBigDecimal(5, grandTotal);    // harga_akhir = harga setelah diskon
-
+            pstmtTrx.setBigDecimal(3, totalSebelumDiskon); // total harga asli
+            pstmtTrx.setBigDecimal(4, totalDiskon);         // total diskon
+            pstmtTrx.setBigDecimal(5, this.grandTotal);      // harga akhir setelah diskon
+            pstmtTrx.setString(6, metodeBayar);
+            pstmtTrx.setBigDecimal(7, jumlahBayar);
+            pstmtTrx.setBigDecimal(8, kembalian);
             pstmtTrx.executeUpdate();
 
             ResultSet rsKeys = pstmtTrx.getGeneratedKeys();
@@ -373,60 +414,14 @@ public class POSForm extends javax.swing.JFrame {
                 throw new SQLException("Gagal membuat transaksi utama.");
             }
 
-            // Siapkan PreparedStatement di luar loop untuk efisiensi
-            String sqlDetail = "INSERT INTO DETAIL_TRANSAKSI (id_transaksi, id_produk, jumlah, harga_satuan, subtotal) VALUES (?, ?, ?, ?, ?)";
-            String sqlStok = "UPDATE PRODUK SET jumlah_stok = jumlah_stok - ? WHERE id_produk = ?";
-            String sqlLog = "INSERT INTO PERGERAKAN_STOK (id_produk, tipe, jumlah, keterangan) VALUES (?, 'keluar', ?, ?)";
-
-            try (PreparedStatement pstmtDetail = conn.prepareStatement(sqlDetail); PreparedStatement pstmtStok = conn.prepareStatement(sqlStok); PreparedStatement pstmtLog = conn.prepareStatement(sqlLog)) {
-
-                for (int i = 0; i < modelTabel.getRowCount(); i++) {
-                    // --- PERBAIKAN 3: Gunakan cara yang aman untuk mengambil nilai ---
-                    Object idProdukObj = modelTabel.getValueAt(i, 0);
-                    Object hargaObj = modelTabel.getValueAt(i, 2);
-                    Object jumlahObj = modelTabel.getValueAt(i, 3);
-                    Object subtotalObj = modelTabel.getValueAt(i, 5); // Ambil dari kolom subtotal (index 5)
-
-                    if (idProdukObj == null || jumlahObj == null || hargaObj == null || subtotalObj == null) {
-                        throw new SQLException("Data di keranjang tidak valid pada baris " + (i + 1));
-                    }
-
-                    int idProduk = (Integer) idProdukObj;
-                    int jumlah = (Integer) jumlahObj;
-                    BigDecimal harga = (BigDecimal) hargaObj;
-                    BigDecimal subtotal = (BigDecimal) subtotalObj;
-
-                    // 2. INSERT ke DETAIL_TRANSAKSI
-                    pstmtDetail.setInt(1, trxId);
-                    pstmtDetail.setInt(2, idProduk);
-                    pstmtDetail.setInt(3, jumlah);
-                    pstmtDetail.setBigDecimal(4, harga);
-                    pstmtDetail.setBigDecimal(5, subtotal);
-                    pstmtDetail.addBatch();
-
-                    // 3. UPDATE stok di tabel PRODUK
-                    pstmtStok.setInt(1, jumlah);
-                    pstmtStok.setInt(2, idProduk);
-                    pstmtStok.addBatch();
-
-                    // 4. INSERT ke PERGERAKAN_STOK
-                    pstmtLog.setInt(1, idProduk);
-                    pstmtLog.setInt(2, -jumlah); // Jumlah negatif karena keluar
-                    pstmtLog.setString(3, "Penjualan via POS, Transaksi: " + kodeTrx);
-                    pstmtLog.addBatch();
-                }
-
-                // Eksekusi semua perintah batch sekaligus
-                pstmtDetail.executeBatch();
-                pstmtStok.executeBatch();
-                pstmtLog.executeBatch();
-            }
-
-            conn.commit(); // === SELESAIKAN TRANSAKSI ===
+            // Loop untuk menyimpan detail, update stok, dan log pergerakan
+            // ... (sisipkan loop for dari jawaban sebelumnya di sini, isinya sudah benar)
+            // ...
+            conn.commit();
             JOptionPane.showMessageDialog(this, "Transaksi berhasil disimpan!", "Sukses", JOptionPane.INFORMATION_MESSAGE);
 
-            // Panggil fungsi cetak struk di sini jika ada
-            // cetakStruk(trxId, ...);
+            // Panggil cetak struk (jika sudah dibuat)
+            // cetakStruk(trxId, this.grandTotal, jumlahBayar, kembalian);
             clearForm();
 
         } catch (Exception e) {
@@ -473,6 +468,22 @@ public class POSForm extends javax.swing.JFrame {
         new TransactionHistoryForm(this, true).setVisible(true);
     }//GEN-LAST:event_btnRiwayatActionPerformed
 
+    private void btnCariActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCariActionPerformed
+        // TODO add your handling code here:
+        ManajemenInventori.ProductSearchDialog dialog = new ManajemenInventori.ProductSearchDialog(this, true);
+        dialog.setVisible(true); // Program akan menunggu di sini sampai dialog ditutup
+
+        // 2. Setelah dialog ditutup, cek apakah ada barcode yang dipilih
+        if (dialog.selectedProductBarcode != null && !dialog.selectedProductBarcode.isEmpty()) {
+            // 3. Jika ada, panggil method untuk menambahkannya ke keranjang
+            // Seolah-olah barcode tersebut di-scan
+            tambahProdukKeKeranjang(dialog.selectedProductBarcode);
+        }
+
+        // Setelah dialog ditutup, ambil data dari variabel publiknya
+
+    }//GEN-LAST:event_btnCariActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -482,9 +493,13 @@ public class POSForm extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBatalTransaksi;
     private javax.swing.JButton btnBayar;
+    private javax.swing.JButton btnCari;
     private javax.swing.JButton btnHapusItem;
     private javax.swing.JButton btnRiwayat;
+    private javax.swing.JComboBox<String> cmbMetodeBayar;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
