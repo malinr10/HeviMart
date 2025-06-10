@@ -249,7 +249,7 @@ public class POSForm extends javax.swing.JFrame {
         jLabel3.setText("Metode Pembayaran");
         jPanel3.add(jLabel3);
 
-        cmbMetodeBayar.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Cash", "QRIS", "Kartu Debit", "Kartu Kredit" }));
+        cmbMetodeBayar.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tunai", "QRIS", "Kartu Debit", "Kartu Kredit" }));
         jPanel3.add(cmbMetodeBayar);
 
         jLabel2.setText("Jumlah Bayar : ");
