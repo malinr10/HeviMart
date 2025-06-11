@@ -31,18 +31,19 @@ public class LandingPage extends javax.swing.JFrame {
         BG_LandingPage = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setPreferredSize(new java.awt.Dimension(1024, 768));
 
-        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        jPanel1.setLayout(new java.awt.BorderLayout());
 
         jLabel1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jLabel1MouseClicked(evt);
             }
         });
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 592, 280, 50));
+        jPanel1.add(jLabel1, java.awt.BorderLayout.CENTER);
 
         BG_LandingPage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/Landing Page.png"))); // NOI18N
-        jPanel1.add(BG_LandingPage, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1440, 1024));
+        jPanel1.add(BG_LandingPage, java.awt.BorderLayout.PAGE_START);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);

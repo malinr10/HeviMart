@@ -54,7 +54,7 @@ public class MainMenu extends javax.swing.JFrame {
     
     private void aturTombolBerdasarkanPeran() {
         if (this.peran.equals("Kasir")) {
-            btnManajemenProduk.setEnabled(false);
+//            jButton1.setEnabled(false);
             btnManajemenPengguna.setEnabled(false);
             btnPelaporan.setEnabled(false);
         } else if (this.peran.equals("Staff Gudang")) {
@@ -335,15 +335,15 @@ public class MainMenu extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnLogoutActionPerformed
 
-    private void btnManajemenProdukActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnManajemenProdukActionPerformed
-        // TODO add your handling code here:
-        new ProdukForm().setVisible(true);
-    }//GEN-LAST:event_btnManajemenProdukActionPerformed
-
     private void btnPOSActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPOSActionPerformed
         // TODO add your handling code here:
         new POSForm(this.loggedInUserId).setVisible(true);
     }//GEN-LAST:event_btnPOSActionPerformed
+
+    private void btnManajemenProdukActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnManajemenProdukActionPerformed
+        // TODO add your handling code here:
+        new ProdukForm().setVisible(true);
+    }//GEN-LAST:event_btnManajemenProdukActionPerformed
 
     private void btnManajemenProdukMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnManajemenProdukMouseClicked
         // TODO add your handling code here:
