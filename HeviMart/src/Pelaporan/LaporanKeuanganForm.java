@@ -4,11 +4,21 @@ package Pelaporan;
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-
 /**
  *
  * @author Lenovo
  */
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+import javax.swing.JOptionPane;
+import util.koneksi;
+
 public class LaporanKeuanganForm extends javax.swing.JFrame {
 
     /**
@@ -16,6 +26,97 @@ public class LaporanKeuanganForm extends javax.swing.JFrame {
      */
     public LaporanKeuanganForm() {
         initComponents();
+
+        this.setLocationRelativeTo(null);
+
+        // Set tanggal default ke hari ini
+        dateChooserMulai.setDate(new Date());
+        dateChooserSelesai.setDate(new Date());
+
+        // Langsung tampilkan laporan untuk hari ini saat form dibuka
+        loadLaporanKeuangan();
+    }
+
+    private void loadLaporanKeuangan() {
+        Date tanggalMulai = dateChooserMulai.getDate();
+        Date tanggalSelesai = dateChooserSelesai.getDate();
+
+        if (tanggalMulai == null || tanggalSelesai == null) {
+            JOptionPane.showMessageDialog(this, "Tanggal mulai dan selesai harus diisi.", "Peringatan", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String startDate = sdf.format(tanggalMulai);
+        String endDate = sdf.format(tanggalSelesai);
+
+        double pendapatan = 0;
+        double hpp = 0;
+        double labaKotor = 0;
+        double pengeluaran = 0;
+
+        // Definisikan query
+        String sqlPendapatan = "SELECT IFNULL(SUM(harga_akhir), 0) FROM transaksi WHERE CAST(tanggal_transaksi AS DATE) BETWEEN ? AND ?";
+        String sqlHpp = "SELECT IFNULL(SUM(dt.jumlah * p.harga_beli), 0) FROM detail_transaksi dt "
+                + "JOIN produk p ON dt.id_produk = p.id_produk "
+                + "JOIN transaksi t ON dt.id_transaksi = t.id_transaksi "
+                + "WHERE CAST(t.tanggal_transaksi AS DATE) BETWEEN ? AND ?";
+        String sqlPengeluaran = "SELECT IFNULL(SUM(total_harga), 0) FROM pembelian WHERE CAST(tanggal_beli AS DATE) BETWEEN ? AND ?";
+
+        try (Connection conn = koneksi.getKoneksi()) {
+            // 1. Ambil Total Pendapatan
+            try (PreparedStatement ps = conn.prepareStatement(sqlPendapatan)) {
+                ps.setString(1, startDate);
+                ps.setString(2, endDate);
+                ResultSet rs = ps.executeQuery();
+                if (rs.next()) {
+                    pendapatan = rs.getDouble(1);
+                }
+            }
+
+            // 2. Ambil Total HPP
+            try (PreparedStatement ps = conn.prepareStatement(sqlHpp)) {
+                ps.setString(1, startDate);
+                ps.setString(2, endDate);
+                ResultSet rs = ps.executeQuery();
+                if (rs.next()) {
+                    hpp = rs.getDouble(1);
+                }
+            }
+
+            // 3. Ambil Total Pengeluaran (Pembelian)
+            try (PreparedStatement ps = conn.prepareStatement(sqlPengeluaran)) {
+                ps.setString(1, startDate);
+                ps.setString(2, endDate);
+                ResultSet rs = ps.executeQuery();
+                if (rs.next()) {
+                    pengeluaran = rs.getDouble(1);
+                }
+            }
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, "Gagal memuat laporan keuangan: " + e.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+        }
+
+        // Hitung Laba Kotor
+        labaKotor = pendapatan - hpp;
+
+        // Format nilai ke format mata uang Rupiah
+        NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(new Locale("id", "ID"));
+
+        // Tampilkan hasil ke JLabel
+        lblPendapatan.setText(currencyFormat.format(pendapatan));
+        lblHpp.setText(currencyFormat.format(hpp));
+        lblLabaKotor.setText(currencyFormat.format(labaKotor));
+        lblPengeluaran.setText(currencyFormat.format(pengeluaran));
+
+        // Ubah warna label laba kotor
+        if (labaKotor < 0) {
+            lblLabaKotor.setForeground(java.awt.Color.RED);
+        } else {
+            lblLabaKotor.setForeground(new java.awt.Color(0, 153, 0)); // Warna hijau tua
+        }
     }
 
     /**
@@ -27,21 +128,123 @@ public class LaporanKeuanganForm extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel2 = new javax.swing.JLabel();
+        dateChooserMulai = new com.toedter.calendar.JDateChooser();
+        jLabel3 = new javax.swing.JLabel();
+        dateChooserSelesai = new com.toedter.calendar.JDateChooser();
+        btnTampilkan = new javax.swing.JButton();
+        lblPendapatan = new javax.swing.JLabel();
+        lblHpp = new javax.swing.JLabel();
+        lblLabaKotor = new javax.swing.JLabel();
+        lblPengeluaran = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jLabel2.setText("Dari");
+
+        jLabel3.setText("Hingga");
+
+        btnTampilkan.setText("Tampilkan Laporan");
+        btnTampilkan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTampilkanActionPerformed(evt);
+            }
+        });
+
+        lblPendapatan.setText("jLabel1");
+
+        lblHpp.setText("jLabel1");
+
+        lblLabaKotor.setText("jLabel1");
+
+        lblPengeluaran.setText("jLabel1");
+
+        jLabel1.setText("Pendapatan");
+
+        jLabel4.setText("Pengeluaran");
+
+        jLabel5.setText("Laba Kotor");
+
+        jLabel6.setText("HPP");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel2)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(dateChooserMulai, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(18, 18, 18)
+                            .addComponent(jLabel3)
+                            .addGap(18, 18, 18))
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                            .addComponent(lblPendapatan, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(110, 110, 110)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblLabaKotor, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel1)
+                            .addComponent(jLabel5))
+                        .addGap(110, 110, 110)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel4)
+                    .addComponent(lblHpp, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblPengeluaran, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(dateChooserSelesai, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnTampilkan))
+                    .addComponent(jLabel6))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(39, 39, 39)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel2)
+                    .addComponent(dateChooserMulai, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3)
+                    .addComponent(dateChooserSelesai, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnTampilkan))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel4))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblPendapatan, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblPengeluaran, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(19, 19, 19)
+                        .addComponent(jLabel5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblLabaKotor, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(9, 9, 9)
+                        .addComponent(jLabel6)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblHpp, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(65, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnTampilkanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTampilkanActionPerformed
+        // TODO add your handling code here:
+        loadLaporanKeuangan();
+    }//GEN-LAST:event_btnTampilkanActionPerformed
 
     /**
      * @param args the command line arguments
@@ -79,5 +282,18 @@ public class LaporanKeuanganForm extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnTampilkan;
+    private com.toedter.calendar.JDateChooser dateChooserMulai;
+    private com.toedter.calendar.JDateChooser dateChooserSelesai;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel lblHpp;
+    private javax.swing.JLabel lblLabaKotor;
+    private javax.swing.JLabel lblPendapatan;
+    private javax.swing.JLabel lblPengeluaran;
     // End of variables declaration//GEN-END:variables
 }
