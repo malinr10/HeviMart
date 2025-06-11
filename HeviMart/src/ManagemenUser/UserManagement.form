@@ -50,7 +50,7 @@
                       <Component id="jLabel1" alignment="0" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
-              <EmptySpace pref="82" max="32767" attributes="0"/>
+              <EmptySpace pref="84" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -108,16 +108,13 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="txtSearch">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="search"/>
-      </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtSearchActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel2">
       <Properties>
-        <Property name="text" type="java.lang.String" value="icon"/>
+        <Property name="text" type="java.lang.String" value="Cari"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="btnTambahUser">

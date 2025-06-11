@@ -252,14 +252,13 @@ public class UserManagement extends javax.swing.JFrame {
 
         jLabel1.setText("User Managemenrt");
 
-        txtSearch.setText("search");
         txtSearch.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtSearchActionPerformed(evt);
             }
         });
 
-        jLabel2.setText("icon");
+        jLabel2.setText("Cari");
 
         btnTambahUser.setText("tambah");
         btnTambahUser.addActionListener(new java.awt.event.ActionListener() {
@@ -312,7 +311,7 @@ public class UserManagement extends javax.swing.JFrame {
                             .addGap(18, 18, 18)
                             .addComponent(btnTambahUser))
                         .addComponent(jLabel1)))
-                .addContainerGap(82, Short.MAX_VALUE))
+                .addContainerGap(84, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

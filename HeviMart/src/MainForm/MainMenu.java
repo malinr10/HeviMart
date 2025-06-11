@@ -381,7 +381,6 @@ public class MainMenu extends javax.swing.JFrame {
 
     private void btnManajemenProduk1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnManajemenProduk1MouseClicked
         // TODO add your handling code here:
-        new ProdukForm().setVisible(true);
     }//GEN-LAST:event_btnManajemenProduk1MouseClicked
 
     private void btnManajemenDiskonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnManajemenDiskonActionPerformed
