@@ -121,7 +121,7 @@ public class GoodsReceiptForm extends javax.swing.JFrame {
         tblOpenOrders = new javax.swing.JTable();
         BG_TerimaPesanan = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jPanel3.setPreferredSize(new java.awt.Dimension(1440, 1024));
         jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
