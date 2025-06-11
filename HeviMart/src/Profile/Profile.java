@@ -22,6 +22,13 @@ public class Profile extends javax.swing.JFrame {
      */
     public Profile() {
         initComponents();
+        // 1. Secara otomatis menyesuaikan ukuran jendela agar semua komponen pas.
+        this.pack();
+
+        // 2. (Opsional tapi sangat disarankan) Posisikan jendela di tengah layar
+        //    setelah ukurannya disesuaikan.
+        this.setLocationRelativeTo(null);
+       
     }
 
     public Profile(int id_pengguna) {
