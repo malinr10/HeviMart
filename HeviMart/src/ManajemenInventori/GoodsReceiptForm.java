@@ -112,59 +112,37 @@ public class GoodsReceiptForm extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tblOpenOrders = new javax.swing.JTable();
+        jPanel3 = new javax.swing.JPanel();
         btnRefresh = new javax.swing.JButton();
-        jPanel2 = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
+        btnConfirmReceipt = new javax.swing.JToggleButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblReceiptDetails = new javax.swing.JTable();
-        btnConfirmReceipt = new javax.swing.JToggleButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tblOpenOrders = new javax.swing.JTable();
+        BG_TerimaPesanan = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel1.setText("Daftar Pesanan Pembelian (PO) yang Belum Diterima");
+        jPanel3.setPreferredSize(new java.awt.Dimension(1440, 1024));
+        jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(16, 16, 16)
-                .addComponent(jLabel1)
-                .addContainerGap(23, Short.MAX_VALUE))
-        );
-
-        tblOpenOrders.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        jScrollPane1.setViewportView(tblOpenOrders);
-
-        btnRefresh.setText("Refresh");
+        btnRefresh.setBorderPainted(false);
+        btnRefresh.setContentAreaFilled(false);
         btnRefresh.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnRefreshActionPerformed(evt);
             }
         });
+        jPanel3.add(btnRefresh, new org.netbeans.lib.awtextra.AbsoluteConstraints(1275, 173, 60, 50));
 
-        jLabel2.setText("Detail Barang untuk PO Terpilih");
+        btnConfirmReceipt.setBorderPainted(false);
+        btnConfirmReceipt.setContentAreaFilled(false);
+        btnConfirmReceipt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnConfirmReceiptActionPerformed(evt);
+            }
+        });
+        jPanel3.add(btnConfirmReceipt, new org.netbeans.lib.awtextra.AbsoluteConstraints(285, 925, 390, 50));
 
         tblReceiptDetails.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -179,61 +157,39 @@ public class GoodsReceiptForm extends javax.swing.JFrame {
         ));
         jScrollPane2.setViewportView(tblReceiptDetails);
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel2)
-                .addContainerGap(230, Short.MAX_VALUE))
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(25, 25, 25)
-                .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+        jPanel3.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 250, 1050, 270));
 
-        btnConfirmReceipt.setText("Konfirmasi Penerimaan Barang");
-        btnConfirmReceipt.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnConfirmReceiptActionPerformed(evt);
+        tblOpenOrders.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
             }
-        });
+        ));
+        jScrollPane1.setViewportView(tblOpenOrders);
+
+        jPanel3.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 620, 1060, 280));
+
+        BG_TerimaPesanan.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/Penerimaan Pesanan.png"))); // NOI18N
+        jPanel3.add(BG_TerimaPesanan, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(btnRefresh)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(btnConfirmReceipt)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnRefresh)
-                .addGap(10, 10, 10)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(btnConfirmReceipt)
-                .addGap(0, 15, Short.MAX_VALUE))
+                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
@@ -241,7 +197,7 @@ public class GoodsReceiptForm extends javax.swing.JFrame {
 
     private void btnConfirmReceiptActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmReceiptActionPerformed
         // TODO add your handling code here:
-        
+
         int selectedRow = tblOpenOrders.getSelectedRow();
         if (selectedRow == -1) {
             JOptionPane.showMessageDialog(this, "Pilih sebuah Pesanan Pembelian (PO) dari tabel atas terlebih dahulu.", "Peringatan", JOptionPane.WARNING_MESSAGE);
@@ -254,7 +210,7 @@ public class GoodsReceiptForm extends javax.swing.JFrame {
 
         int poId = (int) tblOpenOrders.getValueAt(selectedRow, 0);
         String poKode = (String) tblOpenOrders.getValueAt(selectedRow, 1);
-        
+
         Connection conn = null;
         try {
             conn = koneksi.getKoneksi();
@@ -308,7 +264,7 @@ public class GoodsReceiptForm extends javax.swing.JFrame {
                 ex.printStackTrace();
             }
         }
-        
+
         loadOpenOrders(); // Muat ulang daftar pesanan
     }//GEN-LAST:event_btnConfirmReceiptActionPerformed
 
@@ -353,12 +309,10 @@ public class GoodsReceiptForm extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel BG_TerimaPesanan;
     private javax.swing.JToggleButton btnConfirmReceipt;
     private javax.swing.JButton btnRefresh;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable tblOpenOrders;

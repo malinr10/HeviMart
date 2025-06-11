@@ -100,131 +100,32 @@ public class PurchaseOrderForm extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        jPanel4 = new javax.swing.JPanel();
         cmbSupplier = new javax.swing.JComboBox<>();
-        jPanel2 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tblOrderItems = new javax.swing.JTable();
+        jLabel1 = new javax.swing.JLabel();
+        lblGrandTotal = new javax.swing.JLabel();
+        btnBuatPesanan = new javax.swing.JButton();
         btnCariProduk = new javax.swing.JButton();
-        jLabel2 = new javax.swing.JLabel();
         txtNamaProduk = new javax.swing.JTextField();
-        jLabel3 = new javax.swing.JLabel();
         txtHargaBeli = new javax.swing.JTextField();
-        jLabel4 = new javax.swing.JLabel();
         spnJumlah = new javax.swing.JSpinner();
         btnTambahItem = new javax.swing.JButton();
         btnHapusItem = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tblOrderItems = new javax.swing.JTable();
-        jPanel3 = new javax.swing.JPanel();
-        lblGrandTotal = new javax.swing.JLabel();
-        btnBuatPesanan = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        BG_PesanProduk = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setPreferredSize(new java.awt.Dimension(1440, 1024));
 
-        jLabel1.setText("Pemasok");
+        jPanel4.setPreferredSize(new java.awt.Dimension(1440, 1024));
+        jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1)
-                .addGap(18, 18, 18)
-                .addComponent(cmbSupplier, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(13, 13, 13)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(cmbSupplier, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(26, Short.MAX_VALUE))
-        );
-
-        btnCariProduk.setText("Cari & Pilih Produk");
-        btnCariProduk.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCariProdukActionPerformed(evt);
-            }
-        });
-
-        jLabel2.setText("Produk Terpilih");
-
-        txtNamaProduk.setEditable(false);
-
-        jLabel3.setText("Harga Beli");
-
-        txtHargaBeli.setEditable(false);
-
-        jLabel4.setText("Jumlah Pesan");
-
-        btnTambahItem.setText("Tambah Pesanan");
-        btnTambahItem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnTambahItemActionPerformed(evt);
-            }
-        });
-
-        btnHapusItem.setText("Hapus Item Terpilih");
-        btnHapusItem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnHapusItemActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(btnTambahItem)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 136, Short.MAX_VALUE)
-                        .addComponent(btnHapusItem))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnCariProduk)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel2)
-                                    .addComponent(jLabel3)
-                                    .addComponent(jLabel4))
-                                .addGap(18, 18, 18)
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(txtNamaProduk, javax.swing.GroupLayout.DEFAULT_SIZE, 133, Short.MAX_VALUE)
-                                    .addComponent(txtHargaBeli)
-                                    .addComponent(spnJumlah))))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(18, 18, 18)
-                .addComponent(btnCariProduk)
-                .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(txtNamaProduk, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(txtHargaBeli, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(spnJumlah, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnTambahItem)
-                    .addComponent(btnHapusItem))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+        cmbSupplier.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        jPanel4.add(cmbSupplier, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 190, 210, 30));
 
         tblOrderItems.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -239,56 +140,78 @@ public class PurchaseOrderForm extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(tblOrderItems);
 
-        lblGrandTotal.setText("Grand Total:");
+        jPanel4.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(282, 577, 1080, 260));
+        jPanel4.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 190, -1, -1));
 
-        btnBuatPesanan.setText("Buat Pesanan");
+        lblGrandTotal.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
+        jPanel4.add(lblGrandTotal, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 870, 450, 40));
+
+        btnBuatPesanan.setBorderPainted(false);
+        btnBuatPesanan.setContentAreaFilled(false);
         btnBuatPesanan.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnBuatPesananActionPerformed(evt);
             }
         });
+        jPanel4.add(btnBuatPesanan, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 930, 200, 60));
 
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblGrandTotal)
-                    .addComponent(btnBuatPesanan))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(lblGrandTotal)
-                .addGap(18, 18, 18)
-                .addComponent(btnBuatPesanan)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+        btnCariProduk.setBorderPainted(false);
+        btnCariProduk.setContentAreaFilled(false);
+        btnCariProduk.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCariProdukActionPerformed(evt);
+            }
+        });
+        jPanel4.add(btnCariProduk, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 180, 250, 50));
+
+        txtNamaProduk.setEditable(false);
+        txtNamaProduk.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        jPanel4.add(txtNamaProduk, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 282, 210, 30));
+
+        txtHargaBeli.setEditable(false);
+        txtHargaBeli.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        jPanel4.add(txtHargaBeli, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 350, 210, 30));
+
+        spnJumlah.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        jPanel4.add(spnJumlah, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 420, 210, 30));
+
+        btnTambahItem.setBorderPainted(false);
+        btnTambahItem.setContentAreaFilled(false);
+        btnTambahItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTambahItemActionPerformed(evt);
+            }
+        });
+        jPanel4.add(btnTambahItem, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 483, 270, 60));
+
+        btnHapusItem.setBorderPainted(false);
+        btnHapusItem.setContentAreaFilled(false);
+        btnHapusItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnHapusItemActionPerformed(evt);
+            }
+        });
+        jPanel4.add(btnHapusItem, new org.netbeans.lib.awtextra.AbsoluteConstraints(810, 483, 240, 60));
+        jPanel4.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 290, -1, -1));
+        jPanel4.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 360, -1, -1));
+        jPanel4.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 430, -1, -1));
+
+        BG_PesanProduk.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/Pemesanan Produk.png"))); // NOI18N
+        jPanel4.add(BG_PesanProduk, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 866, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
@@ -492,6 +415,7 @@ public class PurchaseOrderForm extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel BG_PesanProduk;
     private javax.swing.JButton btnBuatPesanan;
     private javax.swing.JButton btnCariProduk;
     private javax.swing.JButton btnHapusItem;
@@ -501,9 +425,7 @@ public class PurchaseOrderForm extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblGrandTotal;
     private javax.swing.JSpinner spnJumlah;

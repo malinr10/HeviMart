@@ -140,15 +140,20 @@ public class ProductSearchDialog extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel1 = new javax.swing.JPanel();
         tblProduk2 = new javax.swing.JScrollPane();
         tblProduk = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
         txtSearch = new javax.swing.JTextField();
         btnPilih = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
         cmbCategory = new javax.swing.JComboBox<>();
         btnReset = new javax.swing.JButton();
+        BG_ProductSearch = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         tblProduk.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -163,60 +168,64 @@ public class ProductSearchDialog extends javax.swing.JDialog {
         ));
         tblProduk2.setViewportView(tblProduk);
 
-        jLabel1.setText("Cari");
+        jPanel1.add(tblProduk2, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 297, 740, 380));
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 40, 140, 30));
 
+        txtSearch.setBorder(null);
         txtSearch.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txtSearchKeyReleased(evt);
             }
         });
+        jPanel1.add(txtSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 172, 250, 20));
 
-        btnPilih.setText("Pilih");
+        btnPilih.setBorderPainted(false);
+        btnPilih.setContentAreaFilled(false);
         btnPilih.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnPilihActionPerformed(evt);
             }
         });
+        jPanel1.add(btnPilih, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 170, 140, 30));
 
-        cmbCategory.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jLabel2.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
+        jLabel2.setText("Kategori");
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 250, -1, -1));
 
-        btnReset.setText("Reset");
+        cmbCategory.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Makanan", "Minuman", "Perabotan" }));
+        cmbCategory.setBorder(null);
+        cmbCategory.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbCategoryActionPerformed(evt);
+            }
+        });
+        jPanel1.add(cmbCategory, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 250, 390, 30));
+
+        btnReset.setBorderPainted(false);
+        btnReset.setContentAreaFilled(false);
         btnReset.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnResetActionPerformed(evt);
             }
         });
+        jPanel1.add(btnReset, new org.netbeans.lib.awtextra.AbsoluteConstraints(693, 162, 140, 40));
+
+        BG_ProductSearch.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/SearcgProductForm.png"))); // NOI18N
+        jPanel1.add(BG_ProductSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(tblProduk2, javax.swing.GroupLayout.DEFAULT_SIZE, 593, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(btnPilih)
-                .addGap(18, 18, 18)
-                .addComponent(cmbCategory, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(btnReset)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(17, 17, 17)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1)
-                    .addComponent(btnPilih)
-                    .addComponent(cmbCategory, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnReset))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
-                .addComponent(tblProduk2, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -252,6 +261,10 @@ public class ProductSearchDialog extends javax.swing.JDialog {
         cmbCategory.setSelectedIndex(0);
         loadProducts();
     }//GEN-LAST:event_btnResetActionPerformed
+
+    private void cmbCategoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbCategoryActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cmbCategoryActionPerformed
 
     /**
      * @param args the command line arguments
@@ -296,10 +309,13 @@ public class ProductSearchDialog extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel BG_ProductSearch;
     private javax.swing.JButton btnPilih;
     private javax.swing.JButton btnReset;
     private javax.swing.JComboBox<String> cmbCategory;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JTable tblProduk;
     private javax.swing.JScrollPane tblProduk2;
     private javax.swing.JTextField txtSearch;
