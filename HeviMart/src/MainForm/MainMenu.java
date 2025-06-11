@@ -249,6 +249,11 @@ public class MainMenu extends javax.swing.JFrame {
 
         btnPOS.setBorderPainted(false);
         btnPOS.setContentAreaFilled(false);
+        btnPOS.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPOSActionPerformed(evt);
+            }
+        });
         jPanel8.add(btnPOS, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 258, 160, 30));
 
         btnManajemenDiskon.setBorderPainted(false);
@@ -366,36 +371,43 @@ public class MainMenu extends javax.swing.JFrame {
     private void btnPelaporanKeuanganActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPelaporanKeuanganActionPerformed
         // TODO add your handling code here:
         new LaporanKeuanganForm().setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnPelaporanKeuanganActionPerformed
 
     private void btnPelaporanInventarisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPelaporanInventarisActionPerformed
         // TODO add your handling code here:
         new LaporanInventarisForm().setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnPelaporanInventarisActionPerformed
 
     private void btnPelaporanPenjualanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPelaporanPenjualanActionPerformed
         // TODO add your handling code here:
         new LaporanPenjualanForm().setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnPelaporanPenjualanActionPerformed
 
     private void btnInventarisPesananActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInventarisPesananActionPerformed
         // TODO add your handling code here:
         new GoodsReceiptForm().setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnInventarisPesananActionPerformed
 
     private void btnInventarisProdukActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInventarisProdukActionPerformed
         // TODO add your handling code here:
         new PurchaseOrderForm().setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnInventarisProdukActionPerformed
 
     private void btnInventarisSupplierActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInventarisSupplierActionPerformed
         // TODO add your handling code here:
         new SupplierForm().setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnInventarisSupplierActionPerformed
 
     private void btnManajemenProduk1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnManajemenProduk1ActionPerformed
         // TODO add your handling code here:
         new ProdukForm().setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnManajemenProduk1ActionPerformed
 
     private void btnManajemenProduk1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnManajemenProduk1MouseClicked
@@ -405,12 +417,20 @@ public class MainMenu extends javax.swing.JFrame {
     private void btnManajemenDiskonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnManajemenDiskonActionPerformed
         // TODO add your handling code here:
         new DiscountManagementForm().setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnManajemenDiskonActionPerformed
 
     private void btnManajemenPenggunaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnManajemenPenggunaActionPerformed
         // TODO add your handling code here:
         new UserManagement().setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnManajemenPenggunaActionPerformed
+
+    private void btnPOSActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPOSActionPerformed
+        // TODO add your handling code here:
+         new POSForm(loggedInUserId).setVisible(true);
+         this.dispose();
+    }//GEN-LAST:event_btnPOSActionPerformed
 
     /**
      * @param args the command line arguments
