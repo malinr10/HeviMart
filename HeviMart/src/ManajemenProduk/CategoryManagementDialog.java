@@ -84,6 +84,7 @@ public class CategoryManagementDialog extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         txtNamaKategori = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
@@ -94,31 +95,46 @@ public class CategoryManagementDialog extends javax.swing.JDialog {
         jScrollPane2 = new javax.swing.JScrollPane();
         tblKategori = new javax.swing.JTable();
         btnHapus = new javax.swing.JButton();
+        BG_KelolaKategori = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
 
-        jLabel1.setText("Nama Kategori");
+        jPanel1.setPreferredSize(new java.awt.Dimension(896, 746));
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 190, -1, -1));
 
-        jLabel2.setText("Deskripsi");
+        txtNamaKategori.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        txtNamaKategori.setBorder(null);
+        jPanel1.add(txtNamaKategori, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 180, 320, 30));
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 250, -1, -1));
+
+        jScrollPane1.setBorder(null);
+        jScrollPane1.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
 
         txtDeskripsi.setColumns(20);
         txtDeskripsi.setRows(5);
         jScrollPane1.setViewportView(txtDeskripsi);
 
-        btnSimpan.setText("Simpan");
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 250, 330, 80));
+
+        btnSimpan.setBorderPainted(false);
+        btnSimpan.setContentAreaFilled(false);
         btnSimpan.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSimpanActionPerformed(evt);
             }
         });
+        jPanel1.add(btnSimpan, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 390, 160, 30));
 
-        btnBaru.setText("Baru/Batal");
+        btnBaru.setBorderPainted(false);
+        btnBaru.setContentAreaFilled(false);
         btnBaru.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnBaruActionPerformed(evt);
             }
         });
+        jPanel1.add(btnBaru, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 390, 160, 30));
 
         tblKategori.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -133,64 +149,33 @@ public class CategoryManagementDialog extends javax.swing.JDialog {
         ));
         jScrollPane2.setViewportView(tblKategori);
 
-        btnHapus.setText("Hapus Kategori");
+        jPanel1.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 460, -1, 160));
+
+        btnHapus.setBorderPainted(false);
+        btnHapus.setContentAreaFilled(false);
         btnHapus.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnHapusActionPerformed(evt);
             }
         });
+        jPanel1.add(btnHapus, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 650, 230, 40));
+
+        BG_KelolaKategori.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/Kelola Kategori.png"))); // NOI18N
+        jPanel1.add(BG_KelolaKategori, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -4, -1, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(17, 17, 17)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel1)
-                                    .addComponent(jLabel2))
-                                .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(txtNamaKategori)
-                                        .addComponent(jScrollPane1))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(btnSimpan)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(btnBaru))))
-                            .addGroup(layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(btnHapus)))
-                        .addGap(0, 110, Short.MAX_VALUE))
-                    .addComponent(jScrollPane2))
-                .addContainerGap())
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(11, 11, 11)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(txtNamaKategori, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 106, Short.MAX_VALUE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnSimpan)
-                    .addComponent(btnBaru))
-                .addGap(29, 29, 29)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(btnHapus)
-                .addGap(31, 31, 31))
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
@@ -291,11 +276,13 @@ public class CategoryManagementDialog extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel BG_KelolaKategori;
     private javax.swing.JButton btnBaru;
     private javax.swing.JButton btnHapus;
     private javax.swing.JButton btnSimpan;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable tblKategori;

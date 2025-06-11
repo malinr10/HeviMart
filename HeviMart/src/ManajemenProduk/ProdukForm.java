@@ -130,129 +130,48 @@ public class ProdukForm extends javax.swing.JFrame {
     private void initComponents() {
 
         jComboBox1 = new javax.swing.JComboBox<>();
-        jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        txtSearch = new javax.swing.JTextField();
-        jLabel2 = new javax.swing.JLabel();
+        jPanel3 = new javax.swing.JPanel();
         cmbCategory = new javax.swing.JComboBox<>();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
         btnKelolaKategori = new javax.swing.JButton();
-        jPanel2 = new javax.swing.JPanel();
-        btnTambah = new javax.swing.JButton();
-        btnEdit = new javax.swing.JButton();
-        btnHapus = new javax.swing.JButton();
-        btnRefresh = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblProduk = new javax.swing.JTable();
+        btnRefresh = new javax.swing.JButton();
+        btnTambah = new javax.swing.JButton();
+        btnHapus = new javax.swing.JButton();
+        btnEdit = new javax.swing.JButton();
+        txtSearch = new javax.swing.JTextField();
+        BG_ManajemenProduk = new javax.swing.JLabel();
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
 
-        jLabel1.setText("Cari");
+        jPanel3.setPreferredSize(new java.awt.Dimension(1440, 1024));
+        jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel2.setText("Kategori");
-
+        cmbCategory.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         cmbCategory.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cmbCategory.setBorder(null);
         cmbCategory.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cmbCategoryActionPerformed(evt);
             }
         });
+        jPanel3.add(cmbCategory, new org.netbeans.lib.awtextra.AbsoluteConstraints(912, 272, 240, 70));
+        jPanel3.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(920, 230, -1, -1));
+        jPanel3.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 300, -1, -1));
 
-        btnKelolaKategori.setText("Kelola Kategori");
+        btnKelolaKategori.setBorderPainted(false);
+        btnKelolaKategori.setContentAreaFilled(false);
         btnKelolaKategori.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnKelolaKategoriActionPerformed(evt);
             }
         });
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel2)
-                .addGap(18, 18, 18)
-                .addComponent(cmbCategory, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(btnKelolaKategori)
-                .addContainerGap(116, Short.MAX_VALUE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(23, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2)
-                    .addComponent(cmbCategory, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnKelolaKategori))
-                .addGap(10, 10, 10))
-        );
-
-        btnTambah.setBackground(new java.awt.Color(1, 192, 42));
-        btnTambah.setForeground(new java.awt.Color(255, 255, 255));
-        btnTambah.setText("Tambah");
-        btnTambah.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnTambahActionPerformed(evt);
-            }
-        });
-
-        btnEdit.setText("Edit");
-        btnEdit.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEditActionPerformed(evt);
-            }
-        });
-
-        btnHapus.setText("Hapus");
-        btnHapus.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnHapusActionPerformed(evt);
-            }
-        });
-
-        btnRefresh.setText("Refresh");
-        btnRefresh.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnRefreshActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(24, 24, 24)
-                .addComponent(btnTambah, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(btnEdit)
-                .addGap(18, 18, 18)
-                .addComponent(btnHapus)
-                .addGap(18, 18, 18)
-                .addComponent(btnRefresh)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(17, 17, 17)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnTambah, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnEdit)
-                    .addComponent(btnHapus)
-                    .addComponent(btnRefresh))
-                .addContainerGap(25, Short.MAX_VALUE))
-        );
+        jPanel3.add(btnKelolaKategori, new org.netbeans.lib.awtextra.AbsoluteConstraints(1190, 280, 200, 50));
 
         tblProduk.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -267,27 +186,66 @@ public class ProdukForm extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(tblProduk);
 
+        jPanel3.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 450, 1040, -1));
+
+        btnRefresh.setBorderPainted(false);
+        btnRefresh.setContentAreaFilled(false);
+        btnRefresh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRefreshActionPerformed(evt);
+            }
+        });
+        jPanel3.add(btnRefresh, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 380, 60, 50));
+
+        btnTambah.setBackground(new java.awt.Color(1, 192, 42));
+        btnTambah.setForeground(new java.awt.Color(255, 255, 255));
+        btnTambah.setBorderPainted(false);
+        btnTambah.setContentAreaFilled(false);
+        btnTambah.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTambahActionPerformed(evt);
+            }
+        });
+        jPanel3.add(btnTambah, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 920, 250, 50));
+
+        btnHapus.setBorderPainted(false);
+        btnHapus.setContentAreaFilled(false);
+        btnHapus.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnHapusActionPerformed(evt);
+            }
+        });
+        jPanel3.add(btnHapus, new org.netbeans.lib.awtextra.AbsoluteConstraints(1070, 920, 230, 50));
+
+        btnEdit.setBorderPainted(false);
+        btnEdit.setContentAreaFilled(false);
+        btnEdit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditActionPerformed(evt);
+            }
+        });
+        jPanel3.add(btnEdit, new org.netbeans.lib.awtextra.AbsoluteConstraints(692, 913, 220, 60));
+
+        txtSearch.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
+        txtSearch.setBorder(null);
+        jPanel3.add(txtSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(359, 282, 500, 50));
+
+        BG_ManajemenProduk.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/Manajemen Produk.png"))); // NOI18N
+        jPanel3.add(BG_ManajemenProduk, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 101, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(14, 14, 14)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 643, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 255, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
@@ -398,6 +356,7 @@ public class ProdukForm extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel BG_ManajemenProduk;
     private javax.swing.JButton btnEdit;
     private javax.swing.JButton btnHapus;
     private javax.swing.JButton btnKelolaKategori;
@@ -407,8 +366,7 @@ public class ProdukForm extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tblProduk;
     private javax.swing.JTextField txtSearch;

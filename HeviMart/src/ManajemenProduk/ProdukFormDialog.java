@@ -108,7 +108,7 @@ public class ProdukFormDialog extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         txtNamaProduk = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
@@ -124,89 +124,91 @@ public class ProdukFormDialog extends javax.swing.JDialog {
         jLabel6 = new javax.swing.JLabel();
         txtStokMinimum = new javax.swing.JTextField();
         btnSimpan = new javax.swing.JToggleButton();
+        jButton1 = new javax.swing.JButton();
+        BG_FormProduk = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        jLabel1.setText("Nama Produk");
+        jPanel2.setPreferredSize(new java.awt.Dimension(896, 746));
+        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 190, -1, -1));
 
-        jLabel2.setText("Kode Barcode");
+        txtNamaProduk.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        txtNamaProduk.setBorder(null);
+        jPanel2.add(txtNamaProduk, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 183, 320, 30));
+        jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 250, -1, -1));
 
-        jLabel3.setText("Harga Beli");
+        txtBarcode.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        txtBarcode.setBorder(null);
+        jPanel2.add(txtBarcode, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 248, 320, 30));
+        jPanel2.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 320, -1, -1));
 
-        jLabel7.setText("Kategori");
+        txtHargaBeli.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        txtHargaBeli.setBorder(null);
+        txtHargaBeli.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtHargaBeliActionPerformed(evt);
+            }
+        });
+        jPanel2.add(txtHargaBeli, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 312, 320, 30));
+        jPanel2.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 380, -1, -1));
 
-        jLabel4.setText("Harga Jual");
+        cmbKategori.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        cmbKategori.setBorder(null);
+        jPanel2.add(cmbKategori, new org.netbeans.lib.awtextra.AbsoluteConstraints(402, 372, 350, 40));
+        jPanel2.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 450, -1, -1));
 
-        jLabel5.setText("Jumlah Stok");
+        txtHargaJual.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        txtHargaJual.setBorder(null);
+        txtHargaJual.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtHargaJualActionPerformed(evt);
+            }
+        });
+        jPanel2.add(txtHargaJual, new org.netbeans.lib.awtextra.AbsoluteConstraints(414, 440, 320, 30));
+        jPanel2.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 510, -1, -1));
 
+        txtStok.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        txtStok.setBorder(null);
         txtStok.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtStokActionPerformed(evt);
             }
         });
+        jPanel2.add(txtStok, new org.netbeans.lib.awtextra.AbsoluteConstraints(414, 503, 320, 30));
+        jPanel2.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 580, -1, -1));
 
-        jLabel6.setText("Stok Minimum");
+        txtStokMinimum.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        txtStokMinimum.setBorder(null);
+        txtStokMinimum.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtStokMinimumActionPerformed(evt);
+            }
+        });
+        jPanel2.add(txtStokMinimum, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 568, 330, 30));
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, 182, Short.MAX_VALUE)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(txtHargaJual)
-                    .addComponent(cmbKategori, 0, 265, Short.MAX_VALUE)
-                    .addComponent(txtHargaBeli)
-                    .addComponent(txtBarcode)
-                    .addComponent(txtNamaProduk)
-                    .addComponent(txtStok)
-                    .addComponent(txtStokMinimum))
-                .addGap(0, 3, Short.MAX_VALUE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(1, 1, 1)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtNamaProduk, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtBarcode, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtHargaBeli, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cmbKategori, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtHargaJual, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtStok, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtStokMinimum, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)))
-        );
-
-        getContentPane().add(jPanel1, java.awt.BorderLayout.CENTER);
-
-        btnSimpan.setText("Simpan");
+        btnSimpan.setBorderPainted(false);
+        btnSimpan.setContentAreaFilled(false);
         btnSimpan.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSimpanActionPerformed(evt);
             }
         });
-        getContentPane().add(btnSimpan, java.awt.BorderLayout.PAGE_END);
+        jPanel2.add(btnSimpan, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 660, 150, 30));
+
+        jButton1.setBorderPainted(false);
+        jButton1.setContentAreaFilled(false);
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        jPanel2.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 660, 160, 30));
+
+        BG_FormProduk.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/Tambah Produk.png"))); // NOI18N
+        jPanel2.add(BG_FormProduk, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+
+        getContentPane().add(jPanel2, java.awt.BorderLayout.PAGE_START);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -306,6 +308,24 @@ public class ProdukFormDialog extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_btnSimpanActionPerformed
 
+    private void txtHargaBeliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtHargaBeliActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtHargaBeliActionPerformed
+
+    private void txtHargaJualActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtHargaJualActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtHargaJualActionPerformed
+
+    private void txtStokMinimumActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtStokMinimumActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtStokMinimumActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        this.setVisible(false);
+        ProdukForm PMForm = new ProdukForm(); PMForm.setVisible(true);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -342,8 +362,10 @@ public class ProdukFormDialog extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel BG_FormProduk;
     private javax.swing.JToggleButton btnSimpan;
     private javax.swing.JComboBox<KategoriItem> cmbKategori;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -351,7 +373,7 @@ public class ProdukFormDialog extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JTextField txtBarcode;
     private javax.swing.JTextField txtHargaBeli;
     private javax.swing.JTextField txtHargaJual;
