@@ -72,6 +72,7 @@ public class DiscountManagementForm extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblDiscounts = new javax.swing.JTable();
         btnTambahDiskon = new javax.swing.JButton();
@@ -82,8 +83,11 @@ public class DiscountManagementForm extends javax.swing.JFrame {
         tblProducts = new javax.swing.JTable();
         btnApplyDiscount = new javax.swing.JButton();
         btnRemoveDiscount = new javax.swing.JButton();
+        BG_DiskonManagement = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         tblDiscounts.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -98,21 +102,30 @@ public class DiscountManagementForm extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(tblDiscounts);
 
-        btnTambahDiskon.setText("Tambah");
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 550, 620, -1));
+
+        btnTambahDiskon.setBorderPainted(false);
+        btnTambahDiskon.setContentAreaFilled(false);
         btnTambahDiskon.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnTambahDiskonActionPerformed(evt);
             }
         });
+        jPanel1.add(btnTambahDiskon, new org.netbeans.lib.awtextra.AbsoluteConstraints(940, 172, 240, 50));
 
-        btnEditDiskon.setText("Edit");
+        btnEditDiskon.setBorderPainted(false);
+        btnEditDiskon.setContentAreaFilled(false);
         btnEditDiskon.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEditDiskonActionPerformed(evt);
             }
         });
+        jPanel1.add(btnEditDiskon, new org.netbeans.lib.awtextra.AbsoluteConstraints(942, 293, 240, 50));
 
-        btnHapusDiskon.setText("Hapus");
+        btnHapusDiskon.setBorderPainted(false);
+        btnHapusDiskon.setContentAreaFilled(false);
+        jPanel1.add(btnHapusDiskon, new org.netbeans.lib.awtextra.AbsoluteConstraints(940, 412, 240, 50));
+        jPanel1.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         tblProducts.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -127,60 +140,37 @@ public class DiscountManagementForm extends javax.swing.JFrame {
         ));
         jScrollPane2.setViewportView(tblProducts);
 
-        btnApplyDiscount.setText("Terapkan Diskon ke Produk ");
+        jPanel1.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 40, 620, -1));
+
+        btnApplyDiscount.setBorderPainted(false);
+        btnApplyDiscount.setContentAreaFilled(false);
         btnApplyDiscount.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnApplyDiscountActionPerformed(evt);
             }
         });
+        jPanel1.add(btnApplyDiscount, new org.netbeans.lib.awtextra.AbsoluteConstraints(940, 650, 340, 60));
 
-        btnRemoveDiscount.setText("Hapus Diskon dari Produk");
+        btnRemoveDiscount.setBorderPainted(false);
+        btnRemoveDiscount.setContentAreaFilled(false);
+        jPanel1.add(btnRemoveDiscount, new org.netbeans.lib.awtextra.AbsoluteConstraints(940, 750, 350, 60));
+
+        BG_DiskonManagement.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/Manajemen Diskon.png"))); // NOI18N
+        jPanel1.add(BG_DiskonManagement, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnEditDiskon)
-                    .addComponent(btnTambahDiskon)
-                    .addComponent(btnHapusDiskon))
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnApplyDiscount, javax.swing.GroupLayout.DEFAULT_SIZE, 206, Short.MAX_VALUE)
-                    .addComponent(btnRemoveDiscount, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(16, 16, 16)
-                        .addComponent(btnTambahDiskon)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnEditDiskon)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnHapusDiskon))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(23, 23, 23)
-                        .addComponent(btnApplyDiscount)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnRemoveDiscount)))
-                .addGap(0, 6, Short.MAX_VALUE))
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
@@ -270,11 +260,13 @@ public class DiscountManagementForm extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel BG_DiskonManagement;
     private javax.swing.JButton btnApplyDiscount;
     private javax.swing.JButton btnEditDiskon;
     private javax.swing.JButton btnHapusDiskon;
     private javax.swing.JButton btnRemoveDiscount;
     private javax.swing.JButton btnTambahDiskon;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;

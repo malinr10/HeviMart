@@ -65,6 +65,8 @@ public class AddEditDiscountDialog extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel1 = new javax.swing.JPanel();
+        JUDUL = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         txtNamaDiskon = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
@@ -77,92 +79,86 @@ public class AddEditDiscountDialog extends javax.swing.JDialog {
         spnNilai = new javax.swing.JSpinner();
         chkAktif = new javax.swing.JCheckBox();
         btnSimpan = new javax.swing.JButton();
+        btnBatal = new javax.swing.JButton();
+        BG_FormDiskon = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        jLabel1.setText("Nama Diskon");
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel2.setText("Tipe");
+        JUDUL.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 36)); // NOI18N
+        JUDUL.setForeground(new java.awt.Color(255, 255, 255));
+        JUDUL.setText("Form Tambah Diskon");
+        jPanel1.add(JUDUL, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 43, -1, 50));
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 190, -1, -1));
 
+        txtNamaDiskon.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        txtNamaDiskon.setBorder(null);
+        jPanel1.add(txtNamaDiskon, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 182, 320, 30));
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 260, -1, -1));
+
+        cmbTipe.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         cmbTipe.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "persen", "nominal" }));
+        cmbTipe.setBorder(null);
+        jPanel1.add(cmbTipe, new org.netbeans.lib.awtextra.AbsoluteConstraints(402, 242, 350, 40));
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 320, -1, -1));
+        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 380, -1, -1));
+        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 440, 20, 20));
 
-        jLabel3.setText("Nilai");
-
-        jLabel4.setText("Tanggal Mulai");
-
-        jLabel5.setText("Tanggal Akhir");
-
+        txtTanggalMulai.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         txtTanggalMulai.setToolTipText("YYYY-MM-DD");
+        txtTanggalMulai.setBorder(null);
+        jPanel1.add(txtTanggalMulai, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 377, 320, 30));
 
+        txtTanggalAkhir.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         txtTanggalAkhir.setToolTipText("YYYY-MM-DD");
+        txtTanggalAkhir.setBorder(null);
+        jPanel1.add(txtTanggalAkhir, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 441, 320, 30));
 
-        chkAktif.setText("Aktifkan Diskon Ini");
+        spnNilai.setBorder(null);
+        jPanel1.add(spnNilai, new org.netbeans.lib.awtextra.AbsoluteConstraints(403, 307, 350, 40));
 
-        btnSimpan.setText("Simpan");
+        chkAktif.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                chkAktifActionPerformed(evt);
+            }
+        });
+        jPanel1.add(chkAktif, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 603, -1, 20));
+
+        btnSimpan.setBorderPainted(false);
+        btnSimpan.setContentAreaFilled(false);
         btnSimpan.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSimpanActionPerformed(evt);
             }
         });
+        jPanel1.add(btnSimpan, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 660, 170, 40));
+
+        btnBatal.setBorderPainted(false);
+        btnBatal.setContentAreaFilled(false);
+        btnBatal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBatalActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnBatal, new org.netbeans.lib.awtextra.AbsoluteConstraints(225, 663, 170, 30));
+
+        BG_FormDiskon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/Form Diskon.png"))); // NOI18N
+        jPanel1.add(BG_FormDiskon, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addGroup(layout.createSequentialGroup()
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel1)
-                                .addComponent(jLabel2)
-                                .addComponent(jLabel3))
-                            .addGap(18, 18, 18)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(cmbTipe, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(txtNamaDiskon, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(spnNilai, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(jLabel4)
-                            .addGap(18, 18, 18)
-                            .addComponent(txtTanggalMulai))
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(jLabel5)
-                            .addGap(18, 18, 18)
-                            .addComponent(txtTanggalAkhir)))
-                    .addComponent(chkAktif, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnSimpan))
-                .addContainerGap(147, Short.MAX_VALUE))
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(17, 17, 17)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(txtNamaDiskon, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2)
-                    .addComponent(cmbTipe, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(spnNilai, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(21, 21, 21)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(txtTanggalMulai, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(txtTanggalAkhir, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(28, 28, 28)
-                .addComponent(chkAktif)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnSimpan)
-                .addContainerGap(15, Short.MAX_VALUE))
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -206,6 +202,16 @@ public class AddEditDiscountDialog extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_btnSimpanActionPerformed
 
+    private void chkAktifActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkAktifActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_chkAktifActionPerformed
+
+    private void btnBatalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBatalActionPerformed
+        // TODO add your handling code here:
+        this.setVisible(false);
+        DiscountManagementForm DMForm = new DiscountManagementForm(); DMForm.setVisible(true);
+    }//GEN-LAST:event_btnBatalActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -214,6 +220,9 @@ public class AddEditDiscountDialog extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel BG_FormDiskon;
+    private javax.swing.JLabel JUDUL;
+    private javax.swing.JButton btnBatal;
     private javax.swing.JButton btnSimpan;
     private javax.swing.JCheckBox chkAktif;
     private javax.swing.JComboBox<String> cmbTipe;
@@ -222,6 +231,7 @@ public class AddEditDiscountDialog extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JSpinner spnNilai;
     private javax.swing.JTextField txtNamaDiskon;
     private javax.swing.JTextField txtTanggalAkhir;
