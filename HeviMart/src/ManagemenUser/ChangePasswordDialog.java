@@ -123,14 +123,11 @@ public class ChangePasswordDialog extends javax.swing.JDialog {
 
         jLabel6.setText("Konfirmasi Password:");
 
-        txtNewPassword.setText("jPasswordField1");
         txtNewPassword.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtNewPasswordActionPerformed(evt);
             }
         });
-
-        txtConfirmNewPassword.setText("jPasswordField2");
 
         btnBatal.setText("batal");
 
@@ -154,16 +151,16 @@ public class ChangePasswordDialog extends javax.swing.JDialog {
                             .addComponent(jLabel2)
                             .addComponent(jLabel1))
                         .addGap(57, 57, 57)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel3)
                             .addComponent(lblUsername)
-                            .addComponent(txtNewPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtConfirmNewPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnSimpan)))
+                            .addComponent(btnSimpan)
+                            .addComponent(txtNewPassword, javax.swing.GroupLayout.DEFAULT_SIZE, 115, Short.MAX_VALUE)
+                            .addComponent(txtConfirmNewPassword)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(125, 125, 125)
                         .addComponent(jLabel7)))
-                .addContainerGap(114, Short.MAX_VALUE))
+                .addContainerGap(89, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
