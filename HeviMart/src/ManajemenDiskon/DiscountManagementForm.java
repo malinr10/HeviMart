@@ -153,6 +153,11 @@ public class DiscountManagementForm extends javax.swing.JFrame {
 
         btnRemoveDiscount.setBorderPainted(false);
         btnRemoveDiscount.setContentAreaFilled(false);
+        btnRemoveDiscount.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRemoveDiscountActionPerformed(evt);
+            }
+        });
         jPanel1.add(btnRemoveDiscount, new org.netbeans.lib.awtextra.AbsoluteConstraints(940, 750, 350, 60));
 
         BG_DiskonManagement.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/Manajemen Diskon.png"))); // NOI18N
@@ -187,12 +192,11 @@ public class DiscountManagementForm extends javax.swing.JFrame {
         }
 
         int idDiskon = (int) tblDiscounts.getValueAt(selectedDiscountRow, 0);
-        
+
         // INSERT IGNORE digunakan agar tidak terjadi error jika relasi sudah ada (duplicate entry)
         String sql = "INSERT IGNORE INTO DISKON_PRODUK (id_diskon, id_produk) VALUES (?, ?)";
-        try (Connection conn = koneksi.getKoneksi();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            
+        try (Connection conn = koneksi.getKoneksi(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
             for (int row : selectedProductRows) {
                 int idProduk = (int) tblProducts.getValueAt(row, 0);
                 pstmt.setInt(1, idDiskon);
@@ -223,6 +227,72 @@ public class DiscountManagementForm extends javax.swing.JFrame {
         new AddEditDiscountDialog(this, true, discountId).setVisible(true);
         loadDiscounts();
     }//GEN-LAST:event_btnEditDiskonActionPerformed
+
+    private void btnRemoveDiscountActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoveDiscountActionPerformed
+        // TODO add your handling code here:
+        // 1. Dapatkan baris yang dipilih dari kedua tabel
+        int selectedDiscountRow = tblDiscounts.getSelectedRow();
+        int[] selectedProductRows = tblProducts.getSelectedRows();
+
+        // 2. Validasi apakah pengguna sudah memilih diskon dan produk
+        if (selectedDiscountRow == -1 || selectedProductRows.length == 0) {
+            JOptionPane.showMessageDialog(this,
+                    "Harap pilih satu diskon dan minimal satu produk yang diskonnya akan dihapus.",
+                    "Peringatan",
+                    JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        // 3. Dapatkan ID diskon yang dipilih untuk digunakan dalam query dan pesan konfirmasi
+        int idDiskon = (int) tblDiscounts.getValueAt(selectedDiscountRow, 0);
+        String namaDiskon = (String) tblDiscounts.getValueAt(selectedDiscountRow, 1);
+
+        // 4. Minta konfirmasi dari pengguna sebelum menghapus
+        int confirm = JOptionPane.showConfirmDialog(this,
+                "Apakah Anda yakin ingin menghapus diskon '" + namaDiskon + "' dari produk yang dipilih?",
+                "Konfirmasi Hapus Relasi Diskon",
+                JOptionPane.YES_NO_OPTION);
+
+        if (confirm != JOptionPane.YES_OPTION) {
+            return; // Batalkan proses jika pengguna memilih 'Tidak'
+        }
+
+        // 5. Siapkan query SQL untuk menghapus data dari tabel relasi DISKON_PRODUK
+        String sql = "DELETE FROM DISKON_PRODUK WHERE id_diskon = ? AND id_produk = ?";
+
+        try (Connection conn = koneksi.getKoneksi(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            conn.setAutoCommit(false); // Mulai transaksi
+
+            // 6. Lakukan iterasi untuk setiap produk yang dipilih
+            for (int row : selectedProductRows) {
+                int idProduk = (int) tblProducts.getValueAt(row, 0);
+
+                // Set parameter untuk query DELETE
+                pstmt.setInt(1, idDiskon);
+                pstmt.setInt(2, idProduk);
+
+                // Tambahkan perintah ke dalam batch
+                pstmt.addBatch();
+            }
+
+            // 7. Eksekusi semua perintah dalam batch
+            pstmt.executeBatch();
+            conn.commit(); // Selesaikan transaksi jika semua berhasil
+
+            JOptionPane.showMessageDialog(this,
+                    "Diskon berhasil dihapus dari produk terpilih.",
+                    "Sukses",
+                    JOptionPane.INFORMATION_MESSAGE);
+
+        } catch (Exception e) {
+            // Tampilkan pesan error jika terjadi kegagalan
+            JOptionPane.showMessageDialog(this,
+                    "Gagal menghapus diskon dari produk: " + e.getMessage(),
+                    "Error Database",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnRemoveDiscountActionPerformed
 
     /**
      * @param args the command line arguments

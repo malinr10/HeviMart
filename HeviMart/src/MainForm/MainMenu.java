@@ -3,8 +3,16 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package MainForm;
+import Pelaporan.LaporanKeuanganForm;
 import Login.Login;
+import ManagemenUser.UserManagement;
+import ManajemenDiskon.DiscountManagementForm;
+import ManajemenInventori.GoodsReceiptForm;
+import ManajemenInventori.PurchaseOrderForm;
+import ManajemenInventori.SupplierForm;
 import ManajemenProduk.ProdukForm;
+import Pelaporan.LaporanInventarisForm;
+import Pelaporan.LaporanPenjualanForm;
 import PosSistem.POSForm;
 import util.koneksi;
 import java.sql.Connection;
@@ -241,7 +249,12 @@ public class MainMenu extends javax.swing.JFrame {
 
         btnPOS.setBorderPainted(false);
         btnPOS.setContentAreaFilled(false);
-        jPanel8.add(btnPOS, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 258, 80, 30));
+        btnPOS.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPOSActionPerformed(evt);
+            }
+        });
+        jPanel8.add(btnPOS, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 258, 160, 30));
 
         btnManajemenDiskon.setBorderPainted(false);
         btnManajemenDiskon.setContentAreaFilled(false);
@@ -273,7 +286,7 @@ public class MainMenu extends javax.swing.JFrame {
                 btnInventarisSupplierActionPerformed(evt);
             }
         });
-        jPanel8.add(btnInventarisSupplier, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 502, 60, 20));
+        jPanel8.add(btnInventarisSupplier, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 502, 110, 20));
 
         btnInventarisProduk.setBorderPainted(false);
         btnInventarisProduk.setContentAreaFilled(false);
@@ -282,7 +295,7 @@ public class MainMenu extends javax.swing.JFrame {
                 btnInventarisProdukActionPerformed(evt);
             }
         });
-        jPanel8.add(btnInventarisProduk, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 530, 80, 30));
+        jPanel8.add(btnInventarisProduk, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 530, 110, 30));
 
         btnInventarisPesanan.setBorderPainted(false);
         btnInventarisPesanan.setContentAreaFilled(false);
@@ -291,10 +304,15 @@ public class MainMenu extends javax.swing.JFrame {
                 btnInventarisPesananActionPerformed(evt);
             }
         });
-        jPanel8.add(btnInventarisPesanan, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 570, 80, 30));
+        jPanel8.add(btnInventarisPesanan, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 570, 110, 30));
 
         btnManajemenPengguna.setBorderPainted(false);
         btnManajemenPengguna.setContentAreaFilled(false);
+        btnManajemenPengguna.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnManajemenPenggunaActionPerformed(evt);
+            }
+        });
         jPanel8.add(btnManajemenPengguna, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 610, 160, 60));
 
         btnPelaporanPenjualan.setBorderPainted(false);
@@ -304,7 +322,7 @@ public class MainMenu extends javax.swing.JFrame {
                 btnPelaporanPenjualanActionPerformed(evt);
             }
         });
-        jPanel8.add(btnPelaporanPenjualan, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 720, 70, 20));
+        jPanel8.add(btnPelaporanPenjualan, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 720, 110, 20));
 
         btnPelaporanInventaris.setBorderPainted(false);
         btnPelaporanInventaris.setContentAreaFilled(false);
@@ -313,7 +331,7 @@ public class MainMenu extends javax.swing.JFrame {
                 btnPelaporanInventarisActionPerformed(evt);
             }
         });
-        jPanel8.add(btnPelaporanInventaris, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 745, 70, 20));
+        jPanel8.add(btnPelaporanInventaris, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 745, 110, 20));
 
         btnPelaporanKeuangan.setBorderPainted(false);
         btnPelaporanKeuangan.setContentAreaFilled(false);
@@ -352,31 +370,44 @@ public class MainMenu extends javax.swing.JFrame {
 
     private void btnPelaporanKeuanganActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPelaporanKeuanganActionPerformed
         // TODO add your handling code here:
+        new LaporanKeuanganForm().setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnPelaporanKeuanganActionPerformed
 
     private void btnPelaporanInventarisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPelaporanInventarisActionPerformed
         // TODO add your handling code here:
+        new LaporanInventarisForm().setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnPelaporanInventarisActionPerformed
 
     private void btnPelaporanPenjualanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPelaporanPenjualanActionPerformed
         // TODO add your handling code here:
+        new LaporanPenjualanForm().setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnPelaporanPenjualanActionPerformed
 
     private void btnInventarisPesananActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInventarisPesananActionPerformed
         // TODO add your handling code here:
+        new GoodsReceiptForm().setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnInventarisPesananActionPerformed
 
     private void btnInventarisProdukActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInventarisProdukActionPerformed
         // TODO add your handling code here:
+        new PurchaseOrderForm().setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnInventarisProdukActionPerformed
 
     private void btnInventarisSupplierActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInventarisSupplierActionPerformed
         // TODO add your handling code here:
+        new SupplierForm().setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnInventarisSupplierActionPerformed
 
     private void btnManajemenProduk1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnManajemenProduk1ActionPerformed
         // TODO add your handling code here:
         new ProdukForm().setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnManajemenProduk1ActionPerformed
 
     private void btnManajemenProduk1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnManajemenProduk1MouseClicked
@@ -385,8 +416,21 @@ public class MainMenu extends javax.swing.JFrame {
 
     private void btnManajemenDiskonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnManajemenDiskonActionPerformed
         // TODO add your handling code here:
-        new POSForm(this.loggedInUserId).setVisible(true);
+        new DiscountManagementForm().setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnManajemenDiskonActionPerformed
+
+    private void btnManajemenPenggunaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnManajemenPenggunaActionPerformed
+        // TODO add your handling code here:
+        new UserManagement().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnManajemenPenggunaActionPerformed
+
+    private void btnPOSActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPOSActionPerformed
+        // TODO add your handling code here:
+         new POSForm(loggedInUserId).setVisible(true);
+         this.dispose();
+    }//GEN-LAST:event_btnPOSActionPerformed
 
     /**
      * @param args the command line arguments
