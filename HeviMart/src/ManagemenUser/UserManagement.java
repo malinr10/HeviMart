@@ -193,52 +193,29 @@ public class UserManagement extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel2 = new javax.swing.JPanel();
         btnGantiPswd = new javax.swing.JButton();
         btnEditUser = new javax.swing.JButton();
-        btnDeleteUser = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
-        txtSearch = new javax.swing.JTextField();
-        jLabel2 = new javax.swing.JLabel();
-        btnTambahUser = new javax.swing.JButton();
-        jLabel3 = new javax.swing.JLabel();
-        btnRefresh = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblPengguna = new javax.swing.JTable();
+        btnDeleteUser = new javax.swing.JButton();
+        txtSearch = new javax.swing.JTextField();
+        btnTambahUser = new javax.swing.JButton();
+        btnRefresh = new javax.swing.JButton();
+        BG_UserManagement = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setPreferredSize(new java.awt.Dimension(1440, 1024));
 
-        btnGantiPswd.setText("editpswd");
+        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        btnEditUser.setText("edituser");
+        btnGantiPswd.setBorderPainted(false);
+        btnGantiPswd.setContentAreaFilled(false);
+        jPanel2.add(btnGantiPswd, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 913, 220, 60));
 
-        btnDeleteUser.setText("delete");
-        btnDeleteUser.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnDeleteUserActionPerformed(evt);
-            }
-        });
-
-        jLabel1.setText("User Managemenrt");
-
-        txtSearch.setText("search");
-        txtSearch.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtSearchActionPerformed(evt);
-            }
-        });
-
-        jLabel2.setText("icon");
-
-        btnTambahUser.setText("tambah");
-        btnTambahUser.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnTambahUserActionPerformed(evt);
-            }
-        });
-
-        jLabel3.setText("User Detail");
-
-        btnRefresh.setText("refresh");
+        btnEditUser.setBorderPainted(false);
+        btnEditUser.setContentAreaFilled(false);
+        jPanel2.add(btnEditUser, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 920, 220, 50));
 
         tblPengguna.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -248,62 +225,58 @@ public class UserManagement extends javax.swing.JFrame {
                 {null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "ID", "Nama Lengkap", "Username", "Role"
             }
         ));
         tblPengguna.setName(""); // NOI18N
         jScrollPane1.setViewportView(tblPengguna);
 
+        jPanel2.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 450, 1100, -1));
+
+        btnDeleteUser.setBorderPainted(false);
+        btnDeleteUser.setContentAreaFilled(false);
+        btnDeleteUser.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteUserActionPerformed(evt);
+            }
+        });
+        jPanel2.add(btnDeleteUser, new org.netbeans.lib.awtextra.AbsoluteConstraints(1073, 920, 220, 50));
+
+        txtSearch.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        txtSearch.setBorder(null);
+        txtSearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtSearchActionPerformed(evt);
+            }
+        });
+        jPanel2.add(txtSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 282, 680, 50));
+
+        btnTambahUser.setBorderPainted(false);
+        btnTambahUser.setContentAreaFilled(false);
+        btnTambahUser.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTambahUserActionPerformed(evt);
+            }
+        });
+        jPanel2.add(btnTambahUser, new org.netbeans.lib.awtextra.AbsoluteConstraints(1160, 280, 220, 50));
+
+        btnRefresh.setBorderPainted(false);
+        btnRefresh.setContentAreaFilled(false);
+        jPanel2.add(btnRefresh, new org.netbeans.lib.awtextra.AbsoluteConstraints(468, 383, 60, 50));
+
+        BG_UserManagement.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/Manajemen User.png"))); // NOI18N
+        jPanel2.add(BG_UserManagement, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+        BG_UserManagement.getAccessibleContext().setAccessibleName("");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(33, 33, 33)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnGantiPswd)
-                        .addGap(76, 76, 76)
-                        .addComponent(btnEditUser)
-                        .addGap(73, 73, 73)
-                        .addComponent(btnDeleteUser))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(jLabel3)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(btnRefresh))
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(jLabel2)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 261, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(18, 18, 18)
-                            .addComponent(btnTambahUser))
-                        .addComponent(jLabel1)))
-                .addContainerGap(82, Short.MAX_VALUE))
+            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(25, 25, 25)
-                .addComponent(jLabel1)
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2)
-                    .addComponent(btnTambahUser))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(btnRefresh))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnGantiPswd)
-                    .addComponent(btnEditUser)
-                    .addComponent(btnDeleteUser))
-                .addGap(22, 22, 22))
+            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -358,14 +331,13 @@ public class UserManagement extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel BG_UserManagement;
     private javax.swing.JButton btnDeleteUser;
     private javax.swing.JButton btnEditUser;
     private javax.swing.JButton btnGantiPswd;
     private javax.swing.JButton btnRefresh;
     private javax.swing.JButton btnTambahUser;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tblPengguna;
     private javax.swing.JTextField txtSearch;
