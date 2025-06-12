@@ -47,8 +47,8 @@ public class AddEditDiscountDialog extends javax.swing.JDialog {
                 txtNamaDiskon.setText(rs.getString("nama_diskon"));
                 cmbTipe.setSelectedItem(rs.getString("tipe_diskon"));
                 spnNilai.setValue(rs.getBigDecimal("nilai"));
-                txtTanggalMulai.setText(rs.getDate("mulai_berlaku").toString());
-                txtTanggalAkhir.setText(rs.getDate("akhir_berlaku").toString());
+                dateAwal.setDate(rs.getDate("mulai_berlaku"));
+                dateAkhir.setDate(rs.getDate("akhir_berlaku"));
                 chkAktif.setSelected(rs.getBoolean("aktif"));
             }
         } catch (Exception e) {
@@ -74,12 +74,12 @@ public class AddEditDiscountDialog extends javax.swing.JDialog {
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        txtTanggalMulai = new javax.swing.JTextField();
-        txtTanggalAkhir = new javax.swing.JTextField();
         spnNilai = new javax.swing.JSpinner();
         chkAktif = new javax.swing.JCheckBox();
         btnSimpan = new javax.swing.JButton();
         btnBatal = new javax.swing.JButton();
+        dateAkhir = new com.toedter.calendar.JDateChooser();
+        dateAwal = new com.toedter.calendar.JDateChooser();
         BG_FormDiskon = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -104,16 +104,6 @@ public class AddEditDiscountDialog extends javax.swing.JDialog {
         jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 320, -1, -1));
         jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 380, -1, -1));
         jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 440, 20, 20));
-
-        txtTanggalMulai.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        txtTanggalMulai.setToolTipText("YYYY-MM-DD");
-        txtTanggalMulai.setBorder(null);
-        jPanel1.add(txtTanggalMulai, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 377, 320, 30));
-
-        txtTanggalAkhir.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        txtTanggalAkhir.setToolTipText("YYYY-MM-DD");
-        txtTanggalAkhir.setBorder(null);
-        jPanel1.add(txtTanggalAkhir, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 441, 320, 30));
 
         spnNilai.setBorder(null);
         jPanel1.add(spnNilai, new org.netbeans.lib.awtextra.AbsoluteConstraints(403, 307, 350, 40));
@@ -142,6 +132,8 @@ public class AddEditDiscountDialog extends javax.swing.JDialog {
             }
         });
         jPanel1.add(btnBatal, new org.netbeans.lib.awtextra.AbsoluteConstraints(225, 663, 170, 30));
+        jPanel1.add(dateAkhir, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 440, 350, 40));
+        jPanel1.add(dateAwal, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 372, 350, 40));
 
         BG_FormDiskon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/Form Diskon.png"))); // NOI18N
         jPanel1.add(BG_FormDiskon, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
@@ -172,11 +164,27 @@ public class AddEditDiscountDialog extends javax.swing.JDialog {
             return;
         }
 
+        // PERBAIKAN 1: Menggunakan JDateChooser untuk mengambil tanggal
+        java.util.Date tglMulai = dateAwal.getDate();
+        java.util.Date tglAkhir = dateAkhir.getDate();
+
+        if (tglMulai == null || tglAkhir == null) {
+            JOptionPane.showMessageDialog(this, "Tanggal mulai dan akhir harus diisi.");
+            return;
+        }
+        
+        // Konversi dari java.util.Date ke java.sql.Date
+        Date sqlTglMulai = new Date(tglMulai.getTime());
+        Date sqlTglAkhir = new Date(tglAkhir.getTime());
+
+
         try (Connection conn = koneksi.getKoneksi()) {
             PreparedStatement pstmt;
             if (this.discountId == 0) { // Mode Tambah
                 String sql = "INSERT INTO DISKON (nama_diskon, tipe_diskon, nilai, mulai_berlaku, akhir_berlaku, aktif, id_pengguna_pembuat) VALUES (?, ?, ?, ?, ?, ?, ?)";
                 pstmt = conn.prepareStatement(sql);
+                // Ganti dengan ID user yang sedang login dari UserSession
+                pstmt.setInt(7, util.UserSession.getInstance().getIdPengguna()); 
             } else { // Mode Edit
                 String sql = "UPDATE DISKON SET nama_diskon=?, tipe_diskon=?, nilai=?, mulai_berlaku=?, akhir_berlaku=?, aktif=? WHERE id_diskon=?";
                 pstmt = conn.prepareStatement(sql);
@@ -186,12 +194,13 @@ public class AddEditDiscountDialog extends javax.swing.JDialog {
             pstmt.setString(1, txtNamaDiskon.getText());
             pstmt.setString(2, (String) cmbTipe.getSelectedItem());
             pstmt.setBigDecimal(3, new BigDecimal(spnNilai.getValue().toString()));
-            pstmt.setDate(4, Date.valueOf(txtTanggalMulai.getText())); // Format YYYY-MM-DD
-            pstmt.setDate(5, Date.valueOf(txtTanggalAkhir.getText()));
+            
+            // Set tanggal menggunakan objek java.sql.Date yang sudah dikonversi
+            pstmt.setDate(4, sqlTglMulai);
+            pstmt.setDate(5, sqlTglAkhir);
+            
             pstmt.setBoolean(6, chkAktif.isSelected());
-            if (this.discountId == 0) {
-                pstmt.setInt(7, 1); // Ganti dengan ID user login
-            }
+            
             pstmt.executeUpdate();
             JOptionPane.showMessageDialog(this, "Data diskon berhasil disimpan!");
             this.dispose();
@@ -226,6 +235,8 @@ public class AddEditDiscountDialog extends javax.swing.JDialog {
     private javax.swing.JButton btnSimpan;
     private javax.swing.JCheckBox chkAktif;
     private javax.swing.JComboBox<String> cmbTipe;
+    private com.toedter.calendar.JDateChooser dateAkhir;
+    private com.toedter.calendar.JDateChooser dateAwal;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -234,7 +245,5 @@ public class AddEditDiscountDialog extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JSpinner spnNilai;
     private javax.swing.JTextField txtNamaDiskon;
-    private javax.swing.JTextField txtTanggalAkhir;
-    private javax.swing.JTextField txtTanggalMulai;
     // End of variables declaration//GEN-END:variables
 }
