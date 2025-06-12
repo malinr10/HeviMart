@@ -83,16 +83,16 @@ public class Profile extends javax.swing.JFrame {
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         lblNama_Lengkap.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        jPanel1.add(lblNama_Lengkap, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 518, 470, 30));
+        jPanel1.add(lblNama_Lengkap, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 407, 470, 30));
 
         lblRole.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        jPanel1.add(lblRole, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 592, 470, 30));
+        jPanel1.add(lblRole, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 480, 470, 30));
 
         lblEmail.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        jPanel1.add(lblEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 670, 470, 30));
+        jPanel1.add(lblEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 557, 470, 30));
 
         lblTelepon.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        jPanel1.add(lblTelepon, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 742, 470, 30));
+        jPanel1.add(lblTelepon, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 630, 470, 30));
 
         btnEdit.setBorderPainted(false);
         btnEdit.setContentAreaFilled(false);
@@ -101,7 +101,7 @@ public class Profile extends javax.swing.JFrame {
                 btnEditActionPerformed(evt);
             }
         });
-        jPanel1.add(btnEdit, new org.netbeans.lib.awtextra.AbsoluteConstraints(972, 838, 160, 50));
+        jPanel1.add(btnEdit, new org.netbeans.lib.awtextra.AbsoluteConstraints(910, 720, 160, 50));
 
         BG_Profile.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/Profile.png"))); // NOI18N
         jPanel1.add(BG_Profile, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
@@ -110,11 +110,11 @@ public class Profile extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 1025, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 728, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();

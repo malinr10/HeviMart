@@ -76,18 +76,23 @@ private int id_pengguna;
 
         txtTelepon.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         txtTelepon.setBorder(null);
-        jPanel1.add(txtTelepon, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 742, 470, 30));
+        jPanel1.add(txtTelepon, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 630, 470, 30));
 
         txtNamaLengkap.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         txtNamaLengkap.setBorder(null);
-        jPanel1.add(txtNamaLengkap, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 520, 470, 30));
+        jPanel1.add(txtNamaLengkap, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 407, 470, 30));
 
         txtEmail.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         txtEmail.setBorder(null);
-        jPanel1.add(txtEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 667, 470, 30));
+        txtEmail.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtEmailActionPerformed(evt);
+            }
+        });
+        jPanel1.add(txtEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 557, 470, 30));
 
         txtRole.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        jPanel1.add(txtRole, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 593, 470, 30));
+        jPanel1.add(txtRole, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 480, 470, 30));
 
         btnSimpan.setBorderPainted(false);
         btnSimpan.setContentAreaFilled(false);
@@ -96,9 +101,9 @@ private int id_pengguna;
                 btnSimpanActionPerformed(evt);
             }
         });
-        jPanel1.add(btnSimpan, new org.netbeans.lib.awtextra.AbsoluteConstraints(972, 837, 160, 50));
+        jPanel1.add(btnSimpan, new org.netbeans.lib.awtextra.AbsoluteConstraints(910, 720, 160, 50));
 
-        BG_EditProfile.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/Edit Profile.png"))); // NOI18N
+        BG_EditProfile.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/Edit Profile v2.png"))); // NOI18N
         jPanel1.add(BG_EditProfile, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -144,6 +149,10 @@ private int id_pengguna;
     }
 
     }//GEN-LAST:event_btnSimpanActionPerformed
+
+    private void txtEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEmailActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtEmailActionPerformed
 
     /**
      * @param args the command line arguments
