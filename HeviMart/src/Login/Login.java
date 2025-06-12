@@ -13,6 +13,7 @@ import util.koneksi;
 
 import javax.swing.JOptionPane;
 import util.PasswordUtil;
+import util.UserSession;
 
 /**
  *
@@ -148,7 +149,10 @@ public class Login extends javax.swing.JFrame {
                     // Buka MainForm dan tutup form login
                     int idPengguna = rs.getInt("id_pengguna");
                     String namaLengkap = rs.getString("nama_lengkap");
+                    
+                    
                     // Gunakan 'peran' yang sudah kita ambil sebelumnya
+                    UserSession.getInstance().createSession(idPengguna, username, namaLengkap, peran);
                     new MainMenu(idPengguna, namaLengkap, peran).setVisible(true);
                     this.dispose();
                 } else {
