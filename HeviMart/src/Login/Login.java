@@ -150,10 +150,12 @@ public class Login extends javax.swing.JFrame {
                     int idPengguna = rs.getInt("id_pengguna");
                     String namaLengkap = rs.getString("nama_lengkap");
                     String Peran = rs.getString("peran");
+                    String email = rs.getString("email");
+                    String telepon = rs.getString("telepon");
                     
                     
                     // Gunakan 'peran' yang sudah kita ambil sebelumnya
-                    UserSession.getInstance().createSession(idPengguna, username, namaLengkap, peran);
+                    UserSession.getInstance().createSession(idPengguna, username, namaLengkap, peran, email, telepon);
                     new MainMenu().setVisible(true);
                     this.dispose();
                 } else {
