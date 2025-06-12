@@ -6,6 +6,7 @@ package ManajemenInventori;
 //sidebar
 import Pelaporan.LaporanKeuanganForm;
 import Login.Login;
+import MainForm.MainMenu;
 import ManagemenUser.UserManagement;
 import ManajemenDiskon.DiscountManagementForm;
 import ManajemenInventori.GoodsReceiptForm;
@@ -47,23 +48,19 @@ public class GoodsReceiptForm extends javax.swing.JFrame {
     /**
      * Creates new form GoodsReceiptForm
      */
-    public void MainMenu() {
-        initComponents();
-        UserSession session = UserSession.getInstance();
-
-        this.loggedInUserId = session.getIdPengguna();
-        this.namaLengkap = session.getNamaLengkap();
-        this.peran = session.getPeran();
-
-        lblUsername.setText(this.namaLengkap);
-        lblPeran.setText(this.peran);
-    }
     
     public GoodsReceiptForm() {
         initComponents();
 
         this.setLocationRelativeTo(null);
         this.setTitle("Penerimaan Barang Masuk (Goods Receipt)");
+        
+        UserSession session = UserSession.getInstance();
+        this.loggedInUserId = session.getIdPengguna(); // Ambil ID kasir dari sesi
+        String namaLengkap = session.getNamaLengkap();
+        String peran = session.getPeran();
+        lblUsername.setText(this.namaLengkap);
+        lblPeran.setText(this.peran);
 
         // Setup model untuk tabel pesanan terbuka
         modelOpenOrders = new DefaultTableModel();
@@ -249,6 +246,11 @@ public class GoodsReceiptForm extends javax.swing.JFrame {
 
         btnDashboard1.setBorderPainted(false);
         btnDashboard1.setContentAreaFilled(false);
+        btnDashboard1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDashboard1ActionPerformed(evt);
+            }
+        });
         jPanel3.add(btnDashboard1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 210, 160, 30));
 
         btnInventarisSupplier.setBorderPainted(false);
@@ -454,7 +456,7 @@ public class GoodsReceiptForm extends javax.swing.JFrame {
             showAccessDeniedMessage();
             return;
         }
-        new POSForm(loggedInUserId).setVisible(true);
+        new POSForm().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnPOSActionPerformed
 
@@ -560,6 +562,12 @@ public class GoodsReceiptForm extends javax.swing.JFrame {
             this.dispose();
         }
     }//GEN-LAST:event_btnLogout1ActionPerformed
+
+    private void btnDashboard1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDashboard1ActionPerformed
+        // TODO add your handling code here:
+        new MainMenu().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnDashboard1ActionPerformed
     
     private void btnProfileActionPerformed(java.awt.event.ActionEvent evt) {                                           
         // TODO add your handling code here:

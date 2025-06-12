@@ -7,6 +7,7 @@ package ManagemenUser;
 //sidebar
 import Pelaporan.LaporanKeuanganForm;
 import Login.Login;
+import MainForm.MainMenu;
 import ManagemenUser.UserManagement;
 import ManajemenDiskon.DiscountManagementForm;
 import ManajemenInventori.GoodsReceiptForm;
@@ -42,21 +43,14 @@ public class UserManagement extends javax.swing.JFrame {
     private String peran;
     private int loggedInUserId;
     
-    public void MainMenu() {
-        initComponents();
+
+    public UserManagement() { // Constructor menerima data user login
         UserSession session = UserSession.getInstance();
-
-        this.loggedInUserId = session.getIdPengguna();
-        this.namaLengkap = session.getNamaLengkap();
-        this.peran = session.getPeran();
-
+        this.loggedInUserId = session.getIdPengguna(); 
         lblUsername.setText(this.namaLengkap);
         lblPeran.setText(this.peran);
-    }
-
-    public UserManagement(int loggedInUserId, String loggedInUserRole) { // Constructor menerima data user login
-        this.currentLoggedInUserId = loggedInUserId;
-        this.currentLoggedInUserRole = loggedInUserRole;
+        this.currentLoggedInUserId = session.getIdPengguna();
+        this.currentLoggedInUserRole = session.getPeran();
         
         initComponents();
         this.setLocationRelativeTo(null); // Posisikan di tengah layar
@@ -88,9 +82,6 @@ public class UserManagement extends javax.swing.JFrame {
 
         // Tambahkan event listeners untuk tombol-tombol
         addEventListeners();
-    }
-    public UserManagement() {
-        this(1, "Admin"); // Default untuk testing
     }
 
     private void addEventListeners() {
@@ -269,7 +260,6 @@ public class UserManagement extends javax.swing.JFrame {
         btnRefresh = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblPengguna = new javax.swing.JTable();
-        BG_ManajemenUser = new javax.swing.JLabel();
         btnProfile = new javax.swing.JButton();
         lblPeran = new javax.swing.JLabel();
         lblUsername = new javax.swing.JLabel();
@@ -285,6 +275,7 @@ public class UserManagement extends javax.swing.JFrame {
         btnPelaporanInventaris = new javax.swing.JButton();
         btnPelaporanKeuangan = new javax.swing.JButton();
         btnLogout1 = new javax.swing.JButton();
+        BG_ManajemenUser = new javax.swing.JLabel();
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -357,9 +348,6 @@ public class UserManagement extends javax.swing.JFrame {
 
         jPanel2.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 460, 1100, -1));
 
-        BG_ManajemenUser.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/Manajemen User.png"))); // NOI18N
-        jPanel2.add(BG_ManajemenUser, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
-
         btnProfile.setBorderPainted(false);
         btnProfile.setContentAreaFilled(false);
         btnProfile.addActionListener(new java.awt.event.ActionListener() {
@@ -381,6 +369,11 @@ public class UserManagement extends javax.swing.JFrame {
 
         btnDashboard1.setBorderPainted(false);
         btnDashboard1.setContentAreaFilled(false);
+        btnDashboard1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDashboard1ActionPerformed(evt);
+            }
+        });
         jPanel2.add(btnDashboard1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 210, 160, 30));
 
         btnPOS.setBorderPainted(false);
@@ -487,6 +480,9 @@ public class UserManagement extends javax.swing.JFrame {
         });
         jPanel2.add(btnLogout1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 930, 130, 40));
 
+        BG_ManajemenUser.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/Manajemen User.png"))); // NOI18N
+        jPanel2.add(BG_ManajemenUser, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -535,7 +531,7 @@ public class UserManagement extends javax.swing.JFrame {
             showAccessDeniedMessage();
             return;
         }
-        new POSForm(loggedInUserId).setVisible(true);
+        new POSForm().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnPOSActionPerformed
 
@@ -648,6 +644,12 @@ public class UserManagement extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnLogout1ActionPerformed
 
+    private void btnDashboard1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDashboard1ActionPerformed
+        // TODO add your handling code here:
+        new MainMenu().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnDashboard1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -674,30 +676,7 @@ public class UserManagement extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(UserManagement.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-            } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(UserManagement.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(UserManagement.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(UserManagement.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(UserManagement.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new UserManagement(1, "Admin").setVisible(true); 
-            }
-        });
+        
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

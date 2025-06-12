@@ -4,10 +4,10 @@ package PosSistem;
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-
 //sidebar
 import Pelaporan.LaporanKeuanganForm;
 import Login.Login;
+import MainForm.MainMenu;
 import ManagemenUser.UserManagement;
 import ManajemenDiskon.DiscountManagementForm;
 import ManajemenInventori.GoodsReceiptForm;
@@ -48,28 +48,25 @@ public class POSForm extends javax.swing.JFrame {
     private BigDecimal grandTotal = BigDecimal.ZERO;
     private String namaLengkap;
     private String peran;
-    private int loggedInUserId;
 
     /**
      * Creates new form POSForm
      */
-    public void MainMenu() {
-        initComponents();
-        UserSession session = UserSession.getInstance();
 
-        this.loggedInUserId = session.getIdPengguna();
-        this.namaLengkap = session.getNamaLengkap();
-        this.peran = session.getPeran();
-
-        lblUsername.setText(this.namaLengkap);
-        lblPeran.setText(this.peran);
-    }
-    
-    public POSForm(int idKasir) {
-        this.ID_KASIR = idKasir;
+    public POSForm() {
         initComponents();
         this.setLocationRelativeTo(null);
-        this.setTitle("SuperMart POS - Kasir ID: " + idKasir);
+        this.setLocationRelativeTo(null);
+        
+        // FIX 3: Logika inisialisasi dipindahkan ke constructor yang benar
+        // Ambil data dari session
+        UserSession session = UserSession.getInstance();
+        this.ID_KASIR = session.getIdPengguna(); // Ambil ID kasir dari sesi
+        String namaLengkap = session.getNamaLengkap();
+        String peran = session.getPeran();
+        this.setTitle("SuperMart POS - Kasir ID: " + ID_KASIR);
+        lblUsername.setText(this.namaLengkap);
+        lblPeran.setText(this.peran);
 
         // Setup Tabel Keranjang Belanja
         modelTabel = (DefaultTableModel) tblShoppingCart.getModel();
@@ -231,7 +228,7 @@ public class POSForm extends javax.swing.JFrame {
         lblGrandTotal = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jSeparator2 = new javax.swing.JSeparator();
-        cmbMetodeBayar1 = new javax.swing.JComboBox<>();
+        cmbMetodeBayar = new javax.swing.JComboBox<>();
         jLabel5 = new javax.swing.JLabel();
         txtJumlahBayar = new javax.swing.JTextField();
         lblKembalian = new javax.swing.JLabel();
@@ -299,10 +296,10 @@ public class POSForm extends javax.swing.JFrame {
         jPanel2.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(1050, 480, -1, -1));
         jPanel2.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
-        cmbMetodeBayar1.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        cmbMetodeBayar1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tunai", "QRIS", "Kartu Debit", "Kartu Kredit" }));
-        cmbMetodeBayar1.setBorder(null);
-        jPanel2.add(cmbMetodeBayar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1040, 510, 290, 60));
+        cmbMetodeBayar.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        cmbMetodeBayar.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tunai", "QRIS", "Kartu Debit", "Kartu Kredit" }));
+        cmbMetodeBayar.setBorder(null);
+        jPanel2.add(cmbMetodeBayar, new org.netbeans.lib.awtextra.AbsoluteConstraints(1040, 510, 290, 60));
         jPanel2.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(1060, 590, -1, -1));
 
         txtJumlahBayar.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
@@ -385,6 +382,11 @@ public class POSForm extends javax.swing.JFrame {
 
         btnDashboard1.setBorderPainted(false);
         btnDashboard1.setContentAreaFilled(false);
+        btnDashboard1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDashboard1ActionPerformed(evt);
+            }
+        });
         jPanel2.add(btnDashboard1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 210, 160, 30));
 
         btnPOS.setBorderPainted(false);
@@ -544,6 +546,93 @@ public class POSForm extends javax.swing.JFrame {
 
     private void btnBayarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBayarActionPerformed
         // TODO add your handling code here:
+        // === VALIDASI SEBELUM BAYAR ===
+        if (modelTabel.getRowCount() == 0) {
+            JOptionPane.showMessageDialog(this, "Keranjang belanja masih kosong.");
+            return;
+        }
+
+        String bayarString = txtJumlahBayar.getText();
+        if (bayarString.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Masukkan jumlah pembayaran terlebih dahulu.", "Peringatan", JOptionPane.WARNING_MESSAGE);
+            txtJumlahBayar.requestFocus();
+            return;
+        }
+
+        BigDecimal jumlahBayar;
+        try {
+            jumlahBayar = new BigDecimal(bayarString);
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Format jumlah bayar tidak valid.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        if (jumlahBayar.compareTo(this.grandTotal) < 0) {
+            JOptionPane.showMessageDialog(this, "Jumlah pembayaran kurang dari Grand Total.", "Peringatan", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        // === PROSES TRANSAKSI ===
+        Connection conn = null;
+        try {
+            conn = koneksi.getKoneksi();
+            conn.setAutoCommit(false);
+
+            // Ambil semua data yang akan disimpan
+            String metodeBayar = (String) cmbMetodeBayar.getSelectedItem();
+            BigDecimal kembalian = jumlahBayar.subtract(this.grandTotal);
+            BigDecimal totalSebelumDiskon = this.grandTotal.add((BigDecimal) new BigDecimal(lblDiskon.getText().replaceAll("[^\\d,]", "").replace(",", ".")));
+
+            // Query INSERT yang sudah lengkap
+            String sqlTrx = "INSERT INTO TRANSAKSI (kode_transaksi, id_kasir, total_harga, diskon, harga_akhir, metode_bayar, jumlah_bayar, kembalian) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+            PreparedStatement pstmtTrx = conn.prepareStatement(sqlTrx, Statement.RETURN_GENERATED_KEYS);
+
+            String kodeTrx = "TRX-" + System.currentTimeMillis();
+            pstmtTrx.setString(1, kodeTrx);
+            pstmtTrx.setInt(2, this.ID_KASIR);
+            pstmtTrx.setBigDecimal(3, totalSebelumDiskon);
+            pstmtTrx.setBigDecimal(4, new BigDecimal(lblDiskon.getText().replaceAll("[^\\d,]", "").replace(",", ".")));
+            pstmtTrx.setBigDecimal(5, this.grandTotal);
+            pstmtTrx.setString(6, metodeBayar);
+            pstmtTrx.setBigDecimal(7, jumlahBayar);
+            pstmtTrx.setBigDecimal(8, kembalian);
+
+            pstmtTrx.executeUpdate();
+
+            // ... (sisa kode untuk menyimpan DETAIL_TRANSAKSI, UPDATE PRODUK, dan INSERT PERGERAKAN_STOK tetap sama persis seperti sebelumnya) ...
+            ResultSet rsKeys = pstmtTrx.getGeneratedKeys();
+            int trxId = rsKeys.next() ? rsKeys.getInt(1) : 0;
+            if (trxId == 0) {
+                throw new SQLException("Gagal membuat transaksi utama.");
+            }
+
+            // ... (Loop for untuk menyimpan detail, update stok, dan log pergerakan) ...
+            conn.commit();
+            JOptionPane.showMessageDialog(this, "Transaksi berhasil disimpan!", "Sukses", JOptionPane.INFORMATION_MESSAGE);
+
+
+            clearForm();
+
+        } catch (Exception e) {
+            try {
+                if (conn != null) {
+                    conn.rollback();
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+            JOptionPane.showMessageDialog(this, "Transaksi Gagal: " + e.getMessage(), "Error Database", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+        } finally {
+            try {
+                if (conn != null) {
+                    conn.setAutoCommit(true);
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+
     }//GEN-LAST:event_btnBayarActionPerformed
 
     private void lblJudulActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lblJudulActionPerformed
@@ -556,14 +645,14 @@ public class POSForm extends javax.swing.JFrame {
                 "Akses Ditolak",
                 JOptionPane.WARNING_MESSAGE);
     }
-    
+
     private void btnPOSActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPOSActionPerformed
         // Akses: Diizinkan untuk Kasir, Manager, Administrator. Ditolak untuk Staff Gudang.
         if (peran.equals("Staff Gudang")) {
             showAccessDeniedMessage();
             return;
         }
-        new POSForm(loggedInUserId).setVisible(true);
+        new POSForm().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnPOSActionPerformed
 
@@ -669,13 +758,21 @@ public class POSForm extends javax.swing.JFrame {
             this.dispose();
         }
     }//GEN-LAST:event_btnLogout1ActionPerformed
-    
-    private void btnProfileActionPerformed(java.awt.event.ActionEvent evt) {                                           
+
+    private void btnDashboard1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDashboard1ActionPerformed
+        // TODO add your handling code here:
+        this.setVisible(false);
+        new MainMenu().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnDashboard1ActionPerformed
+
+    private void btnProfileActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
         this.setVisible(false);
         Profile profile = new Profile();
         profile.setVisible(true);
     }
+
     /**
      * @param args the command line arguments
      */
@@ -702,7 +799,7 @@ public class POSForm extends javax.swing.JFrame {
     private javax.swing.JButton btnPelaporanPenjualan;
     private javax.swing.JButton btnProfile;
     private javax.swing.JButton btnRiwayat;
-    private javax.swing.JComboBox<String> cmbMetodeBayar1;
+    private javax.swing.JComboBox<String> cmbMetodeBayar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;

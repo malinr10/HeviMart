@@ -500,7 +500,7 @@ public class MainMenu extends javax.swing.JFrame {
             showAccessDeniedMessage();
             return;
         }
-        new POSForm(loggedInUserId).setVisible(true);
+        new POSForm().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnPOSActionPerformed
 

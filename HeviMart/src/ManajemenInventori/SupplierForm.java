@@ -11,6 +11,7 @@ package ManajemenInventori;
  */
 import Pelaporan.LaporanKeuanganForm;
 import Login.Login;
+import MainForm.MainMenu;
 import ManagemenUser.UserManagement;
 import ManajemenDiskon.DiscountManagementForm;
 import ManajemenInventori.GoodsReceiptForm;
@@ -28,14 +29,25 @@ import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.table.DefaultTableModel;
+import util.UserSession;
 public class SupplierForm extends javax.swing.JFrame {
     private DefaultTableModel modelTabel;
     private int selectedSupplierId = 0; 
+    private String namaLengkap;
+    private String peran;
+    private int loggedInUserId;
     /**
      * Creates new form SupplierForm
      */
     public SupplierForm() {
         initComponents();
+        
+        UserSession session = UserSession.getInstance();
+        this.loggedInUserId = session.getIdPengguna(); // Ambil ID kasir dari sesi
+        String namaLengkap = session.getNamaLengkap();
+        String peran = session.getPeran();
+        lblUsername.setText(this.namaLengkap);
+        lblPeran.setText(this.peran);
         
         modelTabel = (DefaultTableModel) tblSupplier.getModel();
         modelTabel.setColumnIdentifiers(new Object[]{"ID", "Nama Pemasok", "Kontak Person", "Telepon"});
@@ -233,6 +245,11 @@ public class SupplierForm extends javax.swing.JFrame {
 
         btnDashboard1.setBorderPainted(false);
         btnDashboard1.setContentAreaFilled(false);
+        btnDashboard1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDashboard1ActionPerformed(evt);
+            }
+        });
         jPanel1.add(btnDashboard1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 210, 160, 30));
 
         btnPOS.setBorderPainted(false);
@@ -497,6 +514,12 @@ public class SupplierForm extends javax.swing.JFrame {
             this.dispose();
         }
     }//GEN-LAST:event_btnLogout1ActionPerformed
+
+    private void btnDashboard1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDashboard1ActionPerformed
+        // TODO add your handling code here:
+        new MainMenu().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnDashboard1ActionPerformed
 
     /**
      * @param args the command line arguments
