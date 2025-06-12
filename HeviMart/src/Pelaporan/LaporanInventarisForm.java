@@ -106,29 +106,32 @@ public class LaporanInventarisForm extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
         dateChooserMulai = new com.toedter.calendar.JDateChooser();
-        jLabel3 = new javax.swing.JLabel();
         dateChooserSelesai = new com.toedter.calendar.JDateChooser();
         btnTampilkan = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabelLaporan = new javax.swing.JTable();
+        BG_LaporanInventaris = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel1.setText("Periode Tanggal");
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel2.setText("Dari");
+        dateChooserMulai.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        jPanel1.add(dateChooserMulai, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 322, 220, 40));
 
-        jLabel3.setText("Hingga");
+        dateChooserSelesai.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        jPanel1.add(dateChooserSelesai, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 380, 220, 40));
 
-        btnTampilkan.setText("Tampilkan Laporan");
+        btnTampilkan.setBorderPainted(false);
+        btnTampilkan.setContentAreaFilled(false);
         btnTampilkan.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnTampilkanActionPerformed(evt);
             }
         });
+        jPanel1.add(btnTampilkan, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 470, 340, 50));
 
         tabelLaporan.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -143,41 +146,24 @@ public class LaporanInventarisForm extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(tabelLaporan);
 
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 260, 550, 710));
+
+        BG_LaporanInventaris.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/Laporan Inventaris.png"))); // NOI18N
+        jPanel1.add(BG_LaporanInventaris, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 6, -1, -1));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addGap(18, 18, 18)
-                        .addComponent(dateChooserMulai, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel3)
-                        .addGap(18, 18, 18)
-                        .addComponent(dateChooserSelesai, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnTampilkan)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addComponent(jScrollPane1)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(16, 16, 16)
-                .addComponent(jLabel1)
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2)
-                    .addComponent(dateChooserMulai, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3)
-                    .addComponent(dateChooserSelesai, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnTampilkan))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 209, Short.MAX_VALUE))
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -225,12 +211,11 @@ public class LaporanInventarisForm extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel BG_LaporanInventaris;
     private javax.swing.JButton btnTampilkan;
     private com.toedter.calendar.JDateChooser dateChooserMulai;
     private com.toedter.calendar.JDateChooser dateChooserSelesai;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tabelLaporan;
     // End of variables declaration//GEN-END:variables

@@ -107,23 +107,34 @@ public class LaporanPenjualanForm extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         yearChooser = new com.toedter.calendar.JYearChooser();
         btnTampilkan = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabelLaporan = new javax.swing.JTable();
         lblTotalTahunan = new javax.swing.JLabel();
+        BG_LaporanPenjualan = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel1.setText("Pilih Tahun");
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        btnTampilkan.setText("Tampilkan Laporan");
+        jLabel1.setText("Pilih Tahun");
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 240, -1, -1));
+
+        yearChooser.setFocusable(false);
+        yearChooser.setFont(new java.awt.Font("Arial", 0, 36)); // NOI18N
+        jPanel1.add(yearChooser, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 270, 210, 50));
+
+        btnTampilkan.setBorderPainted(false);
+        btnTampilkan.setContentAreaFilled(false);
         btnTampilkan.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnTampilkanActionPerformed(evt);
             }
         });
+        jPanel1.add(btnTampilkan, new org.netbeans.lib.awtextra.AbsoluteConstraints(980, 440, 350, 60));
 
         tabelLaporan.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -138,38 +149,27 @@ public class LaporanPenjualanForm extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(tabelLaporan);
 
-        lblTotalTahunan.setText("Total Tahunan");
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 530, 1040, -1));
+
+        lblTotalTahunan.setFont(new java.awt.Font("Arial", 0, 36)); // NOI18N
+        jPanel1.add(lblTotalTahunan, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 350, 390, 40));
+
+        BG_LaporanPenjualan.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/Laporan Penjualan.png"))); // NOI18N
+        jPanel1.add(BG_LaporanPenjualan, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -4, -1, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(yearChooser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnTampilkan))
-                    .addComponent(lblTotalTahunan))
-                .addContainerGap(116, Short.MAX_VALUE))
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnTampilkan)
-                    .addComponent(yearChooser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
-                .addComponent(lblTotalTahunan)
-                .addContainerGap())
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -216,8 +216,10 @@ public class LaporanPenjualanForm extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel BG_LaporanPenjualan;
     private javax.swing.JButton btnTampilkan;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblTotalTahunan;
     private javax.swing.JTable tabelLaporan;

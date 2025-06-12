@@ -128,6 +128,7 @@ public class LaporanKeuanganForm extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         dateChooserMulai = new com.toedter.calendar.JDateChooser();
         jLabel3 = new javax.swing.JLabel();
@@ -141,101 +142,65 @@ public class LaporanKeuanganForm extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
+        BG_LaporanKeuangan = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel2.setText("Dari");
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 330, -1, -1));
 
-        jLabel3.setText("Hingga");
+        dateChooserMulai.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        jPanel1.add(dateChooserMulai, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 320, 240, 40));
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 390, -1, -1));
 
-        btnTampilkan.setText("Tampilkan Laporan");
+        dateChooserSelesai.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        jPanel1.add(dateChooserSelesai, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 380, 240, 40));
+
+        btnTampilkan.setBorderPainted(false);
+        btnTampilkan.setContentAreaFilled(false);
         btnTampilkan.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnTampilkanActionPerformed(evt);
             }
         });
+        jPanel1.add(btnTampilkan, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 460, 340, 60));
 
-        lblPendapatan.setText("jLabel1");
+        lblPendapatan.setFont(new java.awt.Font("Arial", 1, 48)); // NOI18N
+        lblPendapatan.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jPanel1.add(lblPendapatan, new org.netbeans.lib.awtextra.AbsoluteConstraints(830, 250, 370, 60));
 
-        lblHpp.setText("jLabel1");
+        lblHpp.setFont(new java.awt.Font("Arial", 1, 48)); // NOI18N
+        lblHpp.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jPanel1.add(lblHpp, new org.netbeans.lib.awtextra.AbsoluteConstraints(837, 856, 370, 60));
 
-        lblLabaKotor.setText("jLabel1");
+        lblLabaKotor.setFont(new java.awt.Font("Arial", 1, 48)); // NOI18N
+        lblLabaKotor.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jPanel1.add(lblLabaKotor, new org.netbeans.lib.awtextra.AbsoluteConstraints(830, 660, 380, 60));
 
-        lblPengeluaran.setText("jLabel1");
+        lblPengeluaran.setFont(new java.awt.Font("Arial", 1, 48)); // NOI18N
+        lblPengeluaran.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jPanel1.add(lblPengeluaran, new org.netbeans.lib.awtextra.AbsoluteConstraints(830, 456, 380, 50));
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(980, 210, -1, -1));
+        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(970, 410, -1, -1));
+        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(990, 610, -1, -1));
+        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(1010, 820, -1, -1));
 
-        jLabel1.setText("Pendapatan");
-
-        jLabel4.setText("Pengeluaran");
-
-        jLabel5.setText("Laba Kotor");
-
-        jLabel6.setText("HPP");
+        BG_LaporanKeuangan.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/Laporan Keuangan.png"))); // NOI18N
+        jPanel1.add(BG_LaporanKeuangan, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel2)
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(dateChooserMulai, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(18, 18, 18)
-                            .addComponent(jLabel3)
-                            .addGap(18, 18, 18))
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                            .addComponent(lblPendapatan, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(110, 110, 110)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblLabaKotor, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel5))
-                        .addGap(110, 110, 110)))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel4)
-                    .addComponent(lblHpp, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblPengeluaran, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(dateChooserSelesai, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnTampilkan))
-                    .addComponent(jLabel6))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(39, 39, 39)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2)
-                    .addComponent(dateChooserMulai, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3)
-                    .addComponent(dateChooserSelesai, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnTampilkan))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel4))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblPendapatan, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblPengeluaran, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(19, 19, 19)
-                        .addComponent(jLabel5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lblLabaKotor, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(9, 9, 9)
-                        .addComponent(jLabel6)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lblHpp, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(65, Short.MAX_VALUE))
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -282,6 +247,7 @@ public class LaporanKeuanganForm extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel BG_LaporanKeuangan;
     private javax.swing.JButton btnTampilkan;
     private com.toedter.calendar.JDateChooser dateChooserMulai;
     private com.toedter.calendar.JDateChooser dateChooserSelesai;
@@ -291,6 +257,7 @@ public class LaporanKeuanganForm extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lblHpp;
     private javax.swing.JLabel lblLabaKotor;
     private javax.swing.JLabel lblPendapatan;
