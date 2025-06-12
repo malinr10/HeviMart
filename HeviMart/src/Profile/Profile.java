@@ -23,25 +23,36 @@ public class Profile extends javax.swing.JFrame {
     /**
      * Creates new form MainMenu
      */
-        
     public Profile(JFrame previousPage) {
-    initComponents();
-    this.previousPage = previousPage;
+        initComponents();
+        this.previousPage = previousPage;
 
-    UserSession session = UserSession.getInstance();
+        UserSession session = UserSession.getInstance();
 
-    this.loggedInUserId = session.getIdPengguna();
-    this.namaLengkap = session.getNamaLengkap();
-    this.peran = session.getPeran();
-    this.email = session.getEmail();
-    this.telepon = session.getTelepon();
+        this.loggedInUserId = session.getIdPengguna();
+        this.namaLengkap = session.getNamaLengkap();
+        this.peran = session.getPeran();
+        this.email = session.getEmail();
+        this.telepon = session.getTelepon();
 
-    lblNama_Lengkap.setText(this.namaLengkap);
-    lblRole.setText(this.peran);
-    lblEmail.setText(this.email);
-    lblTelepon.setText(this.telepon);
-}
-    
+        lblNama_Lengkap.setText(this.namaLengkap);
+        lblRole.setText(this.peran);
+        lblEmail.setText(this.email);
+        lblTelepon.setText(this.telepon);
+        
+        refreshProfileData();
+    }
+
+    // Tambahkan metode ini di dalam kelas Profile.java
+    public void refreshProfileData() {
+        UserSession session = UserSession.getInstance();
+        // Ambil data terbaru dari sesi yang baru saja di-update
+        lblNama_Lengkap.setText(session.getNamaLengkap());
+        lblRole.setText(session.getPeran());
+        lblEmail.setText(session.getEmail());
+        lblTelepon.setText(session.getTelepon());
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -113,13 +124,15 @@ public class Profile extends javax.swing.JFrame {
 
     private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
         // TODO add your handling code here:
-        new EditProfile().setVisible(true);
-        this.dispose(); 
+        new EditProfile(this).setVisible(true);
+
+        // Sembunyikan halaman Profile saat halaman Edit terbuka
+        this.setVisible(false);
     }//GEN-LAST:event_btnEditActionPerformed
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
         // TODO add your handling code here:
-    this.dispose();
+        this.dispose();
         if (previousPage != null) {
             previousPage.setVisible(true);
         }

@@ -42,7 +42,7 @@ public class UserSession {
     /**
      * Metode untuk membuat atau mengisi data sesi setelah login berhasil.
      */
-    public void createSession(int id, String username, String nama, String role) {
+    public void createSession(int id, String username, String nama, String role, String email, String telepon) {
         this.idPengguna = id;
         this.namaPengguna = username;
         this.namaLengkap = nama;

@@ -8,50 +8,63 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import javax.swing.JOptionPane;
+import util.UserSession;
 import util.koneksi;
+import java.sql.SQLException;
+import javax.swing.JFrame;
 
 /**
  *
  * @author User
  */
 public class EditProfile extends javax.swing.JFrame {
-private int id_pengguna;
+
+    private int id_pengguna;
+    private JFrame previousPage;
+
     /**
      * Creates new form EditProfile
      */
-    public EditProfile() {
+    public EditProfile(JFrame previousPage) {
         initComponents();
-        txtRole.setEnabled(false);     // Role tidak bisa diubah
-    }
-    
-    public EditProfile(int id_pengguna) {
-    this.id_pengguna = id_pengguna;
-    initComponents();
-    loadProfileData(id_pengguna); // Jika ingin load otomatis data pengguna
-}
 
-    public void loadProfileData(int id_pengguna) {
-    try {
-        Connection conn = koneksi.getKoneksi();
+        // 1. Panggil initComponents() pertama kali
+        initComponents();
+        this.setLocationRelativeTo(null);
+        this.setTitle("Edit Profil Pengguna");
+
+        // 2. Ambil data dari UserSession
+        UserSession session = UserSession.getInstance();
+        this.id_pengguna = session.getIdPengguna(); // Simpan ID pengguna
+
+        // 3. Pastikan role tidak bisa diubah oleh pengguna
+        txtRole.setEnabled(false);
+
+        // 4. Muat data profil pengguna yang sedang login
+        loadProfileData();
+    }
+
+    public void loadProfileData() {
         String sql = "SELECT * FROM pengguna WHERE id_pengguna = ?";
-        PreparedStatement ps = conn.prepareStatement(sql);
-        ps.setInt(1, id_pengguna);
-        ResultSet rs = ps.executeQuery();
+        try (Connection conn = koneksi.getKoneksi(); PreparedStatement ps = conn.prepareStatement(sql)) {
 
-        if (rs.next()) {
-            txtNamaLengkap.setText(rs.getString("nama_lengkap"));
-            txtRole.setText(rs.getString("peran"));
-            txtEmail.setText(rs.getString("email"));
-            txtTelepon.setText(rs.getString("telepon"));
+            ps.setInt(1, this.id_pengguna);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                txtNamaLengkap.setText(rs.getString("nama_lengkap"));
+                txtRole.setText(rs.getString("peran"));
+                txtEmail.setText(rs.getString("email"));
+                txtTelepon.setText(rs.getString("telepon"));
+            } else {
+                JOptionPane.showMessageDialog(this, "Gagal menemukan data profil.", "Error", JOptionPane.ERROR_MESSAGE);
+                this.dispose(); // Tutup form jika data tidak ditemukan
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Gagal memuat data profil: " + e.getMessage());
+            e.printStackTrace();
         }
-
-        rs.close();
-        ps.close();
-    } catch (Exception e) {
-        JOptionPane.showMessageDialog(this, "Gagal memuat data profil: " + e.getMessage());
     }
-    }
-
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -121,33 +134,69 @@ private int id_pengguna;
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSimpanActionPerformed
-        // TODO add your handling code here:
-    try {
-        Connection conn = koneksi.getKoneksi();
-        String sql = "UPDATE pengguna SET nama_lengkap=?, peran=?, email=?, telepon=? WHERE id_pengguna=?";
-        PreparedStatement stmt = conn.prepareStatement(sql);
-        stmt.setString(1, txtNamaLengkap.getText());
-        stmt.setString(2, txtRole.getText());
-        stmt.setString(3, txtEmail.getText());
-        stmt.setString(4, txtTelepon.getText());
-        stmt.setInt(5, id_pengguna); // Pastikan variabel ini tersedia
-        
-        int updated = stmt.executeUpdate();
-        if (updated > 0) {
-            JOptionPane.showMessageDialog(this, "Profil berhasil disimpan!");
-            
-            // 🔁 Pindah ke halaman Profil
-            Profile profilePage = new Profile(this); // this = halaman EditProfile
+        // 1. Ambil data yang telah diubah dari form
+        String namaLengkapBaru = txtNamaLengkap.getText();
+        String emailBaru = txtEmail.getText();
+        String teleponBaru = txtTelepon.getText();
 
-            profilePage.setVisible(true);
-            this.dispose(); // Tutup halaman edit
+        // 2. Validasi input
+        if (namaLengkapBaru.isEmpty() || emailBaru.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Nama Lengkap dan Email tidak boleh kosong.", "Validasi Gagal", JOptionPane.WARNING_MESSAGE);
+            return;
         }
 
-        stmt.close();
-        conn.close();
-    } catch (Exception e) {
-        JOptionPane.showMessageDialog(this, "Gagal menyimpan: " + e.getMessage());
-    }
+        // 3. Siapkan query UPDATE
+        String sql = "UPDATE pengguna SET nama_lengkap=?, email=?, telepon=? WHERE id_pengguna=?";
+
+        try (Connection conn = koneksi.getKoneksi(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            // 4. Set parameter untuk query
+            pstmt.setString(1, namaLengkapBaru);
+            pstmt.setString(2, emailBaru);
+            pstmt.setString(3, teleponBaru);
+            pstmt.setInt(4, this.id_pengguna); // Gunakan ID yang sudah disimpan
+
+            int rowsUpdated = pstmt.executeUpdate();
+
+            // 5. Cek apakah update berhasil
+            if (rowsUpdated > 0) {
+                JOptionPane.showMessageDialog(this, "Profil berhasil diperbarui!");
+
+                // 6. PERBARUI DATA DI SESI APLIKASI SECARA LENGKAP
+                UserSession session = UserSession.getInstance();
+                // Asumsi UserSession.createSession telah diperbarui untuk menerima semua parameter
+                // Ambil data yang tidak berubah (seperti username dan peran) dari sesi yang ada
+                session.createSession(
+                        session.getIdPengguna(),
+                        session.getNamaPengguna(),
+                        namaLengkapBaru,
+                        session.getPeran(),
+                        emailBaru, // Tambahkan email baru
+                        teleponBaru // Tambahkan telepon baru
+                );
+
+                // 7. Tutup form edit dan buka kembali halaman Profile
+                // Memanggil constructor Profile yang benar sesuai konteks Anda
+                JOptionPane.showMessageDialog(this, "Profil berhasil diperbarui!");
+
+                // PERBAIKAN 3: Logika navigasi kembali
+                // Jika halaman sebelumnya ada, tampilkan kembali.
+                if (this.previousPage != null) {
+                    // Coba refresh data di halaman Profile sebelum menampilkannya
+                    if (this.previousPage instanceof Profile) {
+                        ((Profile) this.previousPage).refreshProfileData();
+                    }
+                    this.previousPage.setVisible(true);
+                }
+                this.dispose(); // Tutup form EditProfile
+
+            } else {
+                JOptionPane.showMessageDialog(this, "Gagal menyimpan profil. Tidak ada data yang berubah.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, "Terjadi kesalahan database: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+        }
 
     }//GEN-LAST:event_btnSimpanActionPerformed
 
@@ -159,7 +208,7 @@ private int id_pengguna;
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-    
+
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
