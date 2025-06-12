@@ -37,7 +37,7 @@ public class DiscountManagementForm extends javax.swing.JFrame {
 
     private DefaultTableModel modelDiscounts;
     private DefaultTableModel modelProducts;
-    
+
     private String namaLengkap;
     private String peran;
     private int loggedInUserId;
@@ -45,13 +45,11 @@ public class DiscountManagementForm extends javax.swing.JFrame {
     /**
      * Creates new form DiscountManagementForm
      */
-    
-    
     public DiscountManagementForm() {
         initComponents();
         this.setLocationRelativeTo(null);
         this.setTitle("Manajemen Diskon & Promosi");
-        
+
         UserSession session = UserSession.getInstance();
         this.loggedInUserId = session.getIdPengguna(); // Ambil ID kasir dari sesi
         String namaLengkap = session.getNamaLengkap();
@@ -169,6 +167,11 @@ public class DiscountManagementForm extends javax.swing.JFrame {
 
         btnHapusDiskon.setBorderPainted(false);
         btnHapusDiskon.setContentAreaFilled(false);
+        btnHapusDiskon.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnHapusDiskonActionPerformed(evt);
+            }
+        });
         jPanel1.add(btnHapusDiskon, new org.netbeans.lib.awtextra.AbsoluteConstraints(940, 412, 240, 50));
         jPanel1.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
@@ -465,14 +468,14 @@ public class DiscountManagementForm extends javax.swing.JFrame {
                     JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnRemoveDiscountActionPerformed
-    
+
     private void showAccessDeniedMessage() {
         JOptionPane.showMessageDialog(this,
                 "Anda tidak memiliki hak akses untuk membuka menu ini.",
                 "Akses Ditolak",
                 JOptionPane.WARNING_MESSAGE);
     }
-    
+
     private void btnPOSActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPOSActionPerformed
         // Akses: Diizinkan untuk Kasir, Manager, Administrator. Ditolak untuk Staff Gudang.
         if (peran.equals("Staff Gudang")) {
@@ -591,14 +594,61 @@ public class DiscountManagementForm extends javax.swing.JFrame {
         new MainMenu().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnDashboard1ActionPerformed
-    
-    private void btnProfileActionPerformed(java.awt.event.ActionEvent evt) {                                           
+
+    private void btnHapusDiskonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHapusDiskonActionPerformed
+        // TODO add your handling code here:
+        // 1. Dapatkan baris yang dipilih dari tabel diskon (tabel bawah)
+        int selectedRow = tblDiscounts.getSelectedRow();
+
+        // 2. Validasi: Pastikan ada diskon yang dipilih
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this, "Pilih diskon yang akan dihapus dari tabel.", "Peringatan", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        // 3. Konfirmasi Pengguna: Ini adalah langkah keamanan yang penting
+        String namaDiskon = (String) tblDiscounts.getValueAt(selectedRow, 1);
+        int confirm = JOptionPane.showConfirmDialog(this,
+                "Apakah Anda yakin ingin menghapus diskon '" + namaDiskon + "'?\nSemua produk yang terhubung dengan diskon ini akan kehilangan promosinya.",
+                "Konfirmasi Hapus",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.QUESTION_MESSAGE);
+
+        // 4. Jika pengguna tidak menekan 'YES', batalkan proses
+        if (confirm != JOptionPane.YES_OPTION) {
+            return;
+        }
+
+        // 5. Eksekusi Hapus ke Database
+        int idDiskon = (int) tblDiscounts.getValueAt(selectedRow, 0);
+        String sql = "DELETE FROM DISKON WHERE id_diskon = ?";
+
+        try (Connection conn = koneksi.getKoneksi(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setInt(1, idDiskon);
+            int rowsAffected = pstmt.executeUpdate();
+
+            if (rowsAffected > 0) {
+                JOptionPane.showMessageDialog(this, "Diskon berhasil dihapus.", "Sukses", JOptionPane.INFORMATION_MESSAGE);
+                // 6. Refresh tabel untuk menampilkan perubahan
+                loadDiscounts();
+            } else {
+                JOptionPane.showMessageDialog(this, "Gagal menghapus diskon. Data mungkin sudah tidak ada.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Terjadi kesalahan saat menghapus diskon: " + e.getMessage(), "Error Database", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_btnHapusDiskonActionPerformed
+
+    private void btnProfileActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
         this.setVisible(false);
         Profile profile = new Profile(this);
         profile.setVisible(true);
-    } 
-    
+    }
+
     /**
      * @param args the command line arguments
      */
