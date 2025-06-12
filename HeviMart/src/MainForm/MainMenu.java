@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package MainForm;
+
 import Pelaporan.LaporanKeuanganForm;
 import Login.Login;
 import ManagemenUser.UserManagement;
@@ -22,6 +23,7 @@ import java.text.NumberFormat;
 import java.util.Locale;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Lenovo
@@ -38,35 +40,37 @@ public class MainMenu extends javax.swing.JFrame {
      */
     public MainMenu(int idPengguna, String namaLengkap, String peran) {
         initComponents();
-        
+
         this.loggedInUserId = idPengguna;
         this.namaLengkap = namaLengkap;
         this.peran = peran;
-        
+
+        lblUsername.setText(this.namaLengkap);
+        lblPeran.setText(this.peran);
+
         // Setup awal
         this.setLocationRelativeTo(null); // Form di tengah
-        
+
 //        // Atur tombol berdasarkan peran pengguna
 //        aturTombolBerdasarkanPeran();
-        
         // Setup model untuk tabel dashboard
         modelTabelProduk = new DefaultTableModel();
         tblPenjualanProduk.setModel(modelTabelProduk);
         modelTabelProduk.addColumn("Nama Barang");
         modelTabelProduk.addColumn("Jumlah Terjual");
         modelTabelProduk.addColumn("Total Pemasukan");
-        
+
         // Muat semua data untuk dashboard
         loadDashboardData();
     }
-    
+
     private void showAccessDeniedMessage() {
         JOptionPane.showMessageDialog(this,
                 "Anda tidak memiliki hak akses untuk membuka menu ini.",
                 "Akses Ditolak",
                 JOptionPane.WARNING_MESSAGE);
     }
-    
+
 //    private void aturTombolBerdasarkanPeran() {
 //        if (this.peran.equals("Kasir")) {
 ////            jButton1.setEnabled(false);
@@ -83,7 +87,6 @@ public class MainMenu extends javax.swing.JFrame {
 //        }
 //        // Administrator dan Manager bisa mengakses semua
 //    }
-    
     private void loadDashboardData() {
         // Menggunakan Locale Indonesia untuk format mata uang Rupiah (Rp)
         Locale localeID = new Locale("in", "ID");
@@ -92,7 +95,7 @@ public class MainMenu extends javax.swing.JFrame {
         try {
             Connection conn = koneksi.getKoneksi();
             Statement stmt = conn.createStatement();
-            
+
             // 1. Ambil Total Penjualan (Bulan Ini)
             String sqlPenjualan = "SELECT SUM(harga_akhir) AS total FROM TRANSAKSI WHERE MONTH(tanggal_transaksi) = MONTH(CURRENT_DATE()) AND YEAR(tanggal_transaksi) = YEAR(CURRENT_DATE())";
             ResultSet rsPenjualan = stmt.executeQuery(sqlPenjualan);
@@ -120,13 +123,13 @@ public class MainMenu extends javax.swing.JFrame {
 
             // 4. Hitung Total Profit (Bulan Ini)
             // Asumsi: total_modal dihitung dari jumlah * harga_beli produk dalam DETAIL_TRANSAKSI
-            String sqlTotalProfit = "SELECT " +
-                                    "COALESCE(SUM(t.harga_akhir), 0) AS total_penjualan, " +
-                                    "COALESCE(SUM(dt.jumlah * p.harga_beli), 0) AS total_modal " +
-                                    "FROM TRANSAKSI t " +
-                                    "JOIN DETAIL_TRANSAKSI dt ON t.id_transaksi = dt.id_transaksi " +
-                                    "JOIN PRODUK p ON dt.id_produk = p.id_produk " +
-                                    "WHERE MONTH(t.tanggal_transaksi) = MONTH(CURRENT_DATE()) AND YEAR(t.tanggal_transaksi) = YEAR(CURRENT_DATE())";
+            String sqlTotalProfit = "SELECT "
+                    + "COALESCE(SUM(t.harga_akhir), 0) AS total_penjualan, "
+                    + "COALESCE(SUM(dt.jumlah * p.harga_beli), 0) AS total_modal "
+                    + "FROM TRANSAKSI t "
+                    + "JOIN DETAIL_TRANSAKSI dt ON t.id_transaksi = dt.id_transaksi "
+                    + "JOIN PRODUK p ON dt.id_produk = p.id_produk "
+                    + "WHERE MONTH(t.tanggal_transaksi) = MONTH(CURRENT_DATE()) AND YEAR(t.tanggal_transaksi) = YEAR(CURRENT_DATE())";
 
             ResultSet rsTotalProfit = stmt.executeQuery(sqlTotalProfit);
             if (rsTotalProfit.next()) {
@@ -137,14 +140,14 @@ public class MainMenu extends javax.swing.JFrame {
             } else {
                 lblTotalProfit.setText(formatRupiah.format(0.0));
             }
-            
+
             // 5. Ambil 10 Produk Terlaris untuk Tabel
             modelTabelProduk.setRowCount(0); // Kosongkan tabel
-            String sqlProdukTerlaris = "SELECT p.nama_produk, SUM(dt.jumlah) AS jumlah_terjual, SUM(dt.subtotal) AS total_pemasukan " +
-                                       "FROM DETAIL_TRANSAKSI dt JOIN PRODUK p ON dt.id_produk = p.id_produk " +
-                                       "GROUP BY p.nama_produk ORDER BY jumlah_terjual DESC LIMIT 10";
+            String sqlProdukTerlaris = "SELECT p.nama_produk, SUM(dt.jumlah) AS jumlah_terjual, SUM(dt.subtotal) AS total_pemasukan "
+                    + "FROM DETAIL_TRANSAKSI dt JOIN PRODUK p ON dt.id_produk = p.id_produk "
+                    + "GROUP BY p.nama_produk ORDER BY jumlah_terjual DESC LIMIT 10";
             ResultSet rsProduk = stmt.executeQuery(sqlProdukTerlaris);
-            while(rsProduk.next()) {
+            while (rsProduk.next()) {
                 modelTabelProduk.addRow(new Object[]{
                     rsProduk.getString("nama_produk"),
                     rsProduk.getInt("jumlah_terjual"),
@@ -476,7 +479,7 @@ public class MainMenu extends javax.swing.JFrame {
             return;
         }
         new POSForm(loggedInUserId).setVisible(true);
-        this.dispose(); 
+        this.dispose();
     }//GEN-LAST:event_btnPOSActionPerformed
 
     /**
