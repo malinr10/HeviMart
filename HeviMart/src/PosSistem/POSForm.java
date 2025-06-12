@@ -457,18 +457,38 @@ public class POSForm extends javax.swing.JFrame {
 
         btnPelaporanPenjualan.setBorderPainted(false);
         btnPelaporanPenjualan.setContentAreaFilled(false);
+        btnPelaporanPenjualan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPelaporanPenjualanActionPerformed(evt);
+            }
+        });
         jPanel2.add(btnPelaporanPenjualan, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 720, 110, 20));
 
         btnPelaporanInventaris.setBorderPainted(false);
         btnPelaporanInventaris.setContentAreaFilled(false);
+        btnPelaporanInventaris.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPelaporanInventarisActionPerformed(evt);
+            }
+        });
         jPanel2.add(btnPelaporanInventaris, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 745, 110, 20));
 
         btnPelaporanKeuangan.setBorderPainted(false);
         btnPelaporanKeuangan.setContentAreaFilled(false);
-        jPanel2.add(btnPelaporanKeuangan, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 770, 70, 20));
+        btnPelaporanKeuangan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPelaporanKeuanganActionPerformed(evt);
+            }
+        });
+        jPanel2.add(btnPelaporanKeuangan, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 770, 100, 20));
 
         btnLogout1.setBorderPainted(false);
         btnLogout1.setContentAreaFilled(false);
+        btnLogout1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLogout1ActionPerformed(evt);
+            }
+        });
         jPanel2.add(btnLogout1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 930, 130, 40));
 
         BG_POSForm.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/POS.png"))); // NOI18N

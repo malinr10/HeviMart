@@ -20,12 +20,15 @@ import util.koneksi;
 import util.UserSession;
 import Profile.Profile;
 
+import java.sql.PreparedStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.text.NumberFormat;
 import java.util.Locale;
 import javax.swing.JOptionPane;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -42,7 +45,6 @@ public class MainMenu extends javax.swing.JFrame {
     /**
      * Creates new form MainMenu
      */
-        
     public MainMenu() {
         initComponents();
         UserSession session = UserSession.getInstance();
@@ -66,6 +68,26 @@ public class MainMenu extends javax.swing.JFrame {
         modelTabelProduk.addColumn("Jumlah Terjual");
         modelTabelProduk.addColumn("Total Pemasukan");
 
+        // --- PERUBAHAN 2: Tambahkan listener untuk live search ---
+        txtPencarian.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                // Panggil method pencarian setiap kali ada penambahan teks
+                loadTabelProdukTerlaris(txtPencarian.getText());
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                // Panggil method pencarian setiap kali ada penghapusan teks
+                loadTabelProdukTerlaris(txtPencarian.getText());
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                // Jarang digunakan untuk JTextfield, tapi kita implementasikan juga
+                loadTabelProdukTerlaris(txtPencarian.getText());
+            }
+        });
         // Muat semua data untuk dashboard
         loadDashboardData();
     }
@@ -160,9 +182,42 @@ public class MainMenu extends javax.swing.JFrame {
                     formatRupiah.format(rsProduk.getDouble("total_pemasukan"))
                 });
             }
+            
+            loadTabelProdukTerlaris(""); 
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Gagal memuat data dashboard: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+    
+    private void loadTabelProdukTerlaris(String keyword) {
+        modelTabelProduk.setRowCount(0); // Kosongkan tabel
+        Locale localeID = new Locale("in", "ID");
+        NumberFormat formatRupiah = NumberFormat.getCurrencyInstance(localeID);
+        
+        // Query dimodifikasi dengan klausa WHERE untuk pencarian
+        String sqlProdukTerlaris = "SELECT p.nama_produk, SUM(dt.jumlah) AS jumlah_terjual, SUM(dt.subtotal) AS total_pemasukan " +
+                                   "FROM DETAIL_TRANSAKSI dt JOIN PRODUK p ON dt.id_produk = p.id_produk " +
+                                   "WHERE p.nama_produk LIKE ? " + // Klausa WHERE untuk filter
+                                   "GROUP BY p.nama_produk ORDER BY jumlah_terjual DESC LIMIT 10";
+        
+        try (Connection conn = koneksi.getKoneksi();
+             PreparedStatement pstmt = conn.prepareStatement(sqlProdukTerlaris)) {
+            
+            // Set parameter untuk klausa LIKE
+            pstmt.setString(1, "%" + keyword + "%");
+
+            ResultSet rsProduk = pstmt.executeQuery();
+            while (rsProduk.next()) {
+                modelTabelProduk.addRow(new Object[]{
+                    rsProduk.getString("nama_produk"),
+                    rsProduk.getInt("jumlah_terjual"),
+                    formatRupiah.format(rsProduk.getDouble("total_pemasukan"))
+                });
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Gagal memuat data produk terlaris: " + e.getMessage());
             e.printStackTrace();
         }
     }

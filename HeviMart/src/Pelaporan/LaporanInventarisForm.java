@@ -31,6 +31,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.sql.SQLException;
+
 /**
  *
  * @author Lenovo
@@ -41,16 +42,16 @@ public class LaporanInventarisForm extends javax.swing.JFrame {
     private String namaLengkap;
     private String peran;
     private int loggedInUserId;
+
     /**
      * Creates new form LaporanInventarisForm
      */
 
-    
     public LaporanInventarisForm() {
         initComponents();
 
         this.setLocationRelativeTo(null); // Form muncul di tengah layar
-        
+
         UserSession session = UserSession.getInstance();
         this.loggedInUserId = session.getIdPengguna(); // Ambil ID kasir dari sesi
         String namaLengkap = session.getNamaLengkap();
@@ -63,6 +64,9 @@ public class LaporanInventarisForm extends javax.swing.JFrame {
         tableModel = new DefaultTableModel(columnNames, 0);
         tabelLaporan.setModel(tableModel);
 
+        dateChooserMulai.setDate(new Date());
+        dateChooserSelesai.setDate(new Date());
+
         // Muat data untuk hari ini saat form pertama kali dibuka
         loadData();
     }
@@ -73,7 +77,7 @@ public class LaporanInventarisForm extends javax.swing.JFrame {
 
         Date tanggalMulai = dateChooserMulai.getDate();
         Date tanggalSelesai = dateChooserSelesai.getDate();
-        
+
         if (tanggalMulai == null || tanggalSelesai == null) {
             JOptionPane.showMessageDialog(this, "Tanggal mulai dan selesai harus diisi.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
@@ -83,8 +87,6 @@ public class LaporanInventarisForm extends javax.swing.JFrame {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         String startDate = sdf.format(tanggalMulai);
         String endDate = sdf.format(tanggalSelesai);
-        
-        
 
         // Query SQL yang sama seperti sebelumnya
         String sql = "SELECT p.kode_barcode, p.nama_produk, k.nama_kategori, "
@@ -114,8 +116,7 @@ public class LaporanInventarisForm extends javax.swing.JFrame {
                         rs.getInt("stok_awal"),
                         rs.getInt("masuk"),
                         rs.getInt("keluar"),
-                        rs.getInt("stok_akhir"),
-                    };
+                        rs.getInt("stok_akhir"),};
                     tableModel.addRow(row);
                 }
             }
@@ -203,6 +204,11 @@ public class LaporanInventarisForm extends javax.swing.JFrame {
 
         btnDashboard1.setBorderPainted(false);
         btnDashboard1.setContentAreaFilled(false);
+        btnDashboard1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDashboard1ActionPerformed(evt);
+            }
+        });
         jPanel1.add(btnDashboard1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 210, 160, 30));
 
         btnPOS.setBorderPainted(false);
@@ -344,14 +350,14 @@ public class LaporanInventarisForm extends javax.swing.JFrame {
         loadData();
 
     }//GEN-LAST:event_btnTampilkanActionPerformed
-    
+
     private void showAccessDeniedMessage() {
         JOptionPane.showMessageDialog(this,
                 "Anda tidak memiliki hak akses untuk membuka menu ini.",
                 "Akses Ditolak",
                 JOptionPane.WARNING_MESSAGE);
     }
-    
+
     private void btnPOSActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPOSActionPerformed
         // Akses: Diizinkan untuk Kasir, Manager, Administrator. Ditolak untuk Staff Gudang.
         String peran = UserSession.getInstance().getPeran();
@@ -470,6 +476,7 @@ public class LaporanInventarisForm extends javax.swing.JFrame {
 
     private void btnDashboard1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDashboard1ActionPerformed
         // TODO add your handling code here:
+        this.setVisible(false);
         new MainMenu().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnDashboard1ActionPerformed
@@ -480,13 +487,14 @@ public class LaporanInventarisForm extends javax.swing.JFrame {
         Profile profile = new Profile(this);
         profile.setVisible(true);
     }//GEN-LAST:event_btnProfilePurchaseActionPerformed
-    
-    private void btnProfileActionPerformed(java.awt.event.ActionEvent evt) {                                           
+
+    private void btnProfileActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
         this.setVisible(false);
         Profile profile = new Profile(this);
         profile.setVisible(true);
-    } 
+    }
+
     /**
      * @param args the command line arguments
      */

@@ -260,6 +260,11 @@ public class SupplierForm extends javax.swing.JFrame {
 
         btnDashboard1.setBorderPainted(false);
         btnDashboard1.setContentAreaFilled(false);
+        btnDashboard1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDashboard1ActionPerformed(evt);
+            }
+        });
         jPanel1.add(btnDashboard1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 210, 160, 30));
 
         btnPOS.setBorderPainted(false);
@@ -590,6 +595,13 @@ public class SupplierForm extends javax.swing.JFrame {
         Profile profile = new Profile(this);
         profile.setVisible(true);
     }//GEN-LAST:event_btnProfileActionPerformed
+
+    private void btnDashboard1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDashboard1ActionPerformed
+        // TODO add your handling code here:
+        this.setVisible(false);
+        new MainMenu().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnDashboard1ActionPerformed
 
     /**
      * @param args the command line arguments
