@@ -507,7 +507,7 @@ public class MainMenu extends javax.swing.JFrame {
     private void btnProfileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProfileActionPerformed
         // TODO add your handling code here:
         this.setVisible(false);
-        Profile profile = new Profile();
+        Profile profile = new Profile(this);
         profile.setVisible(true);
     }//GEN-LAST:event_btnProfileActionPerformed
 

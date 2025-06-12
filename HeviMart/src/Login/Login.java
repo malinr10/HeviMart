@@ -45,9 +45,9 @@ public class Login extends javax.swing.JFrame {
         txtPassword = new javax.swing.JPasswordField();
         btnLogin = new javax.swing.JButton();
         btnKeRegistrasi = new javax.swing.JButton();
+        BG_Login = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        BG_Login = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Login Form");
@@ -78,7 +78,10 @@ public class Login extends javax.swing.JFrame {
                 btnKeRegistrasiActionPerformed(evt);
             }
         });
-        jPanel1.add(btnKeRegistrasi, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 740, 100, 30));
+        jPanel1.add(btnKeRegistrasi, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 740, 90, 20));
+
+        BG_Login.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/Login (2).png"))); // NOI18N
+        jPanel1.add(BG_Login, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(102, 204, 255));
@@ -88,9 +91,6 @@ public class Login extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel2.setText("Belum Punya Akun? ");
         jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 740, 250, 30));
-
-        BG_Login.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/Login.png"))); // NOI18N
-        jPanel1.add(BG_Login, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);

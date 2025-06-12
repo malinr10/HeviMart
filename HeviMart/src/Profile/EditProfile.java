@@ -137,7 +137,8 @@ private int id_pengguna;
             JOptionPane.showMessageDialog(this, "Profil berhasil disimpan!");
             
             // 🔁 Pindah ke halaman Profil
-            Profile profilePage = new Profile(id_pengguna); // Kirim ID pengguna
+            Profile profilePage = new Profile(this); // this = halaman EditProfile
+
             profilePage.setVisible(true);
             this.dispose(); // Tutup halaman edit
         }

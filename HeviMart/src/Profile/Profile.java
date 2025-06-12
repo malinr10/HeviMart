@@ -4,63 +4,44 @@
  */
 package Profile;
 
-import Login.Registrasi;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import javax.swing.JOptionPane;
-import util.koneksi;
+import javax.swing.JFrame;
+import util.UserSession;
 
 /**
  *
  * @author User
  */
 public class Profile extends javax.swing.JFrame {
-    private int id_pengguna;
+
+    private String namaLengkap;
+    private String peran;
+    private String email;
+    private String telepon;
+    private int loggedInUserId;
+    private JFrame previousPage;
+
     /**
-     * Creates new form Profile
+     * Creates new form MainMenu
      */
-    public Profile() {
-        initComponents();
-        // 1. Secara otomatis menyesuaikan ukuran jendela agar semua komponen pas.
-        this.pack();
-
-        // 2. (Opsional tapi sangat disarankan) Posisikan jendela di tengah layar
-        //    setelah ukurannya disesuaikan.
-        this.setLocationRelativeTo(null);
-       
-    }
-
-    public Profile(int id_pengguna) {
+        
+    public Profile(JFrame previousPage) {
     initComponents();
-    this.id_pengguna = id_pengguna;
-    loadProfileData(); // otomatis ambil data dari DB
+    this.previousPage = previousPage;
+
+    UserSession session = UserSession.getInstance();
+
+    this.loggedInUserId = session.getIdPengguna();
+    this.namaLengkap = session.getNamaLengkap();
+    this.peran = session.getPeran();
+    this.email = session.getEmail();
+    this.telepon = session.getTelepon();
+
+    lblNama_Lengkap.setText(this.namaLengkap);
+    lblRole.setText(this.peran);
+    lblEmail.setText(this.email);
+    lblTelepon.setText(this.telepon);
 }
     
-    private void loadProfileData() {
-    try {
-         Connection conn = koneksi.getKoneksi();
-        String sql = "SELECT * FROM pengguna WHERE id_pengguna=?";
-        PreparedStatement stmt = conn.prepareStatement(sql);
-        stmt.setInt(1, id_pengguna);
-        ResultSet rs = stmt.executeQuery();
-
-        if (rs.next()) {
-            lblNama_Lengkap.setText(rs.getString("nama_lengkap"));
-            lblRole.setText(rs.getString("peran"));
-            lblEmail.setText(rs.getString("email"));
-            lblTelepon.setText(rs.getString("telepon"));
-        }
-
-        rs.close();
-        stmt.close();
-        conn.close();
-    } catch (Exception e) {
-        JOptionPane.showMessageDialog(this, "Gagal memuat profil: " + e.getMessage());
-    }
-}
-
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -76,6 +57,7 @@ public class Profile extends javax.swing.JFrame {
         lblEmail = new javax.swing.JLabel();
         lblTelepon = new javax.swing.JLabel();
         btnEdit = new javax.swing.JButton();
+        btnBack = new javax.swing.JButton();
         BG_Profile = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -103,6 +85,15 @@ public class Profile extends javax.swing.JFrame {
         });
         jPanel1.add(btnEdit, new org.netbeans.lib.awtextra.AbsoluteConstraints(910, 720, 160, 50));
 
+        btnBack.setBorderPainted(false);
+        btnBack.setContentAreaFilled(false);
+        btnBack.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBackActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnBack, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 30, 80, 80));
+
         BG_Profile.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/Profile.png"))); // NOI18N
         jPanel1.add(BG_Profile, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
@@ -126,43 +117,52 @@ public class Profile extends javax.swing.JFrame {
         this.dispose(); 
     }//GEN-LAST:event_btnEditActionPerformed
 
+    private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
+        // TODO add your handling code here:
+    this.dispose();
+        if (previousPage != null) {
+            previousPage.setVisible(true);
+        }
+    }//GEN-LAST:event_btnBackActionPerformed
+
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Profile.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Profile.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Profile.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Profile.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Profile().setVisible(true);
-            }
-        });
-    }
+//    public static void main(String args[]) {
+//        /* Set the Nimbus look and feel */
+//        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+//        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+//         */
+//        try {
+//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+//                if ("Nimbus".equals(info.getName())) {
+//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+//                    break;
+//                }
+//            }
+//        } catch (ClassNotFoundException ex) {
+//            java.util.logging.Logger.getLogger(Profile.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (InstantiationException ex) {
+//            java.util.logging.Logger.getLogger(Profile.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (IllegalAccessException ex) {
+//            java.util.logging.Logger.getLogger(Profile.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+//            java.util.logging.Logger.getLogger(Profile.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        }
+//        //</editor-fold>
+//
+//        /* Create and display the form */
+//        java.awt.EventQueue.invokeLater(new Runnable() {
+//            public void run() {
+//                new Profile().setVisible(true);
+//            }
+//        });
+//    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel BG_Profile;
+    private javax.swing.JButton btnBack;
     private javax.swing.JButton btnEdit;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lblEmail;

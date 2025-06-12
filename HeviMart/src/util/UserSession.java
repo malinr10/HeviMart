@@ -15,6 +15,8 @@ public class UserSession {
     private int idPengguna;
     private String namaPengguna;
     private String namaLengkap;
+    private String email;
+    private String telepon;
     private String peran;
 
     // 3. Constructor dibuat 'private' agar tidak ada yang bisa membuat instance
@@ -45,6 +47,8 @@ public class UserSession {
         this.namaPengguna = username;
         this.namaLengkap = nama;
         this.peran = role;
+        this.email = email;
+        this.telepon = telepon;
     }
 
     /**
@@ -77,4 +81,7 @@ public class UserSession {
     public String getPeran() {
         return peran;
     }
+    
+    public String getEmail() { return email; }
+    public String getTelepon() { return telepon; }
 }

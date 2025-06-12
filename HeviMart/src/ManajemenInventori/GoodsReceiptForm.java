@@ -572,7 +572,7 @@ public class GoodsReceiptForm extends javax.swing.JFrame {
     private void btnProfileActionPerformed(java.awt.event.ActionEvent evt) {                                           
         // TODO add your handling code here:
         this.setVisible(false);
-        Profile profile = new Profile();
+        Profile profile = new Profile(this);
         profile.setVisible(true);
     } 
     /**
