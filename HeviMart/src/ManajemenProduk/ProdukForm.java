@@ -50,6 +50,7 @@ public class ProdukForm extends javax.swing.JFrame {
     
     public ProdukForm() {
         initComponents();
+        this.setLocationRelativeTo(null);
         this.pack(); // Method ini akan menyesuaikan ukuran frame secara otomatis)
         
         UserSession session = UserSession.getInstance();

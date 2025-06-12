@@ -16,6 +16,8 @@ import ManajemenInventori.SupplierForm;
 import ManajemenProduk.ProdukForm;
 import Pelaporan.LaporanInventarisForm;
 import Pelaporan.LaporanPenjualanForm;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import PosSistem.POSForm;
 import util.koneksi;
 import util.UserSession;
@@ -28,32 +30,33 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
+
 /**
  *
  * @author mdr
  */
 public class UserManagement extends javax.swing.JFrame {
-    
+
     private DefaultTableModel modelTabelPengguna;
     private UserDAO userDAO;
     private int currentLoggedInUserId; // Untuk menyimpan ID user yang sedang login
     private String currentLoggedInUserRole; // Untuk menyimpan peran user yang sedang login
-    
+
     private String namaLengkap;
     private String peran;
     private int loggedInUserId;
-    
 
     public UserManagement() { // Constructor menerima data user login
-        UserSession session = UserSession.getInstance();
-        this.loggedInUserId = session.getIdPengguna(); 
-        lblUsername.setText(this.namaLengkap);
-        lblPeran.setText(this.peran);
-        this.currentLoggedInUserId = session.getIdPengguna();
-        this.currentLoggedInUserRole = session.getPeran();
-        
         initComponents();
         this.setLocationRelativeTo(null); // Posisikan di tengah layar
+
+        UserSession session = UserSession.getInstance();
+        String namaLengkap = session.getNamaLengkap();
+        this.loggedInUserId = session.getIdPengguna();
+        this.currentLoggedInUserId = session.getIdPengguna();
+        this.currentLoggedInUserRole = session.getPeran();
+        lblUsername.setText(this.namaLengkap);
+        lblPeran.setText(this.peran);
 
         modelTabelPengguna = new DefaultTableModel();
         tblPengguna.setModel(modelTabelPengguna);
@@ -68,16 +71,23 @@ public class UserManagement extends javax.swing.JFrame {
         userDAO = new UserDAO(); // Inisialisasi DAO
 
         loadUserData(); // Muat data saat panel pertama kali dibuka
-        checkUserRolePermissions(); // Periksa izin berdasarkan peran pengguna
-        
+
         // Tambahkan listener untuk live search
         txtSearch.getDocument().addDocumentListener(new DocumentListener() {
             @Override
-            public void insertUpdate(DocumentEvent e) { searchAndLoadUserData(); }
+            public void insertUpdate(DocumentEvent e) {
+                searchAndLoadUserData();
+            }
+
             @Override
-            public void removeUpdate(DocumentEvent e) { searchAndLoadUserData(); }
+            public void removeUpdate(DocumentEvent e) {
+                searchAndLoadUserData();
+            }
+
             @Override
-            public void changedUpdate(DocumentEvent e) { searchAndLoadUserData(); }
+            public void changedUpdate(DocumentEvent e) {
+                searchAndLoadUserData();
+            }
         });
 
         // Tambahkan event listeners untuk tombol-tombol
@@ -200,7 +210,7 @@ public class UserManagement extends javax.swing.JFrame {
         UserFormDialog dialog;
         if (userId == null) {
             // Mode tambah pengguna baru
-            dialog = new UserFormDialog(this, true); 
+            dialog = new UserFormDialog(this, true);
         } else {
             // Mode edit pengguna yang sudah ada
             dialog = new UserFormDialog(this, true, userId);
@@ -208,7 +218,7 @@ public class UserManagement extends javax.swing.JFrame {
         dialog.setVisible(true);
         // Jika data disimpan di dialog (addUser/updateUser berhasil), muat ulang tabel
         if (dialog.isDataSaved()) {
-            loadUserData(); 
+            loadUserData();
         }
     }
 
@@ -228,17 +238,16 @@ public class UserManagement extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Gagal menghapus pengguna.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
-    
-    // Metode untuk mengatur visibilitas tombol berdasarkan peran
-    private void checkUserRolePermissions() {
-        if (!currentLoggedInUserRole.equalsIgnoreCase("Admin")) {
-            btnTambahUser.setEnabled(false);
-            btnEditUser.setEnabled(false);
-            btnGantiPswd.setEnabled(false);
-            btnDeleteUser.setEnabled(false);
-        }
-    }
 
+    // Metode untuk mengatur visibilitas tombol berdasarkan peran
+//    private void checkUserRolePermissions() {
+//        if (!currentLoggedInUserRole.equalsIgnoreCase("Admin")) {
+//            btnTambahUser.setEnabled(false);
+//            btnEditUser.setEnabled(false);
+//            btnGantiPswd.setEnabled(false);
+//            btnDeleteUser.setEnabled(false);
+//        }
+//    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -298,6 +307,11 @@ public class UserManagement extends javax.swing.JFrame {
 
         btnEditUser.setBorderPainted(false);
         btnEditUser.setContentAreaFilled(false);
+        btnEditUser.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditUserActionPerformed(evt);
+            }
+        });
         jPanel2.add(btnEditUser, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 910, 220, 60));
 
         btnDeleteUser.setBorderPainted(false);
@@ -501,6 +515,41 @@ public class UserManagement extends javax.swing.JFrame {
 
     private void btnDeleteUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteUserActionPerformed
         // TODO add your handling code here:
+        int selectedRow = tblPengguna.getSelectedRow();
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this, "Pilih pengguna yang ingin dihapus.", "Peringatan", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        int userIdToDelete = (int) tblPengguna.getValueAt(selectedRow, 0);
+        String usernameToDelete = (String) tblPengguna.getValueAt(selectedRow, 2);
+
+        // Pencegahan menghapus diri sendiri
+        if (userIdToDelete == UserSession.getInstance().getIdPengguna()) {
+            JOptionPane.showMessageDialog(this, "Anda tidak bisa menghapus akun Anda sendiri.", "Aksi Ditolak", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        int confirm = JOptionPane.showConfirmDialog(this, "Apakah Anda yakin ingin menghapus pengguna '" + usernameToDelete + "'?", "Konfirmasi Hapus", JOptionPane.YES_NO_OPTION);
+
+        if (confirm == JOptionPane.YES_OPTION) {
+            String sql = "DELETE FROM PENGGUNA WHERE id_pengguna = ?";
+            try (Connection conn = koneksi.getKoneksi(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+                pstmt.setInt(1, userIdToDelete);
+                int rowsAffected = pstmt.executeUpdate();
+
+                if (rowsAffected > 0) {
+                    JOptionPane.showMessageDialog(this, "Pengguna berhasil dihapus.", "Sukses", JOptionPane.INFORMATION_MESSAGE);
+                    loadUserData(); // Refresh tabel
+                } else {
+                    JOptionPane.showMessageDialog(this, "Gagal menghapus pengguna. Pengguna tidak ditemukan.", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Terjadi kesalahan database: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                e.printStackTrace();
+            }
+        }
     }//GEN-LAST:event_btnDeleteUserActionPerformed
 
     private void txtSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSearchActionPerformed
@@ -509,15 +558,16 @@ public class UserManagement extends javax.swing.JFrame {
 
     private void btnTambahUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTambahUserActionPerformed
         // TODO add your handling code here:
+        openUserFormDialog(null);
     }//GEN-LAST:event_btnTambahUserActionPerformed
-    
+
     private void showAccessDeniedMessage() {
         JOptionPane.showMessageDialog(this,
                 "Anda tidak memiliki hak akses untuk membuka menu ini.",
                 "Akses Ditolak",
                 JOptionPane.WARNING_MESSAGE);
     }
-    
+
     private void btnProfileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProfileActionPerformed
         // TODO add your handling code here:
         this.setVisible(false);
@@ -650,6 +700,23 @@ public class UserManagement extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_btnDashboard1ActionPerformed
 
+    private void btnEditUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditUserActionPerformed
+        // TODO add your handling code here:
+        int selectedRow = tblPengguna.getSelectedRow();
+
+        // 2. Validasi: pastikan ada baris yang dipilih.
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this, "Pilih pengguna yang ingin diedit.", "Peringatan", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        // 3. Ambil userId dari kolom pertama (indeks 0) dari baris yang dipilih.
+        int userId = (int) tblPengguna.getValueAt(selectedRow, 0);
+
+        // 4. Panggil helper method dengan userId tersebut untuk masuk ke mode "Edit".
+        openUserFormDialog(userId);
+    }//GEN-LAST:event_btnEditUserActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -676,7 +743,7 @@ public class UserManagement extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(UserManagement.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-        
+
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -15,7 +15,7 @@ public class UserFormDialog extends javax.swing.JDialog {
     private int userIdToEdit;
     private boolean dataSaved = false;
     private UserDAO userDAO;
-    
+
     // --- Konstruktor 1: Untuk mode Tambah Pengguna Baru ---
     public UserFormDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal); // Panggil konstruktor JDialog
@@ -36,7 +36,7 @@ public class UserFormDialog extends javax.swing.JDialog {
         // Sembunyikan label ID di mode tambah
         IDUser.setVisible(false); // Label "ID user:"
         ID.setVisible(false); // Label yang menampilkan ID kosong
-        
+
         // Tambahkan ActionListener untuk tombol Batal
         btnBatal.addActionListener(new ActionListener() {
             @Override
@@ -68,7 +68,7 @@ public class UserFormDialog extends javax.swing.JDialog {
         // Pastikan label ID terlihat di mode edit
         IDUser.setVisible(true);
         ID.setVisible(true);
-        
+
         // Tambahkan ActionListener untuk tombol Batal
         btnBatal.addActionListener(new ActionListener() {
             @Override
@@ -124,7 +124,7 @@ public class UserFormDialog extends javax.swing.JDialog {
             return;
         }
 
-        User user = new User(); 
+        User user = new User();
         user.setNamaLengkap(namaLengkap);
         user.setNamaPengguna(username);
         user.setPeran(peran);
@@ -160,7 +160,7 @@ public class UserFormDialog extends javax.swing.JDialog {
                     JOptionPane.showMessageDialog(this, "Password dan konfirmasi password tidak cocok.", "Validasi", JOptionPane.WARNING_MESSAGE);
                     return;
                 }
-                
+
                 // Cek duplikasi username/email sebelum menambah
                 if (userDAO.isUsernameOrEmailExists(username, email, -1)) { // -1 karena ini pengguna baru
                     JOptionPane.showMessageDialog(this, "Username atau Email sudah terdaftar.", "Validasi", JOptionPane.WARNING_MESSAGE);
@@ -191,6 +191,7 @@ public class UserFormDialog extends javax.swing.JDialog {
     public boolean isDataSaved() {
         return dataSaved;
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -344,9 +345,7 @@ public class UserFormDialog extends javax.swing.JDialog {
 
     private void btnBatalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBatalActionPerformed
         // TODO add your handling code here:
-    this.setVisible(false);
-    UserManagement UMForm = new UserManagement();
-    UMForm.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnBatalActionPerformed
 
     /**

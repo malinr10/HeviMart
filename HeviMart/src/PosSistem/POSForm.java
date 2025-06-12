@@ -56,7 +56,6 @@ public class POSForm extends javax.swing.JFrame {
     public POSForm() {
         initComponents();
         this.setLocationRelativeTo(null);
-        this.setLocationRelativeTo(null);
         
         // FIX 3: Logika inisialisasi dipindahkan ke constructor yang benar
         // Ambil data dari session
