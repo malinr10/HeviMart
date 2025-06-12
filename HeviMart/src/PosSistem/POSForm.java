@@ -189,37 +189,42 @@ public class POSForm extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         txtBarcode = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblShoppingCart = new javax.swing.JTable();
-        jPanel3 = new javax.swing.JPanel();
         lblSubtotal = new javax.swing.JLabel();
         lblDiskon = new javax.swing.JLabel();
         lblGrandTotal = new javax.swing.JLabel();
-        jSeparator1 = new javax.swing.JSeparator();
-        jLabel3 = new javax.swing.JLabel();
-        cmbMetodeBayar = new javax.swing.JComboBox<>();
-        jLabel2 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jSeparator2 = new javax.swing.JSeparator();
+        cmbMetodeBayar1 = new javax.swing.JComboBox<>();
+        jLabel5 = new javax.swing.JLabel();
         txtJumlahBayar = new javax.swing.JTextField();
         lblKembalian = new javax.swing.JLabel();
+        lblJudul = new javax.swing.JTextField();
         btnBayar = new javax.swing.JButton();
         btnHapusItem = new javax.swing.JButton();
         btnBatalTransaksi = new javax.swing.JButton();
         btnRiwayat = new javax.swing.JButton();
         btnCari = new javax.swing.JButton();
+        BG_POSForm = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         getContentPane().setLayout(new java.awt.BorderLayout(0, 1));
 
-        jLabel1.setText("Input Barcode");
+        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(900, 280, 50, 40));
 
+        txtBarcode.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        txtBarcode.setBorder(null);
         txtBarcode.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtBarcodeActionPerformed(evt);
             }
         });
+        jPanel2.add(txtBarcode, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 285, 290, 40));
 
         tblShoppingCart.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -234,118 +239,93 @@ public class POSForm extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(tblShoppingCart);
 
-        jPanel3.setLayout(new java.awt.GridLayout(10, 1));
+        jPanel2.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 370, 690, 500));
 
-        lblSubtotal.setText("Subtotal");
-        jPanel3.add(lblSubtotal);
+        lblSubtotal.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        jPanel2.add(lblSubtotal, new org.netbeans.lib.awtextra.AbsoluteConstraints(1180, 280, 180, 40));
 
-        lblDiskon.setText("Diskon");
-        jPanel3.add(lblDiskon);
+        lblDiskon.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        jPanel2.add(lblDiskon, new org.netbeans.lib.awtextra.AbsoluteConstraints(1180, 340, 180, 40));
 
-        lblGrandTotal.setText("Grand Total :");
-        jPanel3.add(lblGrandTotal);
-        jPanel3.add(jSeparator1);
+        lblGrandTotal.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        jPanel2.add(lblGrandTotal, new org.netbeans.lib.awtextra.AbsoluteConstraints(1180, 406, 180, 40));
+        jPanel2.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(1050, 480, -1, -1));
+        jPanel2.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
-        jLabel3.setText("Metode Pembayaran");
-        jPanel3.add(jLabel3);
+        cmbMetodeBayar1.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        cmbMetodeBayar1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tunai", "QRIS", "Kartu Debit", "Kartu Kredit" }));
+        cmbMetodeBayar1.setBorder(null);
+        jPanel2.add(cmbMetodeBayar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1040, 510, 290, 60));
+        jPanel2.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(1060, 590, -1, -1));
 
-        cmbMetodeBayar.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tunai", "QRIS", "Kartu Debit", "Kartu Kredit" }));
-        jPanel3.add(cmbMetodeBayar);
+        txtJumlahBayar.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        txtJumlahBayar.setBorder(null);
+        jPanel2.add(txtJumlahBayar, new org.netbeans.lib.awtextra.AbsoluteConstraints(1060, 633, 260, 40));
 
-        jLabel2.setText("Jumlah Bayar : ");
-        jPanel3.add(jLabel2);
-        jPanel3.add(txtJumlahBayar);
+        lblKembalian.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        jPanel2.add(lblKembalian, new org.netbeans.lib.awtextra.AbsoluteConstraints(1060, 748, 260, 40));
 
-        lblKembalian.setText("Kembalian :");
-        jPanel3.add(lblKembalian);
+        lblJudul.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
+        lblJudul.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        lblJudul.setText("Pembayaran");
+        lblJudul.setBorder(null);
+        lblJudul.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                lblJudulActionPerformed(evt);
+            }
+        });
+        jPanel2.add(lblJudul, new org.netbeans.lib.awtextra.AbsoluteConstraints(1040, 470, 310, -1));
 
-        btnBayar.setText("Bayar");
+        btnBayar.setBorderPainted(false);
+        btnBayar.setContentAreaFilled(false);
         btnBayar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnBayarActionPerformed(evt);
             }
         });
-        jPanel3.add(btnBayar);
+        jPanel2.add(btnBayar, new org.netbeans.lib.awtextra.AbsoluteConstraints(1050, 830, 280, 50));
 
-        btnHapusItem.setText("Hapus Item");
+        btnHapusItem.setBorderPainted(false);
+        btnHapusItem.setContentAreaFilled(false);
         btnHapusItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnHapusItemActionPerformed(evt);
             }
         });
+        jPanel2.add(btnHapusItem, new org.netbeans.lib.awtextra.AbsoluteConstraints(1321, 173, 60, 50));
 
-        btnBatalTransaksi.setText("Batal Transaksi");
+        btnBatalTransaksi.setBorderPainted(false);
+        btnBatalTransaksi.setContentAreaFilled(false);
         btnBatalTransaksi.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnBatalTransaksiActionPerformed(evt);
             }
         });
+        jPanel2.add(btnBatalTransaksi, new org.netbeans.lib.awtextra.AbsoluteConstraints(897, 173, 60, 50));
 
-        btnRiwayat.setText("Riwayat");
+        btnRiwayat.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        btnRiwayat.setText("Riwayat Transaksi");
+        btnRiwayat.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         btnRiwayat.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnRiwayatActionPerformed(evt);
             }
         });
+        jPanel2.add(btnRiwayat, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 883, 150, 40));
 
-        btnCari.setText("Cari Produk");
+        btnCari.setBorderPainted(false);
+        btnCari.setContentAreaFilled(false);
         btnCari.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCariActionPerformed(evt);
             }
         });
+        jPanel2.add(btnCari, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 290, 60, 50));
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 480, Short.MAX_VALUE)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(btnHapusItem, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btnRiwayat, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(118, 118, 118)
-                                .addComponent(btnBatalTransaksi, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(14, 14, 14)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnCari)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addGap(18, 18, 18)
-                                .addComponent(txtBarcode, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(27, 27, 27)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(txtBarcode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(btnCari)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnBatalTransaksi, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnRiwayat, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnHapusItem, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(61, 61, 61))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 403, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
-        );
+        BG_POSForm.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/POS.png"))); // NOI18N
+        jPanel2.add(BG_POSForm, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
-        getContentPane().add(jPanel1, java.awt.BorderLayout.PAGE_START);
+        getContentPane().add(jPanel2, java.awt.BorderLayout.CENTER);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -353,97 +333,6 @@ public class POSForm extends javax.swing.JFrame {
     private void txtBarcodeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBarcodeActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtBarcodeActionPerformed
-
-    private void btnBayarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBayarActionPerformed
-        // TODO add your handling code here:
-        if (modelTabel.getRowCount() == 0) {
-            JOptionPane.showMessageDialog(this, "Keranjang belanja masih kosong.");
-            return;
-        }
-
-        String bayarString = txtJumlahBayar.getText();
-        if (bayarString.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Masukkan jumlah pembayaran terlebih dahulu.", "Peringatan", JOptionPane.WARNING_MESSAGE);
-            txtJumlahBayar.requestFocus();
-            return;
-        }
-
-        BigDecimal jumlahBayar;
-        try {
-            jumlahBayar = new BigDecimal(bayarString);
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "Format jumlah bayar tidak valid.", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-
-        if (jumlahBayar.compareTo(this.grandTotal) < 0) {
-            JOptionPane.showMessageDialog(this, "Jumlah pembayaran kurang dari Grand Total.", "Peringatan", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-
-        // --- PROSES TRANSAKSI ---
-        Connection conn = null;
-        try {
-            conn = koneksi.getKoneksi(); // Sesuaikan dengan nama kelas koneksi Anda
-            conn.setAutoCommit(false);
-
-            // Ambil semua data yang akan disimpan
-            String metodeBayar = (String) cmbMetodeBayar.getSelectedItem();
-            BigDecimal kembalian = jumlahBayar.subtract(this.grandTotal);
-            BigDecimal totalDiskon = new BigDecimal(lblDiskon.getText().replaceAll("[^\\d,]", "").replace(",", "."));
-            BigDecimal totalSebelumDiskon = this.grandTotal.add(totalDiskon);
-
-            // Query INSERT yang sudah lengkap
-            String sqlTrx = "INSERT INTO TRANSAKSI (kode_transaksi, id_kasir, total_harga, diskon, harga_akhir, metode_bayar, jumlah_bayar, kembalian) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-            PreparedStatement pstmtTrx = conn.prepareStatement(sqlTrx, Statement.RETURN_GENERATED_KEYS);
-
-            String kodeTrx = "TRX-" + System.currentTimeMillis();
-            pstmtTrx.setString(1, kodeTrx);
-            pstmtTrx.setInt(2, this.ID_KASIR);
-            pstmtTrx.setBigDecimal(3, totalSebelumDiskon); // total harga asli
-            pstmtTrx.setBigDecimal(4, totalDiskon);         // total diskon
-            pstmtTrx.setBigDecimal(5, this.grandTotal);      // harga akhir setelah diskon
-            pstmtTrx.setString(6, metodeBayar);
-            pstmtTrx.setBigDecimal(7, jumlahBayar);
-            pstmtTrx.setBigDecimal(8, kembalian);
-            pstmtTrx.executeUpdate();
-
-            ResultSet rsKeys = pstmtTrx.getGeneratedKeys();
-            int trxId = rsKeys.next() ? rsKeys.getInt(1) : 0;
-            if (trxId == 0) {
-                throw new SQLException("Gagal membuat transaksi utama.");
-            }
-
-            // Loop untuk menyimpan detail, update stok, dan log pergerakan
-            // ... (sisipkan loop for dari jawaban sebelumnya di sini, isinya sudah benar)
-            // ...
-            conn.commit();
-            JOptionPane.showMessageDialog(this, "Transaksi berhasil disimpan!", "Sukses", JOptionPane.INFORMATION_MESSAGE);
-
-            // Panggil cetak struk (jika sudah dibuat)
-            // cetakStruk(trxId, this.grandTotal, jumlahBayar, kembalian);
-            clearForm();
-
-        } catch (Exception e) {
-            try {
-                if (conn != null) {
-                    conn.rollback();
-                }
-            } catch (SQLException ex) {
-                ex.printStackTrace();
-            }
-            JOptionPane.showMessageDialog(this, "Transaksi Gagal: " + e.getMessage(), "Error Database", JOptionPane.ERROR_MESSAGE);
-            e.printStackTrace();
-        } finally {
-            try {
-                if (conn != null) {
-                    conn.setAutoCommit(true);
-                }
-            } catch (SQLException ex) {
-                ex.printStackTrace();
-            }
-        }
-    }//GEN-LAST:event_btnBayarActionPerformed
 
     private void btnHapusItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHapusItemActionPerformed
         // TODO add your handling code here:
@@ -484,6 +373,14 @@ public class POSForm extends javax.swing.JFrame {
 
     }//GEN-LAST:event_btnCariActionPerformed
 
+    private void btnBayarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBayarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnBayarActionPerformed
+
+    private void lblJudulActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lblJudulActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_lblJudulActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -491,21 +388,22 @@ public class POSForm extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel BG_POSForm;
     private javax.swing.JButton btnBatalTransaksi;
     private javax.swing.JButton btnBayar;
     private javax.swing.JButton btnCari;
     private javax.swing.JButton btnHapusItem;
     private javax.swing.JButton btnRiwayat;
-    private javax.swing.JComboBox<String> cmbMetodeBayar;
+    private javax.swing.JComboBox<String> cmbMetodeBayar1;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JSeparator jSeparator2;
     private javax.swing.JLabel lblDiskon;
     private javax.swing.JLabel lblGrandTotal;
+    private javax.swing.JTextField lblJudul;
     private javax.swing.JLabel lblKembalian;
     private javax.swing.JLabel lblSubtotal;
     private javax.swing.JTable tblShoppingCart;
