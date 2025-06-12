@@ -18,7 +18,7 @@ public class koneksi {
     private static Connection koneksi;
 
     public static Connection getKoneksi() throws SQLException {
-        String url = "jdbc:mysql://localhost:3307/supermart_db";
+        String url = "jdbc:mysql://localhost:3306/supermart_db";
         String user = "root";
         String password = ""; // Sesuaikan
 
