@@ -20,13 +20,11 @@ import javax.swing.JFrame;
 public class EditProfile extends javax.swing.JFrame {
 
     private int id_pengguna;
-    private JFrame previousPage;
 
     /**
      * Creates new form EditProfile
      */
-    public EditProfile(JFrame previousPage) {
-        initComponents();
+    public EditProfile() {
 
         // 1. Panggil initComponents() pertama kali
         initComponents();
@@ -81,6 +79,7 @@ public class EditProfile extends javax.swing.JFrame {
         txtEmail = new javax.swing.JTextField();
         txtRole = new javax.swing.JLabel();
         btnSimpan = new javax.swing.JButton();
+        btnBatal = new javax.swing.JButton();
         BG_EditProfile = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -115,6 +114,17 @@ public class EditProfile extends javax.swing.JFrame {
             }
         });
         jPanel1.add(btnSimpan, new org.netbeans.lib.awtextra.AbsoluteConstraints(910, 720, 160, 50));
+
+        btnBatal.setBackground(new java.awt.Color(255, 0, 51));
+        btnBatal.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnBatal.setForeground(new java.awt.Color(255, 255, 255));
+        btnBatal.setText("Batal");
+        btnBatal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBatalActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnBatal, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 720, 170, 50));
 
         BG_EditProfile.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/Edit Profile v2.png"))); // NOI18N
         jPanel1.add(BG_EditProfile, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
@@ -176,19 +186,10 @@ public class EditProfile extends javax.swing.JFrame {
                 );
 
                 // 7. Tutup form edit dan buka kembali halaman Profile
-                // Memanggil constructor Profile yang benar sesuai konteks Anda
-                JOptionPane.showMessageDialog(this, "Profil berhasil diperbarui!");
-
                 // PERBAIKAN 3: Logika navigasi kembali
                 // Jika halaman sebelumnya ada, tampilkan kembali.
-                if (this.previousPage != null) {
-                    // Coba refresh data di halaman Profile sebelum menampilkannya
-                    if (this.previousPage instanceof Profile) {
-                        ((Profile) this.previousPage).refreshProfileData();
-                    }
-                    this.previousPage.setVisible(true);
-                }
-                this.dispose(); // Tutup form EditProfile
+                new Profile(this).setVisible(true);
+                this.dispose();
 
             } else {
                 JOptionPane.showMessageDialog(this, "Gagal menyimpan profil. Tidak ada data yang berubah.", "Error", JOptionPane.ERROR_MESSAGE);
@@ -204,6 +205,12 @@ public class EditProfile extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtEmailActionPerformed
 
+    private void btnBatalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBatalActionPerformed
+        // TODO add your handling code here:
+        new Profile(this).setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnBatalActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -213,6 +220,7 @@ public class EditProfile extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel BG_EditProfile;
+    private javax.swing.JButton btnBatal;
     private javax.swing.JButton btnSimpan;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JTextField txtEmail;

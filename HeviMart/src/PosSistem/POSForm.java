@@ -52,11 +52,10 @@ public class POSForm extends javax.swing.JFrame {
     /**
      * Creates new form POSForm
      */
-
     public POSForm() {
         initComponents();
         this.setLocationRelativeTo(null);
-        
+
         // FIX 3: Logika inisialisasi dipindahkan ke constructor yang benar
         // Ambil data dari session
         UserSession session = UserSession.getInstance();
@@ -527,17 +526,15 @@ public class POSForm extends javax.swing.JFrame {
         // TODO add your handling code here:
         // === VALIDASI SEBELUM BAYAR ===
         if (modelTabel.getRowCount() == 0) {
-            JOptionPane.showMessageDialog(this, "Keranjang belanja masih kosong.");
+            JOptionPane.showMessageDialog(this, "Keranjang belanja masih kosong.", "Peringatan", JOptionPane.WARNING_MESSAGE);
             return;
         }
-
         String bayarString = txtJumlahBayar.getText();
         if (bayarString.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Masukkan jumlah pembayaran terlebih dahulu.", "Peringatan", JOptionPane.WARNING_MESSAGE);
             txtJumlahBayar.requestFocus();
             return;
         }
-
         BigDecimal jumlahBayar;
         try {
             jumlahBayar = new BigDecimal(bayarString);
@@ -545,7 +542,6 @@ public class POSForm extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Format jumlah bayar tidak valid.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
-
         if (jumlahBayar.compareTo(this.grandTotal) < 0) {
             JOptionPane.showMessageDialog(this, "Jumlah pembayaran kurang dari Grand Total.", "Peringatan", JOptionPane.WARNING_MESSAGE);
             return;
@@ -555,47 +551,93 @@ public class POSForm extends javax.swing.JFrame {
         Connection conn = null;
         try {
             conn = koneksi.getKoneksi();
-            conn.setAutoCommit(false);
+            conn.setAutoCommit(false); // Mulai transaksi
 
-            // Ambil semua data yang akan disimpan
-            String metodeBayar = (String) cmbMetodeBayar.getSelectedItem();
-            BigDecimal kembalian = jumlahBayar.subtract(this.grandTotal);
-            BigDecimal totalSebelumDiskon = this.grandTotal.add((BigDecimal) new BigDecimal(lblDiskon.getText().replaceAll("[^\\d,]", "").replace(",", ".")));
-
-            // Query INSERT yang sudah lengkap
-            String sqlTrx = "INSERT INTO TRANSAKSI (kode_transaksi, id_kasir, total_harga, diskon, harga_akhir, metode_bayar, jumlah_bayar, kembalian) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-            PreparedStatement pstmtTrx = conn.prepareStatement(sqlTrx, Statement.RETURN_GENERATED_KEYS);
-
-            String kodeTrx = "TRX-" + System.currentTimeMillis();
-            pstmtTrx.setString(1, kodeTrx);
-            pstmtTrx.setInt(2, this.ID_KASIR);
-            pstmtTrx.setBigDecimal(3, totalSebelumDiskon);
-            pstmtTrx.setBigDecimal(4, new BigDecimal(lblDiskon.getText().replaceAll("[^\\d,]", "").replace(",", ".")));
-            pstmtTrx.setBigDecimal(5, this.grandTotal);
-            pstmtTrx.setString(6, metodeBayar);
-            pstmtTrx.setBigDecimal(7, jumlahBayar);
-            pstmtTrx.setBigDecimal(8, kembalian);
-
-            pstmtTrx.executeUpdate();
-
-            // ... (sisa kode untuk menyimpan DETAIL_TRANSAKSI, UPDATE PRODUK, dan INSERT PERGERAKAN_STOK tetap sama persis seperti sebelumnya) ...
-            ResultSet rsKeys = pstmtTrx.getGeneratedKeys();
-            int trxId = rsKeys.next() ? rsKeys.getInt(1) : 0;
-            if (trxId == 0) {
-                throw new SQLException("Gagal membuat transaksi utama.");
+            // Hitung ulang total untuk disimpan ke DB
+            BigDecimal totalHargaKotor = BigDecimal.ZERO;
+            BigDecimal totalDiskon = BigDecimal.ZERO;
+            for (int i = 0; i < modelTabel.getRowCount(); i++) {
+                BigDecimal harga = (BigDecimal) modelTabel.getValueAt(i, 2);
+                int jumlah = (int) modelTabel.getValueAt(i, 3);
+                BigDecimal diskon = (BigDecimal) modelTabel.getValueAt(i, 4);
+                totalHargaKotor = totalHargaKotor.add(harga.multiply(new BigDecimal(jumlah)));
+                totalDiskon = totalDiskon.add(diskon);
             }
 
-            // ... (Loop for untuk menyimpan detail, update stok, dan log pergerakan) ...
-            conn.commit();
+            // 1. INSERT ke tabel master TRANSAKSI
+            String sqlTrx = "INSERT INTO TRANSAKSI (kode_transaksi, id_kasir, total_harga, diskon, harga_akhir, metode_bayar, jumlah_bayar, kembalian) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+            int trxId;
+            String kodeTrx = "TRX-" + System.currentTimeMillis();
+
+            try (PreparedStatement pstmtTrx = conn.prepareStatement(sqlTrx, Statement.RETURN_GENERATED_KEYS)) {
+                pstmtTrx.setString(1, kodeTrx);
+                pstmtTrx.setInt(2, this.ID_KASIR);
+                pstmtTrx.setBigDecimal(3, totalHargaKotor);
+                pstmtTrx.setBigDecimal(4, totalDiskon);
+                pstmtTrx.setBigDecimal(5, this.grandTotal);
+                pstmtTrx.setString(6, (String) cmbMetodeBayar.getSelectedItem());
+                pstmtTrx.setBigDecimal(7, jumlahBayar);
+                pstmtTrx.setBigDecimal(8, jumlahBayar.subtract(this.grandTotal));
+                pstmtTrx.executeUpdate();
+
+                ResultSet rsKeys = pstmtTrx.getGeneratedKeys();
+                if (rsKeys.next()) {
+                    trxId = rsKeys.getInt(1);
+                } else {
+                    throw new SQLException("Gagal membuat transaksi utama, tidak mendapatkan ID.");
+                }
+            }
+
+            // --- BAGIAN YANG HILANG DAN SEKARANG DIPERBAIKI ---
+            // 2. Siapkan batch query untuk detail, update stok, dan log pergerakan stok
+            String sqlDetail = "INSERT INTO DETAIL_TRANSAKSI (id_transaksi, id_produk, jumlah, harga_satuan, subtotal) VALUES (?, ?, ?, ?, ?)";
+            String sqlUpdateStok = "UPDATE PRODUK SET jumlah_stok = jumlah_stok - ? WHERE id_produk = ?";
+            String sqlLogStok = "INSERT INTO PERGERAKAN_STOK (id_produk, tipe, jumlah, keterangan) VALUES (?, 'keluar', ?, ?)";
+
+            try (PreparedStatement pstmtDetail = conn.prepareStatement(sqlDetail); PreparedStatement pstmtUpdateStok = conn.prepareStatement(sqlUpdateStok); PreparedStatement pstmtLogStok = conn.prepareStatement(sqlLogStok)) {
+
+                // Loop melalui setiap item di keranjang (JTable)
+                for (int i = 0; i < modelTabel.getRowCount(); i++) {
+                    int idProduk = (int) modelTabel.getValueAt(i, 0);
+                    BigDecimal harga = (BigDecimal) modelTabel.getValueAt(i, 2);
+                    int jumlah = (int) modelTabel.getValueAt(i, 3);
+                    BigDecimal subtotal = (BigDecimal) modelTabel.getValueAt(i, 5);
+
+                    // Tambahkan ke batch untuk DETAIL_TRANSAKSI
+                    pstmtDetail.setInt(1, trxId);
+                    pstmtDetail.setInt(2, idProduk);
+                    pstmtDetail.setInt(3, jumlah);
+                    pstmtDetail.setBigDecimal(4, harga);
+                    pstmtDetail.setBigDecimal(5, subtotal);
+                    pstmtDetail.addBatch();
+
+                    // Tambahkan ke batch untuk UPDATE PRODUK (kurangi stok)
+                    pstmtUpdateStok.setInt(1, jumlah);
+                    pstmtUpdateStok.setInt(2, idProduk);
+                    pstmtUpdateStok.addBatch();
+
+                    // Tambahkan ke batch untuk PERGERAKAN_STOK
+                    pstmtLogStok.setInt(1, idProduk);
+                    pstmtLogStok.setInt(2, -jumlah); // Stok keluar dicatat sebagai negatif
+                    pstmtLogStok.setString(3, "Penjualan via POS, Transaksi: " + kodeTrx);
+                    pstmtLogStok.addBatch();
+                }
+
+                // Eksekusi semua batch
+                pstmtDetail.executeBatch();
+                pstmtUpdateStok.executeBatch();
+                pstmtLogStok.executeBatch();
+            }
+            // --- AKHIR BAGIAN PERBAIKAN ---
+
+            conn.commit(); // Selesaikan transaksi jika semua berhasil
             JOptionPane.showMessageDialog(this, "Transaksi berhasil disimpan!", "Sukses", JOptionPane.INFORMATION_MESSAGE);
-
-
-            clearForm();
+            clearForm(); // Bersihkan form untuk pelanggan berikutnya
 
         } catch (Exception e) {
             try {
                 if (conn != null) {
-                    conn.rollback();
+                    conn.rollback(); // Batalkan semua jika ada satu error
                 }
             } catch (SQLException ex) {
                 ex.printStackTrace();
@@ -605,7 +647,7 @@ public class POSForm extends javax.swing.JFrame {
         } finally {
             try {
                 if (conn != null) {
-                    conn.setAutoCommit(true);
+                    conn.setAutoCommit(true); // Kembalikan ke mode normal
                 }
             } catch (SQLException ex) {
                 ex.printStackTrace();
@@ -755,7 +797,6 @@ public class POSForm extends javax.swing.JFrame {
         Profile profile = new Profile(this);
         profile.setVisible(true);
     }//GEN-LAST:event_btnProfilePOSActionPerformed
-
 
     /**
      * @param args the command line arguments

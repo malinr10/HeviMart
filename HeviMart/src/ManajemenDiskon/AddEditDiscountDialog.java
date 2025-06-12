@@ -218,7 +218,7 @@ public class AddEditDiscountDialog extends javax.swing.JDialog {
     private void btnBatalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBatalActionPerformed
         // TODO add your handling code here:
         this.setVisible(false);
-        DiscountManagementForm DMForm = new DiscountManagementForm(); DMForm.setVisible(true);
+        new DiscountManagementForm().setVisible(true);
     }//GEN-LAST:event_btnBatalActionPerformed
 
     /**

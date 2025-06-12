@@ -26,6 +26,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import javax.swing.JOptionPane;
+import javax.swing.event.ListSelectionEvent;
 import javax.swing.table.DefaultTableModel;
 import util.koneksi;
 
@@ -50,9 +51,8 @@ public class DiscountManagementForm extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         this.setTitle("Manajemen Diskon & Promosi");
 
+        // Ambil info dari sesi untuk sidebar
         UserSession session = UserSession.getInstance();
-        this.loggedInUserId = session.getIdPengguna(); // Ambil ID kasir dari sesi
-        String namaLengkap = session.getNamaLengkap();
         lblUsername.setText(session.getNamaLengkap());
         lblPeran.setText(session.getPeran());
 
@@ -60,17 +60,29 @@ public class DiscountManagementForm extends javax.swing.JFrame {
         modelDiscounts = (DefaultTableModel) tblDiscounts.getModel();
         modelDiscounts.setColumnIdentifiers(new Object[]{"ID", "Nama Diskon", "Tipe", "Nilai"});
 
-        // Setup tabel produk
+        // Setup tabel produk dengan kolom tambahan "Status Diskon"
         modelProducts = (DefaultTableModel) tblProducts.getModel();
-        modelProducts.setColumnIdentifiers(new Object[]{"ID", "Nama Produk"});
+        modelProducts.setColumnIdentifiers(new Object[]{"ID", "Nama Produk", "Status Diskon"});
+        // Atur lebar kolom agar terlihat bagus
+        tblProducts.getColumnModel().getColumn(0).setPreferredWidth(40);
+        tblProducts.getColumnModel().getColumn(2).setPreferredWidth(120);
 
         loadDiscounts();
-        loadProducts();
+        loadProducts(); // Muat semua produk pada awalnya
+
+        // Listener untuk tabel diskon. Ini akan memicu refresh tabel produk
+        // setiap kali pengguna memilih diskon yang berbeda.
+        tblDiscounts.getSelectionModel().addListSelectionListener((ListSelectionEvent event) -> {
+            if (!event.getValueIsAdjusting()) {
+                // Panggil kembali loadProducts setiap kali seleksi berubah
+                loadProducts();
+            }
+        });
     }
 
     private void loadDiscounts() {
         modelDiscounts.setRowCount(0);
-        try (Connection conn = koneksi.getKoneksi(); Statement stmt = conn.createStatement(); ResultSet rs = stmt.executeQuery("SELECT id_diskon, nama_diskon, tipe_diskon, nilai FROM DISKON")) {
+        try (Connection conn = koneksi.getKoneksi(); Statement stmt = conn.createStatement(); ResultSet rs = stmt.executeQuery("SELECT id_diskon, nama_diskon, tipe_diskon, nilai FROM DISKON ORDER BY nama_diskon")) {
             while (rs.next()) {
                 modelDiscounts.addRow(new Object[]{rs.getInt(1), rs.getString(2), rs.getString(3), rs.getBigDecimal(4)});
             }
@@ -81,12 +93,36 @@ public class DiscountManagementForm extends javax.swing.JFrame {
 
     private void loadProducts() {
         modelProducts.setRowCount(0);
-        try (Connection conn = koneksi.getKoneksi(); Statement stmt = conn.createStatement(); ResultSet rs = stmt.executeQuery("SELECT id_produk, nama_produk FROM PRODUK ORDER BY nama_produk")) {
+
+        // Dapatkan ID diskon yang sedang dipilih. Jika tidak ada, anggap -1.
+        int selectedDiscountRow = tblDiscounts.getSelectedRow();
+        int selectedDiscountId = -1; // Default jika tidak ada diskon yang dipilih
+        if (selectedDiscountRow != -1) {
+            selectedDiscountId = (int) tblDiscounts.getValueAt(selectedDiscountRow, 0);
+        }
+
+        // Query SQL canggih menggunakan LEFT JOIN dan CASE untuk menentukan status
+        String sql = "SELECT p.id_produk, p.nama_produk, "
+                + "CASE WHEN dp.id_diskon IS NOT NULL THEN 'Terapkan' ELSE 'Tidak Terapkan' END AS status_diskon "
+                + "FROM PRODUK p "
+                + "LEFT JOIN DISKON_PRODUK dp ON p.id_produk = dp.id_produk AND dp.id_diskon = ? "
+                + "ORDER BY p.nama_produk";
+
+        try (Connection conn = koneksi.getKoneksi(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setInt(1, selectedDiscountId);
+            ResultSet rs = pstmt.executeQuery();
+
             while (rs.next()) {
-                modelProducts.addRow(new Object[]{rs.getInt(1), rs.getString(2)});
+                modelProducts.addRow(new Object[]{
+                    rs.getInt("id_produk"),
+                    rs.getString("nama_produk"),
+                    rs.getString("status_diskon")
+                });
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Gagal memuat produk: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 
@@ -656,8 +692,6 @@ public class DiscountManagementForm extends javax.swing.JFrame {
         Profile profile = new Profile(this);
         profile.setVisible(true);
     }//GEN-LAST:event_btnProfileDiskonActionPerformed
-
-
 
     /**
      * @param args the command line arguments

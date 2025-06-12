@@ -4,8 +4,14 @@
  */
 package Profile;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import util.UserSession;
+import util.koneksi;
+import java.sql.SQLException;
 
 /**
  *
@@ -19,6 +25,7 @@ public class Profile extends javax.swing.JFrame {
     private String telepon;
     private int loggedInUserId;
     private JFrame previousPage;
+    private int id_pengguna;
 
     /**
      * Creates new form MainMenu
@@ -26,31 +33,41 @@ public class Profile extends javax.swing.JFrame {
     public Profile(JFrame previousPage) {
         initComponents();
         this.previousPage = previousPage;
+        this.setLocationRelativeTo(null);
 
         UserSession session = UserSession.getInstance();
 
-        this.loggedInUserId = session.getIdPengguna();
-        this.namaLengkap = session.getNamaLengkap();
-        this.peran = session.getPeran();
-        this.email = session.getEmail();
-        this.telepon = session.getTelepon();
+        this.id_pengguna = session.getIdPengguna(); // Simpan ID pengguna
 
-        lblNama_Lengkap.setText(this.namaLengkap);
-        lblRole.setText(this.peran);
-        lblEmail.setText(this.email);
-        lblTelepon.setText(this.telepon);
+        // 3. Pastikan role tidak bisa diubah oleh pengguna
+        txtRole.setEnabled(false);
+
+        // 4. Muat data profil pengguna yang sedang login
+        loadProfileData();
         
-        refreshProfileData();
     }
 
     // Tambahkan metode ini di dalam kelas Profile.java
-    public void refreshProfileData() {
-        UserSession session = UserSession.getInstance();
-        // Ambil data terbaru dari sesi yang baru saja di-update
-        lblNama_Lengkap.setText(session.getNamaLengkap());
-        lblRole.setText(session.getPeran());
-        lblEmail.setText(session.getEmail());
-        lblTelepon.setText(session.getTelepon());
+    public void loadProfileData() {
+        String sql = "SELECT * FROM pengguna WHERE id_pengguna = ?";
+        try (Connection conn = koneksi.getKoneksi(); PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, this.id_pengguna);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                txtNamaLengkap.setText(rs.getString("nama_lengkap"));
+                txtRole.setText(rs.getString("peran"));
+                txtEmail.setText(rs.getString("email"));
+                txtTelepon.setText(rs.getString("telepon"));
+            } else {
+                JOptionPane.showMessageDialog(this, "Gagal menemukan data profil.", "Error", JOptionPane.ERROR_MESSAGE);
+                this.dispose(); // Tutup form jika data tidak ditemukan
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Gagal memuat data profil: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -63,38 +80,18 @@ public class Profile extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        lblNama_Lengkap = new javax.swing.JLabel();
-        lblRole = new javax.swing.JLabel();
-        lblEmail = new javax.swing.JLabel();
-        lblTelepon = new javax.swing.JLabel();
-        btnEdit = new javax.swing.JButton();
         btnBack = new javax.swing.JButton();
+        txtTelepon = new javax.swing.JTextField();
+        txtNamaLengkap = new javax.swing.JTextField();
+        txtEmail = new javax.swing.JTextField();
+        txtRole = new javax.swing.JLabel();
+        btnSimpan = new javax.swing.JButton();
+        btnBatal = new javax.swing.JButton();
         BG_Profile = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        lblNama_Lengkap.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        jPanel1.add(lblNama_Lengkap, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 407, 470, 30));
-
-        lblRole.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        jPanel1.add(lblRole, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 480, 470, 30));
-
-        lblEmail.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        jPanel1.add(lblEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 557, 470, 30));
-
-        lblTelepon.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        jPanel1.add(lblTelepon, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 630, 470, 30));
-
-        btnEdit.setBorderPainted(false);
-        btnEdit.setContentAreaFilled(false);
-        btnEdit.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEditActionPerformed(evt);
-            }
-        });
-        jPanel1.add(btnEdit, new org.netbeans.lib.awtextra.AbsoluteConstraints(910, 720, 160, 50));
 
         btnBack.setBorderPainted(false);
         btnBack.setContentAreaFilled(false);
@@ -104,6 +101,46 @@ public class Profile extends javax.swing.JFrame {
             }
         });
         jPanel1.add(btnBack, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 30, 80, 80));
+
+        txtTelepon.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        txtTelepon.setBorder(null);
+        jPanel1.add(txtTelepon, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 630, 470, 30));
+
+        txtNamaLengkap.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        txtNamaLengkap.setBorder(null);
+        jPanel1.add(txtNamaLengkap, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 407, 470, 30));
+
+        txtEmail.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        txtEmail.setBorder(null);
+        txtEmail.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtEmailActionPerformed(evt);
+            }
+        });
+        jPanel1.add(txtEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 557, 470, 30));
+
+        txtRole.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        jPanel1.add(txtRole, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 480, 470, 30));
+
+        btnSimpan.setBorderPainted(false);
+        btnSimpan.setContentAreaFilled(false);
+        btnSimpan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSimpanActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnSimpan, new org.netbeans.lib.awtextra.AbsoluteConstraints(910, 720, 160, 50));
+
+        btnBatal.setBackground(new java.awt.Color(255, 0, 51));
+        btnBatal.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnBatal.setForeground(new java.awt.Color(255, 255, 255));
+        btnBatal.setText("Batal");
+        btnBatal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBatalActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnBatal, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 720, 170, 50));
 
         BG_Profile.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/Profile.png"))); // NOI18N
         jPanel1.add(BG_Profile, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
@@ -122,14 +159,6 @@ public class Profile extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
-        // TODO add your handling code here:
-        new EditProfile(this).setVisible(true);
-
-        // Sembunyikan halaman Profile saat halaman Edit terbuka
-        this.setVisible(false);
-    }//GEN-LAST:event_btnEditActionPerformed
-
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
         // TODO add your handling code here:
         this.dispose();
@@ -137,6 +166,73 @@ public class Profile extends javax.swing.JFrame {
             previousPage.setVisible(true);
         }
     }//GEN-LAST:event_btnBackActionPerformed
+
+    private void txtEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEmailActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtEmailActionPerformed
+
+    private void btnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSimpanActionPerformed
+        // 1. Ambil data yang telah diubah dari form
+        String namaLengkapBaru = txtNamaLengkap.getText();
+        String emailBaru = txtEmail.getText();
+        String teleponBaru = txtTelepon.getText();
+
+        // 2. Validasi input
+        if (namaLengkapBaru.isEmpty() || emailBaru.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Nama Lengkap dan Email tidak boleh kosong.", "Validasi Gagal", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        // 3. Siapkan query UPDATE
+        String sql = "UPDATE pengguna SET nama_lengkap=?, email=?, telepon=? WHERE id_pengguna=?";
+
+        try (Connection conn = koneksi.getKoneksi(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            // 4. Set parameter untuk query
+            pstmt.setString(1, namaLengkapBaru);
+            pstmt.setString(2, emailBaru);
+            pstmt.setString(3, teleponBaru);
+            pstmt.setInt(4, this.id_pengguna); // Gunakan ID yang sudah disimpan
+
+            int rowsUpdated = pstmt.executeUpdate();
+
+            // 5. Cek apakah update berhasil
+            if (rowsUpdated > 0) {
+                JOptionPane.showMessageDialog(this, "Profil berhasil diperbarui!");
+
+                // 6. PERBARUI DATA DI SESI APLIKASI SECARA LENGKAP
+                UserSession session = UserSession.getInstance();
+                // Asumsi UserSession.createSession telah diperbarui untuk menerima semua parameter
+                // Ambil data yang tidak berubah (seperti username dan peran) dari sesi yang ada
+                session.createSession(
+                    session.getIdPengguna(),
+                    session.getNamaPengguna(),
+                    namaLengkapBaru,
+                    session.getPeran(),
+                    emailBaru, // Tambahkan email baru
+                    teleponBaru // Tambahkan telepon baru
+                );
+
+                // 7. Tutup form edit dan buka kembali halaman Profile
+                // PERBAIKAN 3: Logika navigasi kembali
+                // Jika halaman sebelumnya ada, tampilkan kembali.
+
+            } else {
+                JOptionPane.showMessageDialog(this, "Gagal menyimpan profil. Tidak ada data yang berubah.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, "Terjadi kesalahan database: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_btnSimpanActionPerformed
+
+    private void btnBatalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBatalActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+        if (previousPage != null) {
+            previousPage.setVisible(true);
+        }
+    }//GEN-LAST:event_btnBatalActionPerformed
 
     /**
      * @param args the command line arguments
@@ -176,11 +272,12 @@ public class Profile extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel BG_Profile;
     private javax.swing.JButton btnBack;
-    private javax.swing.JButton btnEdit;
+    private javax.swing.JButton btnBatal;
+    private javax.swing.JButton btnSimpan;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JLabel lblEmail;
-    private javax.swing.JLabel lblNama_Lengkap;
-    private javax.swing.JLabel lblRole;
-    private javax.swing.JLabel lblTelepon;
+    private javax.swing.JTextField txtEmail;
+    private javax.swing.JTextField txtNamaLengkap;
+    private javax.swing.JLabel txtRole;
+    private javax.swing.JTextField txtTelepon;
     // End of variables declaration//GEN-END:variables
 }

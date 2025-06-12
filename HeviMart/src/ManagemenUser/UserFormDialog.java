@@ -81,7 +81,7 @@ public class UserFormDialog extends javax.swing.JDialog {
     // Metode untuk mengisi JComboBox peran
     private void setupRolesComboBox() {
         cmbRole.removeAllItems(); // Bersihkan item yang mungkin ada dari desainer
-        cmbRole.addItem("Admin");
+        cmbRole.addItem("Administrator");
         cmbRole.addItem("Manager");
         cmbRole.addItem("Kasir");
         cmbRole.addItem("Staff Gudang");
@@ -178,7 +178,7 @@ public class UserFormDialog extends javax.swing.JDialog {
 
             if (success) {
                 dataSaved = true;
-                dispose();
+                this.dispose();
             }
 
         } catch (Exception e) {
