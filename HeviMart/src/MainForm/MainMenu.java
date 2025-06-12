@@ -4,6 +4,7 @@
  */
 package MainForm;
 
+//sidebar
 import Pelaporan.LaporanKeuanganForm;
 import Login.Login;
 import ManagemenUser.UserManagement;
@@ -16,6 +17,9 @@ import Pelaporan.LaporanInventarisForm;
 import Pelaporan.LaporanPenjualanForm;
 import PosSistem.POSForm;
 import util.koneksi;
+import util.UserSession;
+import Profile.Profile;
+
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -23,7 +27,6 @@ import java.text.NumberFormat;
 import java.util.Locale;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import util.UserSession;
 
 /**
  *
@@ -39,6 +42,7 @@ public class MainMenu extends javax.swing.JFrame {
     /**
      * Creates new form MainMenu
      */
+        
     public MainMenu() {
         initComponents();
         UserSession session = UserSession.getInstance();
@@ -179,10 +183,11 @@ public class MainMenu extends javax.swing.JFrame {
         lblTotalProfit = new javax.swing.JLabel();
         txtPencarian = new javax.swing.JTextField();
         btnPencarian = new javax.swing.JButton();
-        lblPeran = new javax.swing.JLabel();
-        lblUsername = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblPenjualanProduk = new javax.swing.JTable();
+        btnProfile = new javax.swing.JButton();
+        lblPeran = new javax.swing.JLabel();
+        lblUsername = new javax.swing.JLabel();
         btnDashboard1 = new javax.swing.JButton();
         btnPOS = new javax.swing.JButton();
         btnManajemenDiskon = new javax.swing.JButton();
@@ -227,16 +232,6 @@ public class MainMenu extends javax.swing.JFrame {
         btnPencarian.setContentAreaFilled(false);
         jPanel8.add(btnPencarian, new org.netbeans.lib.awtextra.AbsoluteConstraints(1270, 580, 30, 30));
 
-        lblPeran.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        lblPeran.setForeground(new java.awt.Color(30, 41, 59));
-        lblPeran.setText("peran");
-        jPanel8.add(lblPeran, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 150, 120, 20));
-
-        lblUsername.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        lblUsername.setForeground(new java.awt.Color(30, 41, 59));
-        lblUsername.setText("username");
-        jPanel8.add(lblUsername, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 130, 120, 20));
-
         jScrollPane2.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
 
         tblPenjualanProduk.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
@@ -254,6 +249,25 @@ public class MainMenu extends javax.swing.JFrame {
         jScrollPane2.setViewportView(tblPenjualanProduk);
 
         jPanel8.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(322, 637, 980, 290));
+
+        btnProfile.setBorderPainted(false);
+        btnProfile.setContentAreaFilled(false);
+        btnProfile.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnProfileActionPerformed(evt);
+            }
+        });
+        jPanel8.add(btnProfile, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, 180, 50));
+
+        lblPeran.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        lblPeran.setForeground(new java.awt.Color(30, 41, 59));
+        lblPeran.setText("peran");
+        jPanel8.add(lblPeran, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 150, 120, 20));
+
+        lblUsername.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        lblUsername.setForeground(new java.awt.Color(30, 41, 59));
+        lblUsername.setText("username");
+        jPanel8.add(lblUsername, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 130, 120, 20));
 
         btnDashboard1.setBorderPainted(false);
         btnDashboard1.setContentAreaFilled(false);
@@ -490,6 +504,13 @@ public class MainMenu extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_btnPOSActionPerformed
 
+    private void btnProfileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProfileActionPerformed
+        // TODO add your handling code here:
+        this.setVisible(false);
+        Profile profile = new Profile();
+        profile.setVisible(true);
+    }//GEN-LAST:event_btnProfileActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -535,6 +556,7 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JButton btnPelaporanKeuangan;
     private javax.swing.JButton btnPelaporanPenjualan;
     private javax.swing.JButton btnPencarian;
+    private javax.swing.JButton btnProfile;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lblPeran;

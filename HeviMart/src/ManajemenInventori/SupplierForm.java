@@ -132,7 +132,6 @@ public class SupplierForm extends javax.swing.JFrame {
         txtEmail = new javax.swing.JTextField();
         btnHapus = new javax.swing.JButton();
         btnBaru = new javax.swing.JButton();
-        BG_Supplier = new javax.swing.JLabel();
         btnDashboard1 = new javax.swing.JButton();
         btnPOS = new javax.swing.JButton();
         btnManajemenDiskon = new javax.swing.JButton();
@@ -145,6 +144,10 @@ public class SupplierForm extends javax.swing.JFrame {
         btnPelaporanInventaris = new javax.swing.JButton();
         btnPelaporanKeuangan = new javax.swing.JButton();
         btnLogout1 = new javax.swing.JButton();
+        lblPeran = new javax.swing.JLabel();
+        lblUsername = new javax.swing.JLabel();
+        btnProfile = new javax.swing.JButton();
+        BG_Supplier = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -227,9 +230,6 @@ public class SupplierForm extends javax.swing.JFrame {
             }
         });
         jPanel1.add(btnBaru, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 650, 180, 50));
-
-        BG_Supplier.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/Supplier.png"))); // NOI18N
-        jPanel1.add(BG_Supplier, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         btnDashboard1.setBorderPainted(false);
         btnDashboard1.setContentAreaFilled(false);
@@ -333,6 +333,23 @@ public class SupplierForm extends javax.swing.JFrame {
             }
         });
         jPanel1.add(btnLogout1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 930, 130, 40));
+
+        lblPeran.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        lblPeran.setForeground(new java.awt.Color(30, 41, 59));
+        lblPeran.setText("peran");
+        jPanel1.add(lblPeran, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 150, 120, 20));
+
+        lblUsername.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        lblUsername.setForeground(new java.awt.Color(30, 41, 59));
+        lblUsername.setText("username");
+        jPanel1.add(lblUsername, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 130, 120, 20));
+
+        btnProfile.setBorderPainted(false);
+        btnProfile.setContentAreaFilled(false);
+        jPanel1.add(btnProfile, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, 180, 50));
+
+        BG_Supplier.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/Supplier.png"))); // NOI18N
+        jPanel1.add(BG_Supplier, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -532,6 +549,7 @@ public class SupplierForm extends javax.swing.JFrame {
     private javax.swing.JButton btnPelaporanInventaris;
     private javax.swing.JButton btnPelaporanKeuangan;
     private javax.swing.JButton btnPelaporanPenjualan;
+    private javax.swing.JButton btnProfile;
     private javax.swing.JButton btnSimpan;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -540,6 +558,8 @@ public class SupplierForm extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblPeran;
+    private javax.swing.JLabel lblUsername;
     private javax.swing.JTable tblSupplier;
     private javax.swing.JTextField txtAlamat;
     private javax.swing.JTextField txtEmail;
