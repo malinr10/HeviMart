@@ -269,7 +269,6 @@ public class UserManagement extends javax.swing.JFrame {
         btnRefresh = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblPengguna = new javax.swing.JTable();
-        btnProfile = new javax.swing.JButton();
         lblPeran = new javax.swing.JLabel();
         lblUsername = new javax.swing.JLabel();
         btnDashboard1 = new javax.swing.JButton();
@@ -284,6 +283,7 @@ public class UserManagement extends javax.swing.JFrame {
         btnPelaporanInventaris = new javax.swing.JButton();
         btnPelaporanKeuangan = new javax.swing.JButton();
         btnLogout1 = new javax.swing.JButton();
+        btnProfilePurchase = new javax.swing.JButton();
         BG_ManajemenUser = new javax.swing.JLabel();
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -362,15 +362,6 @@ public class UserManagement extends javax.swing.JFrame {
 
         jPanel2.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 460, 1100, -1));
 
-        btnProfile.setBorderPainted(false);
-        btnProfile.setContentAreaFilled(false);
-        btnProfile.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnProfileActionPerformed(evt);
-            }
-        });
-        jPanel2.add(btnProfile, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, 180, 50));
-
         lblPeran.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         lblPeran.setForeground(new java.awt.Color(30, 41, 59));
         lblPeran.setText("peran");
@@ -383,11 +374,6 @@ public class UserManagement extends javax.swing.JFrame {
 
         btnDashboard1.setBorderPainted(false);
         btnDashboard1.setContentAreaFilled(false);
-        btnDashboard1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnDashboard1ActionPerformed(evt);
-            }
-        });
         jPanel2.add(btnDashboard1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 210, 160, 30));
 
         btnPOS.setBorderPainted(false);
@@ -483,7 +469,7 @@ public class UserManagement extends javax.swing.JFrame {
                 btnPelaporanKeuanganActionPerformed(evt);
             }
         });
-        jPanel2.add(btnPelaporanKeuangan, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 770, 70, 20));
+        jPanel2.add(btnPelaporanKeuangan, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 770, 110, 20));
 
         btnLogout1.setBorderPainted(false);
         btnLogout1.setContentAreaFilled(false);
@@ -493,6 +479,15 @@ public class UserManagement extends javax.swing.JFrame {
             }
         });
         jPanel2.add(btnLogout1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 930, 130, 40));
+
+        btnProfilePurchase.setBorderPainted(false);
+        btnProfilePurchase.setContentAreaFilled(false);
+        btnProfilePurchase.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnProfilePurchaseActionPerformed(evt);
+            }
+        });
+        jPanel2.add(btnProfilePurchase, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, 180, 50));
 
         BG_ManajemenUser.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/Manajemen User.png"))); // NOI18N
         jPanel2.add(BG_ManajemenUser, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
@@ -575,125 +570,6 @@ public class UserManagement extends javax.swing.JFrame {
         profile.setVisible(true);
     }//GEN-LAST:event_btnProfileActionPerformed
 
-    private void btnPOSActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPOSActionPerformed
-        // Akses: Diizinkan untuk Kasir, Manager, Administrator. Ditolak untuk Staff Gudang.
-        if (peran.equals("Staff Gudang")) {
-            showAccessDeniedMessage();
-            return;
-        }
-        new POSForm().setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_btnPOSActionPerformed
-
-    private void btnManajemenDiskonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnManajemenDiskonActionPerformed
-        // Akses: Diizinkan untuk Kasir, Manager, Administrator. Ditolak untuk Staff Gudang.
-        if (peran.equals("Staff Gudang")) {
-            showAccessDeniedMessage();
-            return;
-        }
-        new DiscountManagementForm().setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_btnManajemenDiskonActionPerformed
-
-    private void btnManajemenProduk1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnManajemenProduk1MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnManajemenProduk1MouseClicked
-
-    private void btnManajemenProduk1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnManajemenProduk1ActionPerformed
-        // Akses: Diizinkan untuk Staff Gudang, Manager, Administrator. Ditolak untuk Kasir.
-        if (peran.equals("Kasir")) {
-            showAccessDeniedMessage();
-            return;
-        }
-        new ProdukForm().setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_btnManajemenProduk1ActionPerformed
-
-    private void btnInventarisSupplierActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInventarisSupplierActionPerformed
-        // Akses: Diizinkan untuk Staff Gudang, Manager, Administrator. Ditolak untuk Kasir.
-        if (peran.equals("Kasir")) {
-            showAccessDeniedMessage();
-            return;
-        }
-        new SupplierForm().setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_btnInventarisSupplierActionPerformed
-
-    private void btnInventarisProdukActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInventarisProdukActionPerformed
-        // Akses: Diizinkan untuk Staff Gudang, Manager, Administrator. Ditolak untuk Kasir.
-        if (peran.equals("Kasir")) {
-            showAccessDeniedMessage();
-            return;
-        }
-        new PurchaseOrderForm().setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_btnInventarisProdukActionPerformed
-
-    private void btnInventarisPesananActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInventarisPesananActionPerformed
-        // Akses: Diizinkan untuk Staff Gudang, Manager, Administrator. Ditolak untuk Kasir.
-        if (peran.equals("Kasir")) {
-            showAccessDeniedMessage();
-            return;
-        }
-        new GoodsReceiptForm().setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_btnInventarisPesananActionPerformed
-
-    private void btnManajemenPenggunaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnManajemenPenggunaActionPerformed
-        // Akses: Hanya untuk Manager dan Administrator.
-        if (!peran.equals("Administrator") && !peran.equals("Manager")) {
-            showAccessDeniedMessage();
-            return;
-        }
-        new UserManagement().setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_btnManajemenPenggunaActionPerformed
-
-    private void btnPelaporanPenjualanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPelaporanPenjualanActionPerformed
-        // Akses: Diizinkan untuk Kasir, Manager, Administrator. Ditolak untuk Staff Gudang.
-        if (peran.equals("Staff Gudang")) {
-            showAccessDeniedMessage();
-            return;
-        }
-        new LaporanPenjualanForm().setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_btnPelaporanPenjualanActionPerformed
-
-    private void btnPelaporanInventarisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPelaporanInventarisActionPerformed
-        // Akses: Diizinkan untuk Staff Gudang, Manager, Administrator. Ditolak untuk Kasir.
-        if (peran.equals("Kasir")) {
-            showAccessDeniedMessage();
-            return;
-        }
-        new LaporanInventarisForm().setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_btnPelaporanInventarisActionPerformed
-
-    private void btnPelaporanKeuanganActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPelaporanKeuanganActionPerformed
-        // Akses: Diizinkan untuk Kasir, Manager, Administrator. Ditolak untuk Staff Gudang.
-        if (peran.equals("Staff Gudang")) {
-            showAccessDeniedMessage();
-            return;
-        }
-        new LaporanKeuanganForm().setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_btnPelaporanKeuanganActionPerformed
-
-    private void btnLogout1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogout1ActionPerformed
-        // TODO add your handling code here:
-        int confirm = JOptionPane.showConfirmDialog(this, "Apakah Anda yakin ingin logout?", "Konfirmasi Logout", JOptionPane.YES_NO_OPTION);
-        if (confirm == JOptionPane.YES_OPTION) {
-
-            // --- PERUBAHAN UTAMA DI SINI ---
-            // Hancurkan data sesi pengguna saat ini
-            UserSession.getInstance().cleanUserSession();
-
-            // Baru buka halaman login dan tutup menu utama
-            new Login().setVisible(true);
-            this.dispose();
-        }
-    }//GEN-LAST:event_btnLogout1ActionPerformed
-
     private void btnDashboard1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDashboard1ActionPerformed
         // TODO add your handling code here:
         new MainMenu().setVisible(true);
@@ -716,6 +592,134 @@ public class UserManagement extends javax.swing.JFrame {
         // 4. Panggil helper method dengan userId tersebut untuk masuk ke mode "Edit".
         openUserFormDialog(userId);
     }//GEN-LAST:event_btnEditUserActionPerformed
+
+    private void btnPOSActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPOSActionPerformed
+        // Akses: Diizinkan untuk Kasir, Manager, Administrator. Ditolak untuk Staff Gudang.
+        String peran = UserSession.getInstance().getPeran();
+        if (peran.equals("Staff Gudang")) {
+            showAccessDeniedMessage();
+            return;
+        }
+        new POSForm().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnPOSActionPerformed
+
+    private void btnManajemenDiskonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnManajemenDiskonActionPerformed
+        // Akses: Diizinkan untuk Kasir, Manager, Administrator. Ditolak untuk Staff Gudang.
+        String peran = UserSession.getInstance().getPeran();
+        if (peran.equals("Staff Gudang")) {
+            showAccessDeniedMessage();
+            return;
+        }
+        new DiscountManagementForm().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnManajemenDiskonActionPerformed
+
+    private void btnManajemenProduk1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnManajemenProduk1MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnManajemenProduk1MouseClicked
+
+    private void btnManajemenProduk1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnManajemenProduk1ActionPerformed
+        String peranPengguna = UserSession.getInstance().getPeran();
+        if (peranPengguna.equals("Kasir")) {
+            showAccessDeniedMessage();
+            return;
+        }
+        new ProdukForm().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnManajemenProduk1ActionPerformed
+
+    private void btnInventarisSupplierActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInventarisSupplierActionPerformed
+        // Akses: Diizinkan untuk Staff Gudang, Manager, Administrator. Ditolak untuk Kasir.
+        String peranPengguna = UserSession.getInstance().getPeran();
+        if (peranPengguna.equals("Kasir")) {
+            showAccessDeniedMessage();
+            return;
+        }
+        new SupplierForm().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnInventarisSupplierActionPerformed
+
+    private void btnInventarisProdukActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInventarisProdukActionPerformed
+        // Akses: Diizinkan untuk Staff Gudang, Manager, Administrator. Ditolak untuk Kasir.
+        String peranPengguna = UserSession.getInstance().getPeran();
+        if (peranPengguna.equals("Kasir")) {
+            showAccessDeniedMessage();
+            return;
+        }
+        new PurchaseOrderForm().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnInventarisProdukActionPerformed
+
+    private void btnInventarisPesananActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInventarisPesananActionPerformed
+        String peranPengguna = UserSession.getInstance().getPeran();
+        if (peranPengguna.equals("Kasir")) {
+            showAccessDeniedMessage();
+            return;
+        }
+        new GoodsReceiptForm().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnInventarisPesananActionPerformed
+
+    private void btnManajemenPenggunaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnManajemenPenggunaActionPerformed
+        // Akses: Hanya untuk Manager dan Administrator.
+        String peran = UserSession.getInstance().getPeran();
+        if (!peran.equals("Administrator") && !peran.equals("Manager")) {
+            showAccessDeniedMessage();
+            return;
+        }
+        new UserManagement().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnManajemenPenggunaActionPerformed
+
+    private void btnPelaporanPenjualanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPelaporanPenjualanActionPerformed
+        // Akses: Diizinkan untuk Kasir, Manager, Administrator. Ditolak untuk Staff Gudang.
+        String peran = UserSession.getInstance().getPeran();
+        if (peran.equals("Staff Gudang")) {
+            showAccessDeniedMessage();
+            return;
+        }
+        new LaporanPenjualanForm().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnPelaporanPenjualanActionPerformed
+
+    private void btnPelaporanInventarisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPelaporanInventarisActionPerformed
+        // Akses: Diizinkan untuk Staff Gudang, Manager, Administrator. Ditolak untuk Kasir.
+        String peranPengguna = UserSession.getInstance().getPeran();
+        if (peranPengguna.equals("Kasir")) {
+            showAccessDeniedMessage();
+            return;
+        }
+        new LaporanInventarisForm().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnPelaporanInventarisActionPerformed
+
+    private void btnPelaporanKeuanganActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPelaporanKeuanganActionPerformed
+        // Akses: Diizinkan untuk Kasir, Manager, Administrator. Ditolak untuk Staff Gudang.
+        String peran = UserSession.getInstance().getPeran();
+        if (peran.equals("Staff Gudang")) {
+            showAccessDeniedMessage();
+            return;
+        }
+        new LaporanKeuanganForm().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnPelaporanKeuanganActionPerformed
+
+    private void btnLogout1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogout1ActionPerformed
+        // TODO add your handling code here:
+        int confirm = JOptionPane.showConfirmDialog(this, "Apakah Anda yakin ingin logout?", "Konfirmasi Logout", JOptionPane.YES_NO_OPTION);
+        if (confirm == JOptionPane.YES_OPTION) {
+            new Login().setVisible(true);
+            this.dispose();
+        }
+    }//GEN-LAST:event_btnLogout1ActionPerformed
+
+    private void btnProfilePurchaseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProfilePurchaseActionPerformed
+        // TODO add your handling code here:
+        this.setVisible(false);
+        Profile profile = new Profile(this);
+        profile.setVisible(true);
+    }//GEN-LAST:event_btnProfilePurchaseActionPerformed
 
     /**
      * @param args the command line arguments
@@ -763,7 +767,7 @@ public class UserManagement extends javax.swing.JFrame {
     private javax.swing.JButton btnPelaporanInventaris;
     private javax.swing.JButton btnPelaporanKeuangan;
     private javax.swing.JButton btnPelaporanPenjualan;
-    private javax.swing.JButton btnProfile;
+    private javax.swing.JButton btnProfilePurchase;
     private javax.swing.JButton btnRefresh;
     private javax.swing.JButton btnTambahUser;
     private javax.swing.JLabel jLabel2;

@@ -4,7 +4,6 @@ package ManajemenInventori;
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-
 /**
  *
  * @author Lenovo
@@ -21,6 +20,7 @@ import ManajemenProduk.ProdukForm;
 import Pelaporan.LaporanInventarisForm;
 import Pelaporan.LaporanPenjualanForm;
 import PosSistem.POSForm;
+import Profile.Profile;
 import util.koneksi;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -30,25 +30,26 @@ import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.table.DefaultTableModel;
 import util.UserSession;
+
 public class SupplierForm extends javax.swing.JFrame {
+
     private DefaultTableModel modelTabel;
-    private int selectedSupplierId = 0; 
+    private int selectedSupplierId = 0;
     private String namaLengkap;
     private String peran;
     private int loggedInUserId;
+
     /**
      * Creates new form SupplierForm
      */
     public SupplierForm() {
         initComponents();
-        
+        this.setLocationRelativeTo(null);
+
         UserSession session = UserSession.getInstance();
-        this.loggedInUserId = session.getIdPengguna(); // Ambil ID kasir dari sesi
-        String namaLengkap = session.getNamaLengkap();
-        String peran = session.getPeran();
-        lblUsername.setText(this.namaLengkap);
-        lblPeran.setText(this.peran);
-        
+        lblUsername.setText(session.getNamaLengkap());
+        lblPeran.setText(session.getPeran());
+
         modelTabel = (DefaultTableModel) tblSupplier.getModel();
         modelTabel.setColumnIdentifiers(new Object[]{"ID", "Nama Pemasok", "Kontak Person", "Telepon"});
         tblSupplier.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -58,16 +59,16 @@ public class SupplierForm extends javax.swing.JFrame {
                 int selectedRow = tblSupplier.getSelectedRow();
                 // Ambil ID dari kolom pertama (index 0)
                 selectedSupplierId = (int) tblSupplier.getValueAt(selectedRow, 0);
-                
+
                 // Panggil method untuk mengisi form dengan data dari ID tersebut
                 loadSupplierDataToForm(selectedSupplierId);
             }
         });
-        
+
         loadSuppliers(); // Muat data awal
         clearForm();     // Siapkan form dalam mode "Tambah Baru"
     }
-    
+
     private void clearForm() {
         selectedSupplierId = 0; // Kembali ke mode tambah
         txtNamaPemasok.setText("");
@@ -80,12 +81,10 @@ public class SupplierForm extends javax.swing.JFrame {
         btnHapus.setEnabled(false); // Tombol hapus non-aktif saat mode tambah
         txtNamaPemasok.requestFocus();
     }
-    
+
     private void loadSuppliers() {
         modelTabel.setRowCount(0);
-        try (Connection conn = koneksi.getKoneksi();
-             PreparedStatement pstmt = conn.prepareStatement("SELECT id_pemasok, nama_pemasok, kontak_person, telepon FROM PEMASOK ORDER BY nama_pemasok");
-             ResultSet rs = pstmt.executeQuery()) {
+        try (Connection conn = koneksi.getKoneksi(); PreparedStatement pstmt = conn.prepareStatement("SELECT id_pemasok, nama_pemasok, kontak_person, telepon FROM PEMASOK ORDER BY nama_pemasok"); ResultSet rs = pstmt.executeQuery()) {
             while (rs.next()) {
                 modelTabel.addRow(new Object[]{
                     rs.getInt("id_pemasok"),
@@ -98,10 +97,16 @@ public class SupplierForm extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Gagal memuat data pemasok: " + e.getMessage());
         }
     }
-    
+
+    private void showAccessDeniedMessage() {
+        JOptionPane.showMessageDialog(this,
+                "Anda tidak memiliki hak akses untuk membuka menu ini.",
+                "Akses Ditolak",
+                JOptionPane.WARNING_MESSAGE);
+    }
+
     private void loadSupplierDataToForm(int supplierId) {
-        try (Connection conn = koneksi.getKoneksi();
-             PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM PEMASOK WHERE id_pemasok = ?")) {
+        try (Connection conn = koneksi.getKoneksi(); PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM PEMASOK WHERE id_pemasok = ?")) {
             pstmt.setInt(1, supplierId);
             ResultSet rs = pstmt.executeQuery();
             if (rs.next()) {
@@ -110,7 +115,7 @@ public class SupplierForm extends javax.swing.JFrame {
                 txtTelepon.setText(rs.getString("telepon"));
                 txtEmail.setText(rs.getString("email"));
                 txtKontakPerson.setText(rs.getString("kontak_person"));
-                
+
                 btnSimpan.setText("Update Data"); // Ubah teks tombol ke mode update
                 btnHapus.setEnabled(true);      // Aktifkan tombol hapus
             }
@@ -144,6 +149,8 @@ public class SupplierForm extends javax.swing.JFrame {
         txtEmail = new javax.swing.JTextField();
         btnHapus = new javax.swing.JButton();
         btnBaru = new javax.swing.JButton();
+        lblPeran = new javax.swing.JLabel();
+        lblUsername = new javax.swing.JLabel();
         btnDashboard1 = new javax.swing.JButton();
         btnPOS = new javax.swing.JButton();
         btnManajemenDiskon = new javax.swing.JButton();
@@ -156,8 +163,6 @@ public class SupplierForm extends javax.swing.JFrame {
         btnPelaporanInventaris = new javax.swing.JButton();
         btnPelaporanKeuangan = new javax.swing.JButton();
         btnLogout1 = new javax.swing.JButton();
-        lblPeran = new javax.swing.JLabel();
-        lblUsername = new javax.swing.JLabel();
         btnProfile = new javax.swing.JButton();
         BG_Supplier = new javax.swing.JLabel();
 
@@ -243,17 +248,27 @@ public class SupplierForm extends javax.swing.JFrame {
         });
         jPanel1.add(btnBaru, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 650, 180, 50));
 
+        lblPeran.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        lblPeran.setForeground(new java.awt.Color(30, 41, 59));
+        lblPeran.setText("peran");
+        jPanel1.add(lblPeran, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 150, 120, 20));
+
+        lblUsername.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        lblUsername.setForeground(new java.awt.Color(30, 41, 59));
+        lblUsername.setText("username");
+        jPanel1.add(lblUsername, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 130, 120, 20));
+
         btnDashboard1.setBorderPainted(false);
         btnDashboard1.setContentAreaFilled(false);
-        btnDashboard1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnDashboard1ActionPerformed(evt);
-            }
-        });
         jPanel1.add(btnDashboard1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 210, 160, 30));
 
         btnPOS.setBorderPainted(false);
         btnPOS.setContentAreaFilled(false);
+        btnPOS.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPOSActionPerformed(evt);
+            }
+        });
         jPanel1.add(btnPOS, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 258, 160, 30));
 
         btnManajemenDiskon.setBorderPainted(false);
@@ -351,18 +366,13 @@ public class SupplierForm extends javax.swing.JFrame {
         });
         jPanel1.add(btnLogout1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 930, 130, 40));
 
-        lblPeran.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        lblPeran.setForeground(new java.awt.Color(30, 41, 59));
-        lblPeran.setText("peran");
-        jPanel1.add(lblPeran, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 150, 120, 20));
-
-        lblUsername.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        lblUsername.setForeground(new java.awt.Color(30, 41, 59));
-        lblUsername.setText("username");
-        jPanel1.add(lblUsername, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 130, 120, 20));
-
         btnProfile.setBorderPainted(false);
         btnProfile.setContentAreaFilled(false);
+        btnProfile.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnProfileActionPerformed(evt);
+            }
+        });
         jPanel1.add(btnProfile, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, 180, 50));
 
         BG_Supplier.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/Supplier.png"))); // NOI18N
@@ -396,7 +406,7 @@ public class SupplierForm extends javax.swing.JFrame {
 
     private void btnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSimpanActionPerformed
         // TODO add your handling code here:
-        
+
         String nama = txtNamaPemasok.getText();
         if (nama.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Nama Pemasok tidak boleh kosong.");
@@ -435,8 +445,7 @@ public class SupplierForm extends javax.swing.JFrame {
             return;
         }
         if (JOptionPane.showConfirmDialog(this, "Yakin ingin menghapus pemasok ini?", "Konfirmasi Hapus", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-            try (Connection conn = koneksi.getKoneksi();
-                 PreparedStatement pstmt = conn.prepareStatement("DELETE FROM PEMASOK WHERE id_pemasok = ?")) {
+            try (Connection conn = koneksi.getKoneksi(); PreparedStatement pstmt = conn.prepareStatement("DELETE FROM PEMASOK WHERE id_pemasok = ?")) {
                 pstmt.setInt(1, selectedSupplierId);
                 pstmt.executeUpdate();
                 JOptionPane.showMessageDialog(this, "Pemasok berhasil dihapus!");
@@ -457,53 +466,63 @@ public class SupplierForm extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtKontakPersonActionPerformed
 
-    private void btnManajemenDiskonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnManajemenDiskonActionPerformed
-        // TODO add your handling code here:
-        new DiscountManagementForm().setVisible(true);
-    }//GEN-LAST:event_btnManajemenDiskonActionPerformed
-
     private void btnManajemenProduk1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnManajemenProduk1MouseClicked
         // TODO add your handling code here:
     }//GEN-LAST:event_btnManajemenProduk1MouseClicked
 
-    private void btnManajemenProduk1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnManajemenProduk1ActionPerformed
-        // TODO add your handling code here:
-        new ProdukForm().setVisible(true);
-    }//GEN-LAST:event_btnManajemenProduk1ActionPerformed
-
-    private void btnInventarisSupplierActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInventarisSupplierActionPerformed
-        // TODO add your handling code here:
-        new SupplierForm().setVisible(true);
-    }//GEN-LAST:event_btnInventarisSupplierActionPerformed
-
-    private void btnInventarisProdukActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInventarisProdukActionPerformed
-        // TODO add your handling code here:
-        new PurchaseOrderForm().setVisible(true);
-    }//GEN-LAST:event_btnInventarisProdukActionPerformed
-
     private void btnInventarisPesananActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInventarisPesananActionPerformed
-        // TODO add your handling code here:
+        // Akses: Diizinkan untuk Staff Gudang, Manager, Administrator. Ditolak untuk Kasir.
+        String peran = UserSession.getInstance().getPeran();
+        if (peran.equals("Kasir")) {
+            showAccessDeniedMessage();
+            return;
+        }
         new GoodsReceiptForm().setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnInventarisPesananActionPerformed
 
     private void btnManajemenPenggunaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnManajemenPenggunaActionPerformed
-        // TODO add your handling code here:
+        // Akses: Hanya untuk Manager dan Administrator.
+        String peran = UserSession.getInstance().getPeran();
+        if (!peran.equals("Administrator") && !peran.equals("Manager")) {
+            showAccessDeniedMessage();
+            return;
+        }
         new UserManagement().setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnManajemenPenggunaActionPerformed
 
     private void btnPelaporanPenjualanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPelaporanPenjualanActionPerformed
-        // TODO add your handling code here:
+        // Akses: Diizinkan untuk Kasir, Manager, Administrator. Ditolak untuk Staff Gudang.
+        String peran = UserSession.getInstance().getPeran();
+        if (peran.equals("Staff Gudang")) {
+            showAccessDeniedMessage();
+            return;
+        }
         new LaporanPenjualanForm().setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnPelaporanPenjualanActionPerformed
 
     private void btnPelaporanInventarisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPelaporanInventarisActionPerformed
-        // TODO add your handling code here:
+        // Akses: Diizinkan untuk Staff Gudang, Manager, Administrator. Ditolak untuk Kasir.
+        String peran = UserSession.getInstance().getPeran();
+        if (peran.equals("Kasir")) {
+            showAccessDeniedMessage();
+            return;
+        }
         new LaporanInventarisForm().setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnPelaporanInventarisActionPerformed
 
     private void btnPelaporanKeuanganActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPelaporanKeuanganActionPerformed
-        // TODO add your handling code here:
+        // Akses: Diizinkan untuk Kasir, Manager, Administrator. Ditolak untuk Staff Gudang.
+        String peran = UserSession.getInstance().getPeran();
+        if (peran.equals("Staff Gudang")) {
+            showAccessDeniedMessage();
+            return;
+        }
         new LaporanKeuanganForm().setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnPelaporanKeuanganActionPerformed
 
     private void btnLogout1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogout1ActionPerformed
@@ -515,11 +534,62 @@ public class SupplierForm extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnLogout1ActionPerformed
 
-    private void btnDashboard1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDashboard1ActionPerformed
-        // TODO add your handling code here:
-        new MainMenu().setVisible(true);
+    private void btnPOSActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPOSActionPerformed
+        // Akses: Diizinkan untuk Kasir, Manager, Administrator. Ditolak untuk Staff Gudang.
+        String peran = UserSession.getInstance().getPeran();
+        if (peran.equals("Staff Gudang")) {
+            showAccessDeniedMessage();
+            return;
+        }
+        new POSForm().setVisible(true);
         this.dispose();
-    }//GEN-LAST:event_btnDashboard1ActionPerformed
+    }//GEN-LAST:event_btnPOSActionPerformed
+
+    private void btnManajemenDiskonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnManajemenDiskonActionPerformed
+        // Akses: Diizinkan untuk Kasir, Manager, Administrator. Ditolak untuk Staff Gudang.
+        String peran = UserSession.getInstance().getPeran();
+        if (peran.equals("Staff Gudang")) {
+            showAccessDeniedMessage();
+            return;
+        }
+        new DiscountManagementForm().setVisible(true);
+        this.dispose();
+        
+    }//GEN-LAST:event_btnManajemenDiskonActionPerformed
+
+    private void btnManajemenProduk1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnManajemenProduk1ActionPerformed
+        // Akses: Diizinkan untuk Staff Gudang, Manager, Administrator. Ditolak untuk Kasir.
+        String peran = UserSession.getInstance().getPeran();
+        if (peran.equals("Kasir")) {
+            showAccessDeniedMessage();
+            return;
+        }
+        new ProdukForm().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnManajemenProduk1ActionPerformed
+
+    private void btnInventarisSupplierActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInventarisSupplierActionPerformed
+        // Akses: Diizinkan untuk Staff Gudang, Manager, Administrator. Ditolak untuk Kasir.
+        JOptionPane.showMessageDialog(this, "Anda sudah berada di halaman Supplier.", "Informasi", JOptionPane.INFORMATION_MESSAGE);
+    }//GEN-LAST:event_btnInventarisSupplierActionPerformed
+
+    private void btnInventarisProdukActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInventarisProdukActionPerformed
+        // Akses: Diizinkan untuk Staff Gudang, Manager, Administrator. Ditolak untuk Kasir.
+        String peran = UserSession.getInstance().getPeran();
+        if (peran.equals("Kasir")) {
+            showAccessDeniedMessage();
+            return;
+        }
+        new PurchaseOrderForm().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnInventarisProdukActionPerformed
+
+    private void btnProfileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProfileActionPerformed
+        // TODO add your handling code here:
+        this.setVisible(false);
+        Profile profile = new Profile(this);
+        profile.setVisible(true);
+    }//GEN-LAST:event_btnProfileActionPerformed
 
     /**
      * @param args the command line arguments

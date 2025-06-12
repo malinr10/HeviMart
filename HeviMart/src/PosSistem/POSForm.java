@@ -64,8 +64,8 @@ public class POSForm extends javax.swing.JFrame {
         String namaLengkap = session.getNamaLengkap();
         String peran = session.getPeran();
         this.setTitle("SuperMart POS - Kasir ID: " + ID_KASIR);
-        lblUsername.setText(this.namaLengkap);
-        lblPeran.setText(this.peran);
+        lblUsername.setText(session.getNamaLengkap());
+        lblPeran.setText(session.getPeran());
 
         // Setup Tabel Keranjang Belanja
         modelTabel = (DefaultTableModel) tblShoppingCart.getModel();
@@ -237,9 +237,9 @@ public class POSForm extends javax.swing.JFrame {
         btnBatalTransaksi = new javax.swing.JButton();
         btnRiwayat = new javax.swing.JButton();
         btnCari = new javax.swing.JButton();
+        btnProfilePOS = new javax.swing.JButton();
         lblPeran = new javax.swing.JLabel();
         lblUsername = new javax.swing.JLabel();
-        btnProfile = new javax.swing.JButton();
         btnDashboard1 = new javax.swing.JButton();
         btnPOS = new javax.swing.JButton();
         btnManajemenDiskon = new javax.swing.JButton();
@@ -365,6 +365,15 @@ public class POSForm extends javax.swing.JFrame {
         });
         jPanel2.add(btnCari, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 290, 60, 50));
 
+        btnProfilePOS.setBorderPainted(false);
+        btnProfilePOS.setContentAreaFilled(false);
+        btnProfilePOS.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnProfilePOSActionPerformed(evt);
+            }
+        });
+        jPanel2.add(btnProfilePOS, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, 180, 50));
+
         lblPeran.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         lblPeran.setForeground(new java.awt.Color(30, 41, 59));
         lblPeran.setText("peran");
@@ -374,10 +383,6 @@ public class POSForm extends javax.swing.JFrame {
         lblUsername.setForeground(new java.awt.Color(30, 41, 59));
         lblUsername.setText("username");
         jPanel2.add(lblUsername, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 130, 120, 20));
-
-        btnProfile.setBorderPainted(false);
-        btnProfile.setContentAreaFilled(false);
-        jPanel2.add(btnProfile, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, 180, 50));
 
         btnDashboard1.setBorderPainted(false);
         btnDashboard1.setContentAreaFilled(false);
@@ -408,11 +413,6 @@ public class POSForm extends javax.swing.JFrame {
 
         btnManajemenProduk1.setBorderPainted(false);
         btnManajemenProduk1.setContentAreaFilled(false);
-        btnManajemenProduk1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnManajemenProduk1MouseClicked(evt);
-            }
-        });
         btnManajemenProduk1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnManajemenProduk1ActionPerformed(evt);
@@ -458,38 +458,18 @@ public class POSForm extends javax.swing.JFrame {
 
         btnPelaporanPenjualan.setBorderPainted(false);
         btnPelaporanPenjualan.setContentAreaFilled(false);
-        btnPelaporanPenjualan.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnPelaporanPenjualanActionPerformed(evt);
-            }
-        });
         jPanel2.add(btnPelaporanPenjualan, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 720, 110, 20));
 
         btnPelaporanInventaris.setBorderPainted(false);
         btnPelaporanInventaris.setContentAreaFilled(false);
-        btnPelaporanInventaris.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnPelaporanInventarisActionPerformed(evt);
-            }
-        });
         jPanel2.add(btnPelaporanInventaris, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 745, 110, 20));
 
         btnPelaporanKeuangan.setBorderPainted(false);
         btnPelaporanKeuangan.setContentAreaFilled(false);
-        btnPelaporanKeuangan.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnPelaporanKeuanganActionPerformed(evt);
-            }
-        });
         jPanel2.add(btnPelaporanKeuangan, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 770, 70, 20));
 
         btnLogout1.setBorderPainted(false);
         btnLogout1.setContentAreaFilled(false);
-        btnLogout1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnLogout1ActionPerformed(evt);
-            }
-        });
         jPanel2.add(btnLogout1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 930, 130, 40));
 
         BG_POSForm.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/POS.png"))); // NOI18N
@@ -647,17 +627,13 @@ public class POSForm extends javax.swing.JFrame {
 
     private void btnPOSActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPOSActionPerformed
         // Akses: Diizinkan untuk Kasir, Manager, Administrator. Ditolak untuk Staff Gudang.
-        if (peran.equals("Staff Gudang")) {
-            showAccessDeniedMessage();
-            return;
-        }
-        new POSForm().setVisible(true);
-        this.dispose();
+        JOptionPane.showMessageDialog(this, "Anda sudah berada di halaman POS.", "Informasi", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_btnPOSActionPerformed
 
     private void btnManajemenDiskonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnManajemenDiskonActionPerformed
         // Akses: Diizinkan untuk Kasir, Manager, Administrator. Ditolak untuk Staff Gudang.
-        if (peran.equals("Staff Gudang")) {
+        String peranPengguna = UserSession.getInstance().getPeran();
+        if (peranPengguna.equals("Staff Gudang")) {
             showAccessDeniedMessage();
             return;
         }
@@ -671,7 +647,8 @@ public class POSForm extends javax.swing.JFrame {
 
     private void btnManajemenProduk1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnManajemenProduk1ActionPerformed
         // Akses: Diizinkan untuk Staff Gudang, Manager, Administrator. Ditolak untuk Kasir.
-        if (peran.equals("Kasir")) {
+        String peranPengguna = UserSession.getInstance().getPeran();
+        if (peranPengguna.equals("Kasir")) {
             showAccessDeniedMessage();
             return;
         }
@@ -681,7 +658,8 @@ public class POSForm extends javax.swing.JFrame {
 
     private void btnInventarisSupplierActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInventarisSupplierActionPerformed
         // Akses: Diizinkan untuk Staff Gudang, Manager, Administrator. Ditolak untuk Kasir.
-        if (peran.equals("Kasir")) {
+        String peranPengguna = UserSession.getInstance().getPeran();
+        if (peranPengguna.equals("Kasir")) {
             showAccessDeniedMessage();
             return;
         }
@@ -691,7 +669,8 @@ public class POSForm extends javax.swing.JFrame {
 
     private void btnInventarisProdukActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInventarisProdukActionPerformed
         // Akses: Diizinkan untuk Staff Gudang, Manager, Administrator. Ditolak untuk Kasir.
-        if (peran.equals("Kasir")) {
+        String peranPengguna = UserSession.getInstance().getPeran();
+        if (peranPengguna.equals("Kasir")) {
             showAccessDeniedMessage();
             return;
         }
@@ -701,7 +680,8 @@ public class POSForm extends javax.swing.JFrame {
 
     private void btnInventarisPesananActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInventarisPesananActionPerformed
         // Akses: Diizinkan untuk Staff Gudang, Manager, Administrator. Ditolak untuk Kasir.
-        if (peran.equals("Kasir")) {
+        String peranPengguna = UserSession.getInstance().getPeran();
+        if (peranPengguna.equals("Kasir")) {
             showAccessDeniedMessage();
             return;
         }
@@ -711,7 +691,8 @@ public class POSForm extends javax.swing.JFrame {
 
     private void btnManajemenPenggunaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnManajemenPenggunaActionPerformed
         // Akses: Hanya untuk Manager dan Administrator.
-        if (!peran.equals("Administrator") && !peran.equals("Manager")) {
+        String peranPengguna = UserSession.getInstance().getPeran();
+        if (!peranPengguna.equals("Administrator") && !peran.equals("Manager")) {
             showAccessDeniedMessage();
             return;
         }
@@ -721,7 +702,8 @@ public class POSForm extends javax.swing.JFrame {
 
     private void btnPelaporanPenjualanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPelaporanPenjualanActionPerformed
         // Akses: Diizinkan untuk Kasir, Manager, Administrator. Ditolak untuk Staff Gudang.
-        if (peran.equals("Staff Gudang")) {
+        String peranPengguna = UserSession.getInstance().getPeran();
+        if (peranPengguna.equals("Staff Gudang")) {
             showAccessDeniedMessage();
             return;
         }
@@ -731,7 +713,8 @@ public class POSForm extends javax.swing.JFrame {
 
     private void btnPelaporanInventarisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPelaporanInventarisActionPerformed
         // Akses: Diizinkan untuk Staff Gudang, Manager, Administrator. Ditolak untuk Kasir.
-        if (peran.equals("Kasir")) {
+        String peranPengguna = UserSession.getInstance().getPeran();
+        if (peranPengguna.equals("Kasir")) {
             showAccessDeniedMessage();
             return;
         }
@@ -741,7 +724,8 @@ public class POSForm extends javax.swing.JFrame {
 
     private void btnPelaporanKeuanganActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPelaporanKeuanganActionPerformed
         // Akses: Diizinkan untuk Kasir, Manager, Administrator. Ditolak untuk Staff Gudang.
-        if (peran.equals("Staff Gudang")) {
+        String peranPengguna = UserSession.getInstance().getPeran();
+        if (peranPengguna.equals("Staff Gudang")) {
             showAccessDeniedMessage();
             return;
         }
@@ -765,12 +749,13 @@ public class POSForm extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_btnDashboard1ActionPerformed
 
-    private void btnProfileActionPerformed(java.awt.event.ActionEvent evt) {
+    private void btnProfilePOSActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProfilePOSActionPerformed
         // TODO add your handling code here:
         this.setVisible(false);
         Profile profile = new Profile(this);
         profile.setVisible(true);
-    }
+    }//GEN-LAST:event_btnProfilePOSActionPerformed
+
 
     /**
      * @param args the command line arguments
@@ -796,7 +781,7 @@ public class POSForm extends javax.swing.JFrame {
     private javax.swing.JButton btnPelaporanInventaris;
     private javax.swing.JButton btnPelaporanKeuangan;
     private javax.swing.JButton btnPelaporanPenjualan;
-    private javax.swing.JButton btnProfile;
+    private javax.swing.JButton btnProfilePOS;
     private javax.swing.JButton btnRiwayat;
     private javax.swing.JComboBox<String> cmbMetodeBayar;
     private javax.swing.JLabel jLabel1;

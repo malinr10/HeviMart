@@ -59,9 +59,8 @@ public class GoodsReceiptForm extends javax.swing.JFrame {
         this.loggedInUserId = session.getIdPengguna(); // Ambil ID kasir dari sesi
         String namaLengkap = session.getNamaLengkap();
         String peran = session.getPeran();
-        lblUsername.setText(this.namaLengkap);
-        lblPeran.setText(this.peran);
-
+        lblUsername.setText(session.getNamaLengkap());
+        lblPeran.setText(session.getPeran());
         // Setup model untuk tabel pesanan terbuka
         modelOpenOrders = new DefaultTableModel();
         tblOpenOrders.setModel(modelOpenOrders);
@@ -147,21 +146,21 @@ public class GoodsReceiptForm extends javax.swing.JFrame {
         tblReceiptDetails = new javax.swing.JTable();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblOpenOrders = new javax.swing.JTable();
-        btnPelaporanKeuangan = new javax.swing.JButton();
-        btnManajemenDiskon = new javax.swing.JButton();
-        btnManajemenPengguna = new javax.swing.JButton();
-        btnDashboard1 = new javax.swing.JButton();
-        btnInventarisSupplier = new javax.swing.JButton();
-        btnPelaporanPenjualan = new javax.swing.JButton();
         lblPeran = new javax.swing.JLabel();
-        btnPOS = new javax.swing.JButton();
-        btnManajemenProduk1 = new javax.swing.JButton();
         lblUsername = new javax.swing.JLabel();
-        btnProfile = new javax.swing.JButton();
+        btnDashboard1 = new javax.swing.JButton();
+        btnPOS = new javax.swing.JButton();
+        btnManajemenDiskon = new javax.swing.JButton();
+        btnManajemenProduk1 = new javax.swing.JButton();
+        btnInventarisSupplier = new javax.swing.JButton();
         btnInventarisProduk = new javax.swing.JButton();
-        btnPelaporanInventaris = new javax.swing.JButton();
-        btnLogout1 = new javax.swing.JButton();
         btnInventarisPesanan = new javax.swing.JButton();
+        btnManajemenPengguna = new javax.swing.JButton();
+        btnPelaporanPenjualan = new javax.swing.JButton();
+        btnPelaporanInventaris = new javax.swing.JButton();
+        btnPelaporanKeuangan = new javax.swing.JButton();
+        btnLogout1 = new javax.swing.JButton();
+        btnProfilePurchase = new javax.swing.JButton();
         BG_TerimaPesanan = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -217,64 +216,19 @@ public class GoodsReceiptForm extends javax.swing.JFrame {
 
         jPanel3.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 620, 1060, 280));
 
-        btnPelaporanKeuangan.setBorderPainted(false);
-        btnPelaporanKeuangan.setContentAreaFilled(false);
-        btnPelaporanKeuangan.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnPelaporanKeuanganActionPerformed(evt);
-            }
-        });
-        jPanel3.add(btnPelaporanKeuangan, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 770, 70, 20));
-
-        btnManajemenDiskon.setBorderPainted(false);
-        btnManajemenDiskon.setContentAreaFilled(false);
-        btnManajemenDiskon.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnManajemenDiskonActionPerformed(evt);
-            }
-        });
-        jPanel3.add(btnManajemenDiskon, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 307, 160, 50));
-
-        btnManajemenPengguna.setBorderPainted(false);
-        btnManajemenPengguna.setContentAreaFilled(false);
-        btnManajemenPengguna.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnManajemenPenggunaActionPerformed(evt);
-            }
-        });
-        jPanel3.add(btnManajemenPengguna, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 610, 160, 60));
-
-        btnDashboard1.setBorderPainted(false);
-        btnDashboard1.setContentAreaFilled(false);
-        btnDashboard1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnDashboard1ActionPerformed(evt);
-            }
-        });
-        jPanel3.add(btnDashboard1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 210, 160, 30));
-
-        btnInventarisSupplier.setBorderPainted(false);
-        btnInventarisSupplier.setContentAreaFilled(false);
-        btnInventarisSupplier.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnInventarisSupplierActionPerformed(evt);
-            }
-        });
-        jPanel3.add(btnInventarisSupplier, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 502, 110, 20));
-
-        btnPelaporanPenjualan.setBorderPainted(false);
-        btnPelaporanPenjualan.setContentAreaFilled(false);
-        btnPelaporanPenjualan.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnPelaporanPenjualanActionPerformed(evt);
-            }
-        });
-        jPanel3.add(btnPelaporanPenjualan, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 720, 110, 20));
-
         lblPeran.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         lblPeran.setForeground(new java.awt.Color(30, 41, 59));
         lblPeran.setText("peran");
         jPanel3.add(lblPeran, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 150, 120, 20));
+
+        lblUsername.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        lblUsername.setForeground(new java.awt.Color(30, 41, 59));
+        lblUsername.setText("username");
+        jPanel3.add(lblUsername, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 130, 120, 20));
+
+        btnDashboard1.setBorderPainted(false);
+        btnDashboard1.setContentAreaFilled(false);
+        jPanel3.add(btnDashboard1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 210, 160, 30));
 
         btnPOS.setBorderPainted(false);
         btnPOS.setContentAreaFilled(false);
@@ -284,6 +238,15 @@ public class GoodsReceiptForm extends javax.swing.JFrame {
             }
         });
         jPanel3.add(btnPOS, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 258, 160, 30));
+
+        btnManajemenDiskon.setBorderPainted(false);
+        btnManajemenDiskon.setContentAreaFilled(false);
+        btnManajemenDiskon.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnManajemenDiskonActionPerformed(evt);
+            }
+        });
+        jPanel3.add(btnManajemenDiskon, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 307, 160, 50));
 
         btnManajemenProduk1.setBorderPainted(false);
         btnManajemenProduk1.setContentAreaFilled(false);
@@ -299,14 +262,14 @@ public class GoodsReceiptForm extends javax.swing.JFrame {
         });
         jPanel3.add(btnManajemenProduk1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 370, 160, 50));
 
-        lblUsername.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        lblUsername.setForeground(new java.awt.Color(30, 41, 59));
-        lblUsername.setText("username");
-        jPanel3.add(lblUsername, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 130, 120, 20));
-
-        btnProfile.setBorderPainted(false);
-        btnProfile.setContentAreaFilled(false);
-        jPanel3.add(btnProfile, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, 180, 50));
+        btnInventarisSupplier.setBorderPainted(false);
+        btnInventarisSupplier.setContentAreaFilled(false);
+        btnInventarisSupplier.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnInventarisSupplierActionPerformed(evt);
+            }
+        });
+        jPanel3.add(btnInventarisSupplier, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 502, 110, 20));
 
         btnInventarisProduk.setBorderPainted(false);
         btnInventarisProduk.setContentAreaFilled(false);
@@ -317,6 +280,33 @@ public class GoodsReceiptForm extends javax.swing.JFrame {
         });
         jPanel3.add(btnInventarisProduk, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 530, 110, 30));
 
+        btnInventarisPesanan.setBorderPainted(false);
+        btnInventarisPesanan.setContentAreaFilled(false);
+        btnInventarisPesanan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnInventarisPesananActionPerformed(evt);
+            }
+        });
+        jPanel3.add(btnInventarisPesanan, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 570, 110, 30));
+
+        btnManajemenPengguna.setBorderPainted(false);
+        btnManajemenPengguna.setContentAreaFilled(false);
+        btnManajemenPengguna.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnManajemenPenggunaActionPerformed(evt);
+            }
+        });
+        jPanel3.add(btnManajemenPengguna, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 610, 160, 60));
+
+        btnPelaporanPenjualan.setBorderPainted(false);
+        btnPelaporanPenjualan.setContentAreaFilled(false);
+        btnPelaporanPenjualan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPelaporanPenjualanActionPerformed(evt);
+            }
+        });
+        jPanel3.add(btnPelaporanPenjualan, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 720, 110, 20));
+
         btnPelaporanInventaris.setBorderPainted(false);
         btnPelaporanInventaris.setContentAreaFilled(false);
         btnPelaporanInventaris.addActionListener(new java.awt.event.ActionListener() {
@@ -325,6 +315,15 @@ public class GoodsReceiptForm extends javax.swing.JFrame {
             }
         });
         jPanel3.add(btnPelaporanInventaris, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 745, 110, 20));
+
+        btnPelaporanKeuangan.setBorderPainted(false);
+        btnPelaporanKeuangan.setContentAreaFilled(false);
+        btnPelaporanKeuangan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPelaporanKeuanganActionPerformed(evt);
+            }
+        });
+        jPanel3.add(btnPelaporanKeuangan, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 770, 70, 20));
 
         btnLogout1.setBorderPainted(false);
         btnLogout1.setContentAreaFilled(false);
@@ -335,14 +334,14 @@ public class GoodsReceiptForm extends javax.swing.JFrame {
         });
         jPanel3.add(btnLogout1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 930, 130, 40));
 
-        btnInventarisPesanan.setBorderPainted(false);
-        btnInventarisPesanan.setContentAreaFilled(false);
-        btnInventarisPesanan.addActionListener(new java.awt.event.ActionListener() {
+        btnProfilePurchase.setBorderPainted(false);
+        btnProfilePurchase.setContentAreaFilled(false);
+        btnProfilePurchase.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnInventarisPesananActionPerformed(evt);
+                btnProfilePurchaseActionPerformed(evt);
             }
         });
-        jPanel3.add(btnInventarisPesanan, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 570, 110, 30));
+        jPanel3.add(btnProfilePurchase, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, 180, 50));
 
         BG_TerimaPesanan.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/Penerimaan Pesanan.png"))); // NOI18N
         jPanel3.add(BG_TerimaPesanan, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
@@ -443,15 +442,9 @@ public class GoodsReceiptForm extends javax.swing.JFrame {
         loadOpenOrders();
     }//GEN-LAST:event_btnRefreshActionPerformed
 
-    private void showAccessDeniedMessage() {
-        JOptionPane.showMessageDialog(this,
-                "Anda tidak memiliki hak akses untuk membuka menu ini.",
-                "Akses Ditolak",
-                JOptionPane.WARNING_MESSAGE);
-    }
-    
     private void btnPOSActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPOSActionPerformed
         // Akses: Diizinkan untuk Kasir, Manager, Administrator. Ditolak untuk Staff Gudang.
+        String peran = UserSession.getInstance().getPeran();
         if (peran.equals("Staff Gudang")) {
             showAccessDeniedMessage();
             return;
@@ -462,6 +455,7 @@ public class GoodsReceiptForm extends javax.swing.JFrame {
 
     private void btnManajemenDiskonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnManajemenDiskonActionPerformed
         // Akses: Diizinkan untuk Kasir, Manager, Administrator. Ditolak untuk Staff Gudang.
+        String peran = UserSession.getInstance().getPeran();
         if (peran.equals("Staff Gudang")) {
             showAccessDeniedMessage();
             return;
@@ -476,6 +470,7 @@ public class GoodsReceiptForm extends javax.swing.JFrame {
 
     private void btnManajemenProduk1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnManajemenProduk1ActionPerformed
         // Akses: Diizinkan untuk Staff Gudang, Manager, Administrator. Ditolak untuk Kasir.
+        String peran = UserSession.getInstance().getPeran();
         if (peran.equals("Kasir")) {
             showAccessDeniedMessage();
             return;
@@ -486,36 +481,35 @@ public class GoodsReceiptForm extends javax.swing.JFrame {
 
     private void btnInventarisSupplierActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInventarisSupplierActionPerformed
         // Akses: Diizinkan untuk Staff Gudang, Manager, Administrator. Ditolak untuk Kasir.
-        if (peran.equals("Kasir")) {
+        String peranPengguna = UserSession.getInstance().getPeran();
+        if (peranPengguna.equals("Kasir")) {
             showAccessDeniedMessage();
             return;
         }
         new SupplierForm().setVisible(true);
         this.dispose();
+
     }//GEN-LAST:event_btnInventarisSupplierActionPerformed
 
     private void btnInventarisProdukActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInventarisProdukActionPerformed
         // Akses: Diizinkan untuk Staff Gudang, Manager, Administrator. Ditolak untuk Kasir.
-        if (peran.equals("Kasir")) {
+        String peranPengguna = UserSession.getInstance().getPeran();
+        if (peranPengguna.equals("Kasir")) {
             showAccessDeniedMessage();
             return;
         }
         new PurchaseOrderForm().setVisible(true);
         this.dispose();
+        
     }//GEN-LAST:event_btnInventarisProdukActionPerformed
 
     private void btnInventarisPesananActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInventarisPesananActionPerformed
-        // Akses: Diizinkan untuk Staff Gudang, Manager, Administrator. Ditolak untuk Kasir.
-        if (peran.equals("Kasir")) {
-            showAccessDeniedMessage();
-            return;
-        }
-        new GoodsReceiptForm().setVisible(true);
-        this.dispose();
+        JOptionPane.showMessageDialog(this, "Anda sudah berada di halaman Penerimaan Prouduk.", "Informasi", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_btnInventarisPesananActionPerformed
 
     private void btnManajemenPenggunaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnManajemenPenggunaActionPerformed
         // Akses: Hanya untuk Manager dan Administrator.
+        String peran = UserSession.getInstance().getPeran();
         if (!peran.equals("Administrator") && !peran.equals("Manager")) {
             showAccessDeniedMessage();
             return;
@@ -526,6 +520,7 @@ public class GoodsReceiptForm extends javax.swing.JFrame {
 
     private void btnPelaporanPenjualanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPelaporanPenjualanActionPerformed
         // Akses: Diizinkan untuk Kasir, Manager, Administrator. Ditolak untuk Staff Gudang.
+        String peran = UserSession.getInstance().getPeran();
         if (peran.equals("Staff Gudang")) {
             showAccessDeniedMessage();
             return;
@@ -536,6 +531,7 @@ public class GoodsReceiptForm extends javax.swing.JFrame {
 
     private void btnPelaporanInventarisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPelaporanInventarisActionPerformed
         // Akses: Diizinkan untuk Staff Gudang, Manager, Administrator. Ditolak untuk Kasir.
+        String peran = UserSession.getInstance().getPeran();
         if (peran.equals("Kasir")) {
             showAccessDeniedMessage();
             return;
@@ -546,6 +542,7 @@ public class GoodsReceiptForm extends javax.swing.JFrame {
 
     private void btnPelaporanKeuanganActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPelaporanKeuanganActionPerformed
         // Akses: Diizinkan untuk Kasir, Manager, Administrator. Ditolak untuk Staff Gudang.
+        String peran = UserSession.getInstance().getPeran();
         if (peran.equals("Staff Gudang")) {
             showAccessDeniedMessage();
             return;
@@ -563,12 +560,20 @@ public class GoodsReceiptForm extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnLogout1ActionPerformed
 
-    private void btnDashboard1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDashboard1ActionPerformed
+    private void btnProfilePurchaseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProfilePurchaseActionPerformed
         // TODO add your handling code here:
-        new MainMenu().setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_btnDashboard1ActionPerformed
-    
+        this.setVisible(false);
+        Profile profile = new Profile(this);
+        profile.setVisible(true);
+    }//GEN-LAST:event_btnProfilePurchaseActionPerformed
+
+    private void showAccessDeniedMessage() {
+        JOptionPane.showMessageDialog(this,
+                "Anda tidak memiliki hak akses untuk membuka menu ini.",
+                "Akses Ditolak",
+                JOptionPane.WARNING_MESSAGE);
+    }
+        
     private void btnProfileActionPerformed(java.awt.event.ActionEvent evt) {                                           
         // TODO add your handling code here:
         this.setVisible(false);
@@ -625,7 +630,7 @@ public class GoodsReceiptForm extends javax.swing.JFrame {
     private javax.swing.JButton btnPelaporanInventaris;
     private javax.swing.JButton btnPelaporanKeuangan;
     private javax.swing.JButton btnPelaporanPenjualan;
-    private javax.swing.JButton btnProfile;
+    private javax.swing.JButton btnProfilePurchase;
     private javax.swing.JButton btnRefresh;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
