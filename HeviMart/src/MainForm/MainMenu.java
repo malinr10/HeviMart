@@ -23,6 +23,7 @@ import java.text.NumberFormat;
 import java.util.Locale;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import util.UserSession;
 
 /**
  *
@@ -38,12 +39,13 @@ public class MainMenu extends javax.swing.JFrame {
     /**
      * Creates new form MainMenu
      */
-    public MainMenu(int idPengguna, String namaLengkap, String peran) {
+    public MainMenu() {
         initComponents();
+        UserSession session = UserSession.getInstance();
 
-        this.loggedInUserId = idPengguna;
-        this.namaLengkap = namaLengkap;
-        this.peran = peran;
+        this.loggedInUserId = session.getIdPengguna();
+        this.namaLengkap = session.getNamaLengkap();
+        this.peran = session.getPeran();
 
         lblUsername.setText(this.namaLengkap);
         lblPeran.setText(this.peran);
@@ -373,6 +375,12 @@ public class MainMenu extends javax.swing.JFrame {
         // TODO add your handling code here:
         int confirm = JOptionPane.showConfirmDialog(this, "Apakah Anda yakin ingin logout?", "Konfirmasi Logout", JOptionPane.YES_NO_OPTION);
         if (confirm == JOptionPane.YES_OPTION) {
+
+            // --- PERUBAHAN UTAMA DI SINI ---
+            // Hancurkan data sesi pengguna saat ini
+            UserSession.getInstance().cleanUserSession();
+
+            // Baru buka halaman login dan tutup menu utama
             new Login().setVisible(true);
             this.dispose();
         }
