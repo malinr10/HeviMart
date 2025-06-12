@@ -27,7 +27,7 @@ public class Login extends javax.swing.JFrame {
         initComponents();
         this.pack();
         this.setLocationRelativeTo(null);
-        
+
     }
 
     /**
@@ -44,6 +44,8 @@ public class Login extends javax.swing.JFrame {
         txtPassword = new javax.swing.JPasswordField();
         btnLogin = new javax.swing.JButton();
         btnKeRegistrasi = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
         BG_Login = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -75,7 +77,16 @@ public class Login extends javax.swing.JFrame {
                 btnKeRegistrasiActionPerformed(evt);
             }
         });
-        jPanel1.add(btnKeRegistrasi, new org.netbeans.lib.awtextra.AbsoluteConstraints(768, 735, 90, 25));
+        jPanel1.add(btnKeRegistrasi, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 740, 100, 30));
+
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(102, 204, 255));
+        jLabel1.setText("Register");
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 740, 110, 30));
+
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jLabel2.setText("Belum Punya Akun? ");
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 740, 250, 30));
 
         BG_Login.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/Login.png"))); // NOI18N
         jPanel1.add(BG_Login, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
@@ -95,7 +106,6 @@ public class Login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
-        // TODO add your handling code here:
         String username = txtUsername.getText();
         String password = new String(txtPassword.getPassword());
 
@@ -114,28 +124,42 @@ public class Login extends javax.swing.JFrame {
             ResultSet rs = pstmt.executeQuery();
 
             if (rs.next()) {
-                // Untuk sekarang, kita lewati pengecekan hash password agar lebih sederhana
-                // Jika Anda ingin menggunakan jBCrypt, panggil di sini
+                // --- PERUBAHAN UTAMA DIMULAI DI SINI ---
+
+                // 1. Ambil peran terlebih dahulu
+                String peran = rs.getString("peran");
+
+                // 2. Cek apakah peran masih NULL
+                if (peran == null) {
+                    JOptionPane.showMessageDialog(this,
+                            "Akun Anda sedang menunggu persetujuan dari Administrator.\nSilakan hubungi admin untuk aktivasi peran.",
+                            "Login Ditunda",
+                            JOptionPane.INFORMATION_MESSAGE);
+                    return; // Hentikan proses login
+                }
+
+                // --- AKHIR PERUBAHAN ---
+                // 3. Jika peran tidak NULL, lanjutkan proses verifikasi password
                 String passwordDariDB = rs.getString("kata_sandi");
 
-                // TODO: Ganti dengan pengecekan hash (PasswordUtil.checkPassword(password, passwordDariDB))
-                if (PasswordUtil.checkPassword(password, passwordDariDB)) { // Placeholder, HARUS diganti
+                if (PasswordUtil.checkPassword(password, passwordDariDB)) {
                     JOptionPane.showMessageDialog(this, "Login Berhasil!");
 
                     // Buka MainForm dan tutup form login
                     int idPengguna = rs.getInt("id_pengguna");
                     String namaLengkap = rs.getString("nama_lengkap");
-                    String peran = rs.getString("peran");
+                    // Gunakan 'peran' yang sudah kita ambil sebelumnya
                     new MainMenu(idPengguna, namaLengkap, peran).setVisible(true);
                     this.dispose();
                 } else {
                     JOptionPane.showMessageDialog(this, "Password salah!", "Error", JOptionPane.ERROR_MESSAGE);
                 }
             } else {
-                JOptionPane.showMessageDialog(this, "Username tidak ditemukan!", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Username tidak ditemukan atau akun tidak aktif!", "Error", JOptionPane.ERROR_MESSAGE);
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Terjadi kesalahan: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
         }
     }//GEN-LAST:event_btnLoginActionPerformed
 
@@ -184,6 +208,8 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JLabel BG_Login;
     private javax.swing.JButton btnKeRegistrasi;
     private javax.swing.JButton btnLogin;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPasswordField txtPassword;
     private javax.swing.JTextField txtUsername;

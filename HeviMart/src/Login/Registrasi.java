@@ -11,6 +11,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import javax.swing.JOptionPane;
 import java.sql.ResultSet;
+
 /**
  *
  * @author Lenovo
@@ -104,65 +105,77 @@ public class Registrasi extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnBuatAkunActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuatAkunActionPerformed
-        // TODO add your handling code here:
-        // 1. Ambil semua input dari form
+         // 1. Ambil semua input dari form 
         String namaLengkap = txtNamaLengkap.getText();
         String email = txtEmail.getText();
         String noTelepon = txtNoTelepon.getText();
         String password = new String(txtPassword.getPassword());
         String konfirmasiPassword = new String(txtKonfirmasiPassword.getPassword());
 
-        // 2. Validasi Input
+        String username = email;
+        int atIndex = email.indexOf('@');
+        if (atIndex != -1) {
+            username = email.substring(0, atIndex);
+        }
+
+        // 2. Validasi Input (tetap sama)
         if (namaLengkap.isEmpty() || email.isEmpty() || noTelepon.isEmpty() || password.isEmpty() || konfirmasiPassword.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Semua kolom harus diisi!", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
-
         if (!password.equals(konfirmasiPassword)) {
             JOptionPane.showMessageDialog(this, "Password dan Konfirmasi Password tidak cocok!", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        if (atIndex == -1) {
+            JOptionPane.showMessageDialog(this, "Format email tidak valid.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
         try {
             Connection conn = koneksi.getKoneksi();
-            
-            // Cek apakah email/username sudah terdaftar
+
             String checkSql = "SELECT COUNT(*) FROM PENGGUNA WHERE email = ? OR nama_pengguna = ?";
             PreparedStatement checkPstmt = conn.prepareStatement(checkSql);
             checkPstmt.setString(1, email);
-            checkPstmt.setString(2, email); // Asumsi username = email untuk pendaftaran baru
+            checkPstmt.setString(2, username);
             ResultSet rs = checkPstmt.executeQuery();
-            if(rs.next() && rs.getInt(1) > 0) {
-                JOptionPane.showMessageDialog(this, "Email sudah terdaftar. Silakan gunakan email lain.", "Error", JOptionPane.ERROR_MESSAGE);
+            if (rs.next() && rs.getInt(1) > 0) {
+                JOptionPane.showMessageDialog(this, "Email atau username '" + username + "' sudah terdaftar.", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
 
             // 3. Insert data ke database
             String sql = "INSERT INTO PENGGUNA (nama_lengkap, email, telepon, kata_sandi, nama_pengguna, peran, aktif) VALUES (?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement pstmt = conn.prepareStatement(sql);
-            
+
             pstmt.setString(1, namaLengkap);
             pstmt.setString(2, email);
             pstmt.setString(3, noTelepon);
-            
-            // HASH password sebelum disimpan untuk keamanan
+
             String hashedPassword = PasswordUtil.hashPassword(password);
-            pstmt.setString(4, hashedPassword); // Simpan password yang sudah di-hash 
-            
-            pstmt.setString(5, email); // Jadikan email sebagai username default
-            pstmt.setString(6, "Kasir"); // Tentukan peran default untuk pengguna baru
-            pstmt.setBoolean(7, true);
+            pstmt.setString(4, hashedPassword);
+
+            pstmt.setString(5, username);
+
+            // --- PERUBAHAN UTAMA DI SINI ---
+            // Atur kolom 'peran' menjadi NULL karena butuh persetujuan admin
+            pstmt.setNull(6, java.sql.Types.VARCHAR);
+            // --- AKHIR PERUBAHAN ---
+
+            pstmt.setBoolean(7, true); // Tetap aktif agar bisa diverifikasi
 
             pstmt.executeUpdate();
 
-            JOptionPane.showMessageDialog(this, "Registrasi berhasil! Silakan login.", "Sukses", JOptionPane.INFORMATION_MESSAGE);
-            
+            JOptionPane.showMessageDialog(this, "Registrasi berhasil! Akun Anda akan aktif setelah dikonfirmasi oleh Administrator.", "Sukses", JOptionPane.INFORMATION_MESSAGE);
+
             // Kembali ke form login
             new Login().setVisible(true);
             this.dispose();
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Terjadi kesalahan saat registrasi: " + e.getMessage(), "Error Database", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
         }
     }//GEN-LAST:event_btnBuatAkunActionPerformed
 

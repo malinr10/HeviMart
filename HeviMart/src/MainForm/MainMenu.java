@@ -46,8 +46,8 @@ public class MainMenu extends javax.swing.JFrame {
         // Setup awal
         this.setLocationRelativeTo(null); // Form di tengah
         
-        // Atur tombol berdasarkan peran pengguna
-        aturTombolBerdasarkanPeran();
+//        // Atur tombol berdasarkan peran pengguna
+//        aturTombolBerdasarkanPeran();
         
         // Setup model untuk tabel dashboard
         modelTabelProduk = new DefaultTableModel();
@@ -60,22 +60,29 @@ public class MainMenu extends javax.swing.JFrame {
         loadDashboardData();
     }
     
-    private void aturTombolBerdasarkanPeran() {
-        if (this.peran.equals("Kasir")) {
-//            jButton1.setEnabled(false);
-            btnManajemenPengguna.setEnabled(false);
-            btnPelaporanPenjualan.setEnabled(false);
-            btnPelaporanInventaris.setEnabled(false);
-            btnPelaporanKeuangan.setEnabled(false);
-        } else if (this.peran.equals("Staff Gudang")) {
-            btnPOS.setEnabled(false);
-            btnManajemenPengguna.setEnabled(false);
-            btnPelaporanPenjualan.setEnabled(false);
-            btnPelaporanInventaris.setEnabled(false);
-            btnPelaporanKeuangan.setEnabled(false);
-        }
-        // Administrator dan Manager bisa mengakses semua
+    private void showAccessDeniedMessage() {
+        JOptionPane.showMessageDialog(this,
+                "Anda tidak memiliki hak akses untuk membuka menu ini.",
+                "Akses Ditolak",
+                JOptionPane.WARNING_MESSAGE);
     }
+    
+//    private void aturTombolBerdasarkanPeran() {
+//        if (this.peran.equals("Kasir")) {
+////            jButton1.setEnabled(false);
+//            btnManajemenPengguna.setEnabled(false);
+//            btnPelaporanPenjualan.setEnabled(false);
+//            btnPelaporanInventaris.setEnabled(false);
+//            btnPelaporanKeuangan.setEnabled(false);
+//        } else if (this.peran.equals("Staff Gudang")) {
+//            btnPOS.setEnabled(false);
+//            btnManajemenPengguna.setEnabled(false);
+//            btnPelaporanPenjualan.setEnabled(false);
+//            btnPelaporanInventaris.setEnabled(false);
+//            btnPelaporanKeuangan.setEnabled(false);
+//        }
+//        // Administrator dan Manager bisa mengakses semua
+//    }
     
     private void loadDashboardData() {
         // Menggunakan Locale Indonesia untuk format mata uang Rupiah (Rp)
@@ -369,43 +376,71 @@ public class MainMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_btnLogout1ActionPerformed
 
     private void btnPelaporanKeuanganActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPelaporanKeuanganActionPerformed
-        // TODO add your handling code here:
+        // Akses: Diizinkan untuk Kasir, Manager, Administrator. Ditolak untuk Staff Gudang.
+        if (peran.equals("Staff Gudang")) {
+            showAccessDeniedMessage();
+            return;
+        }
         new LaporanKeuanganForm().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnPelaporanKeuanganActionPerformed
 
     private void btnPelaporanInventarisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPelaporanInventarisActionPerformed
-        // TODO add your handling code here:
+        // Akses: Diizinkan untuk Staff Gudang, Manager, Administrator. Ditolak untuk Kasir.
+        if (peran.equals("Kasir")) {
+            showAccessDeniedMessage();
+            return;
+        }
         new LaporanInventarisForm().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnPelaporanInventarisActionPerformed
 
     private void btnPelaporanPenjualanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPelaporanPenjualanActionPerformed
-        // TODO add your handling code here:
+        // Akses: Diizinkan untuk Kasir, Manager, Administrator. Ditolak untuk Staff Gudang.
+        if (peran.equals("Staff Gudang")) {
+            showAccessDeniedMessage();
+            return;
+        }
         new LaporanPenjualanForm().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnPelaporanPenjualanActionPerformed
 
     private void btnInventarisPesananActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInventarisPesananActionPerformed
-        // TODO add your handling code here:
+        // Akses: Diizinkan untuk Staff Gudang, Manager, Administrator. Ditolak untuk Kasir.
+        if (peran.equals("Kasir")) {
+            showAccessDeniedMessage();
+            return;
+        }
         new GoodsReceiptForm().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnInventarisPesananActionPerformed
 
     private void btnInventarisProdukActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInventarisProdukActionPerformed
-        // TODO add your handling code here:
+        // Akses: Diizinkan untuk Staff Gudang, Manager, Administrator. Ditolak untuk Kasir.
+        if (peran.equals("Kasir")) {
+            showAccessDeniedMessage();
+            return;
+        }
         new PurchaseOrderForm().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnInventarisProdukActionPerformed
 
     private void btnInventarisSupplierActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInventarisSupplierActionPerformed
-        // TODO add your handling code here:
+        // Akses: Diizinkan untuk Staff Gudang, Manager, Administrator. Ditolak untuk Kasir.
+        if (peran.equals("Kasir")) {
+            showAccessDeniedMessage();
+            return;
+        }
         new SupplierForm().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnInventarisSupplierActionPerformed
 
     private void btnManajemenProduk1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnManajemenProduk1ActionPerformed
-        // TODO add your handling code here:
+        // Akses: Diizinkan untuk Staff Gudang, Manager, Administrator. Ditolak untuk Kasir.
+        if (peran.equals("Kasir")) {
+            showAccessDeniedMessage();
+            return;
+        }
         new ProdukForm().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnManajemenProduk1ActionPerformed
@@ -415,21 +450,33 @@ public class MainMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_btnManajemenProduk1MouseClicked
 
     private void btnManajemenDiskonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnManajemenDiskonActionPerformed
-        // TODO add your handling code here:
+        // Akses: Diizinkan untuk Kasir, Manager, Administrator. Ditolak untuk Staff Gudang.
+        if (peran.equals("Staff Gudang")) {
+            showAccessDeniedMessage();
+            return;
+        }
         new DiscountManagementForm().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnManajemenDiskonActionPerformed
 
     private void btnManajemenPenggunaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnManajemenPenggunaActionPerformed
-        // TODO add your handling code here:
+        // Akses: Hanya untuk Manager dan Administrator.
+        if (!peran.equals("Administrator") && !peran.equals("Manager")) {
+            showAccessDeniedMessage();
+            return;
+        }
         new UserManagement().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnManajemenPenggunaActionPerformed
 
     private void btnPOSActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPOSActionPerformed
-        // TODO add your handling code here:
-         new POSForm(loggedInUserId).setVisible(true);
-         this.dispose();
+        // Akses: Diizinkan untuk Kasir, Manager, Administrator. Ditolak untuk Staff Gudang.
+        if (peran.equals("Staff Gudang")) {
+            showAccessDeniedMessage();
+            return;
+        }
+        new POSForm(loggedInUserId).setVisible(true);
+        this.dispose(); 
     }//GEN-LAST:event_btnPOSActionPerformed
 
     /**
