@@ -20,6 +20,7 @@ import PosSistem.POSForm;
 import util.koneksi;
 import util.UserSession;
 import Profile.Profile;
+import java.sql.SQLException;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -409,17 +410,46 @@ public class DiscountManagementForm extends javax.swing.JFrame {
         int idDiskon = (int) tblDiscounts.getValueAt(selectedDiscountRow, 0);
 
         // INSERT IGNORE digunakan agar tidak terjadi error jika relasi sudah ada (duplicate entry)
-        String sql = "INSERT IGNORE INTO DISKON_PRODUK (id_diskon, id_produk) VALUES (?, ?)";
-        try (Connection conn = koneksi.getKoneksi(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
+//        String sql = "INSERT IGNORE INTO DISKON_PRODUK (id_diskon, id_produk) VALUES (?, ?)";
+        Connection conn = null;
+        try {
+            conn = koneksi.getKoneksi();
+            conn.setAutoCommit(false);
+            String checkSql = "SELECT d.nama_diskon FROM DISKON_PRODUK dp JOIN DISKON d ON dp.id_diskon = d.id_diskon WHERE dp.id_produk = ?";
 
-            for (int row : selectedProductRows) {
-                int idProduk = (int) tblProducts.getValueAt(row, 0);
-                pstmt.setInt(1, idDiskon);
-                pstmt.setInt(2, idProduk);
-                pstmt.addBatch();
+            // 3. Query untuk menghapus diskon lama (jika ada) dan menerapkan yang baru
+            // Ini adalah cara paling efisien untuk mengganti diskon.
+            // ON DUPLICATE KEY UPDATE akan melakukan UPDATE jika produk sudah ada, dan INSERT jika belum.
+            // PENTING: Ini memerlukan PRIMARY KEY atau UNIQUE index pada `id_produk` di tabel `diskon_produk`.
+            String upsertSql = "INSERT INTO DISKON_PRODUK (id_produk, id_diskon) VALUES (?, ?) ON DUPLICATE KEY UPDATE id_diskon = VALUES(id_diskon)";
+
+            // Sebelum memulai, kita buat tabel diskon_produk memiliki UNIQUE key pada id_produk
+            try (Statement stmt = conn.createStatement()) {
+                // Coba hapus constraint lama jika ada, abaikan error jika tidak ada
+                try {
+                    stmt.execute("ALTER TABLE DISKON_PRODUK DROP INDEX id_produk;");
+                } catch (SQLException e) {
+                    /* abaikan */ }
+                // Tambahkan constraint UNIQUE baru
+                stmt.execute("ALTER TABLE DISKON_PRODUK ADD UNIQUE (id_produk);");
             }
-            pstmt.executeBatch();
+
+            try (PreparedStatement pstmtUpsert = conn.prepareStatement(upsertSql)) {
+                for (int row : selectedProductRows) {
+                    int idProduk = (int) tblProducts.getValueAt(row, 0);
+
+                    pstmtUpsert.setInt(1, idProduk);
+                    pstmtUpsert.setInt(2, idDiskon);
+                    pstmtUpsert.addBatch();
+                }
+                pstmtUpsert.executeBatch();
+            }
+
+            conn.commit(); // Konfirmasi semua perubahan
             JOptionPane.showMessageDialog(this, "Diskon berhasil diterapkan ke produk terpilih!");
+
+            // Refresh tabel untuk melihat status terbaru
+            loadProducts();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Gagal menerapkan diskon: " + e.getMessage());
         }
