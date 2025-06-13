@@ -56,7 +56,6 @@ public class POSForm extends javax.swing.JFrame {
         initComponents();
         this.setLocationRelativeTo(null);
 
-        // FIX 3: Logika inisialisasi dipindahkan ke constructor yang benar
         // Ambil data dari session
         UserSession session = UserSession.getInstance();
         this.ID_KASIR = session.getIdPengguna(); // Ambil ID kasir dari sesi
@@ -91,7 +90,7 @@ public class POSForm extends javax.swing.JFrame {
             return;
         }
 
-        // Query SQL yang canggih: Mengambil data produk sekaligus diskon aktif yang berlaku hari ini
+        // Query SQL Mengambil data produk sekaligus diskon aktif yang berlaku hari ini
         String sql = "SELECT p.id_produk, p.nama_produk, p.harga_jual, d.tipe_diskon, d.nilai AS nilai_diskon "
                 + "FROM PRODUK p "
                 + "LEFT JOIN DISKON_PRODUK dp ON p.id_produk = dp.id_produk "
@@ -531,9 +530,9 @@ public class POSForm extends javax.swing.JFrame {
         ManajemenInventori.ProductSearchDialog dialog = new ManajemenInventori.ProductSearchDialog(this, true);
         dialog.setVisible(true); // Program akan menunggu di sini sampai dialog ditutup
 
-        // 2. Setelah dialog ditutup, cek apakah ada barcode yang dipilih
+        //  Setelah dialog ditutup, cek apakah ada barcode yang dipilih
         if (dialog.selectedProductBarcode != null && !dialog.selectedProductBarcode.isEmpty()) {
-            // 3. Jika ada, panggil method untuk menambahkannya ke keranjang
+            // Jika ada, panggil method untuk menambahkannya ke keranjang
             // Seolah-olah barcode tersebut di-scan
             tambahProdukKeKeranjang(dialog.selectedProductBarcode);
         }

@@ -59,9 +59,7 @@ public class PurchaseOrderForm extends javax.swing.JFrame {
         this.loggedInUserId = session.getIdPengguna(); // Ambil ID kasir dari sesi
         lblUsername.setText(session.getNamaLengkap());
         lblPeran.setText(session.getPeran());
-        // --- BAGIAN YANG DIPERBAIKI ---
 
-        // 1. Buat instance DefaultTableModel yang baru dan bersih.
         modelTabel = new DefaultTableModel();
 
         // 2. Atur kolom-kolomnya.
@@ -73,8 +71,6 @@ public class PurchaseOrderForm extends javax.swing.JFrame {
             "Subtotal"
         });
 
-        // 3. Paksa JTable (tblOrderItems) untuk menggunakan model yang BARU saja kita buat.
-        // Ini adalah langkah paling penting.
         tblOrderItems.setModel(modelTabel);
 
         // --- AKHIR BAGIAN YANG DIPERBAIKI ---
